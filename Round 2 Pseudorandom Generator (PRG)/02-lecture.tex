@@ -1,0 +1,434 @@
+\documentclass[a4paper,table,dvipsnames]{article}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{latexsym}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{mathpartir}
+\usepackage{amsthm}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage[probability,adversary,sets,operators,primitives]{cryptocode}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{wrapfig}
+%\usepackage[table]{xcolor}
+
+\pagestyle{fancy}
+\usetikzlibrary{shapes,arrows,positioning}
+\tikzstyle{vertex} = [draw, circle]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{claim}{Claim}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{construction}{Construction}
+\newtheorem*{theorem}{Theorem}
+\newtheorem{example}{Example}
+\newtheorem{hint}{Hint}
+\setlength{\parindent}{0ex}
+
+\rhead[Lecture Notes 2]{Lecture Notes 2}
+\lhead[CS-E4340 Cryptography]{CS-E4340 Cryptography}
+
+\newcommand\defeq{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily
+def}}}{=}}}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) --
+(.25,.15) -- cycle;}
+
+\title{Lecture 4}
+\author{Chris Brzuska}
+\date{\today}
+
+\begin{document}
+
+
+\section{Pseudorandom Generators}
+The crocodile dentist~\url{https://en.wikipedia.org/wiki/Crocodile_Dentist} is a children's game where the players take turns in pressing the teeth of a toy crocodile. One of the teeth is the ``hurting'' tooth of the crocodile, and the crocodile snaps when one presses it. In the crocodile game, the player takes turn pressing one tooth. The goal of the game is to avoid the hurting tooth. The game is intended for small children, and part of the excitement of the game stems from the fear of the crocodile snapping (although the crocodile is usually well-designed and will not hit the finger...). 
+
+For this game to be fun, the crocodile needs to choose a random tooth in each round. But the toy crocodile cannot throw a die and it cannot draw a uniformly random tooth each round.
+Thus, the crocodile can only sample a tooth that \emph{looks random} although it is actually not.
+\emph{Pseudorandomness} is a crucial building block of cryptography and refers to something that,
+indeed, looks random although it isn't. This lecture is going to answer the following
+questions:
+\begin{itemize}
+\item[(1)] What does it mean for a distribution to \emph{look like} another distribution? (Computational indistinguishability)
+\item[(2)] What does it mean to \emph{generate pseudorandomness}? (Pseudorandom generators)
+\item[(3)] \emph{How} can we generate pseudorandomness? (We can generate pseudorandomness based on one-way functions!)
+\end{itemize}
+
+
+\begin{wrapfigure}{R}{0.5\textwidth}
+\vspace{-0.3cm}
+\begin{center}
+\includegraphics[width=0.48\textwidth]{PRG.pdf}
+\end{center}
+\caption{How to use a PRG.}
+\label{fig:prguse}
+\vspace{-0.3cm}
+\end{wrapfigure}
+
+\paragraph{Pseudorandom Generators: Practice and Intuition}
+Random values are a useful tool for system design. For example, when writing
+items into a database at a random index, then with high probability, there is
+no other data item at this index stored already, at least when assuming that 
+the index space is large. Solving the same problem deterministically requires
+state which needs to be synchronized across those writing into the database...
+
+...and this is just one simple example of a case where randomness is convenient.
+Because randomness is so useful, operating systems and languages tend to
+provide some form of pseudorandom generators. But what is a reasonable way
+to generate randomness? Of course, there is a possibility of extracting randomness
+from one's environment~\footnote{There is an entire research field dedicated to
+randomness extraction, see \url{https://cacm.acm.org/magazines/2017/1/211100-pure-randomness-extracted-from-two-poor-sources/fulltext}
+or \url{https://www.youtube.com/watch?v=B4vBvPr0wow} for a video survey, \url{https://cs.haifa.ac.il/~ronen/online_papers/ICALPinvited.pdf}
+for a written introduction on the research level and \url{https://people.seas.harvard.edu/~salil/pseudorandomness/extractors.pdf} for
+a textbook introduction to randomness extraction (which might be most suitable for most readers of this document, but I did not want to omit the other ressources).}, but this means that we need to be sure to always have
+enough randomness (or ``entropy'', as some prefer to say) in our environment
+for the randomized operations we'd like to perform. What if we perform many
+randomized operations at once? Should we then, say, engage in entropy pool
+building\footnote{In fact, entropy pool building is a research field closely
+related to the field of randomness extraction, see, e.g., \url{https://eprint.iacr.org/2019/198}
+and \url{https://www.youtube.com/watch?v=iUCJh_liDgA}}?
+
+The answer given by pseudorandom generators is that, if you ever had enough
+randomness, then you can keep generating as much randomness as you want. So,
+what is a pseudorandom generator? As pseudorandom generator is a function which
+outputs bitstrings that \emph{look like} uniformly random values although they
+are actually not uniformly random. As illustrated in Figure~\ref{fig:prguse},
+a pseudorandom generator is a \emph{length-expanding} function which maps
+strings (or ``seeds'') of length $\lambda$ to longer strings of length $\lambda+s(\lambda)$.
+That is,
+\begin{quote}
+  \textit{A pseudorandom generator (PRG) is a deterministic function which maps
+	a \underline{truly random} string to a longer, pseudorandom string.}
+\end{quote}
+Since the PRG cannot distinguish whether the input is truly random or just
+pseudorandom, the following statement is also true:
+\begin{quote}
+  \textit{A pseudorandom generator (PRG) is a deterministic function which maps
+	a \underline{pseudorandom} string to a longer, pseudorandom string.}
+\end{quote}
+However, the second statement follows from the first and from the definition
+of pseudorandomness, so we will usually only refer to the first formulation.
+As Figure~\ref{fig:prguse} illustrates, from one application of the PRG, we
+obtain $s(\lambda)$ many pseudo-random bits for us to use, and the remaining
+$\lambda$ bit, the seed, can be fed into the PRG to obtain $s(\lambda)$ further
+pseudorandom bits and so forth. This way, in $s(\lambda)$ chunks, we can generate
+as much pseudorandom bits as desired. This is not even very inefficient. We know
+that pseudorandom generators can be built where each output bit depends only on
+5 input bits\footnote{See \url{https://eprint.iacr.org/2018/1162} for a practical
+study of this question and see \url{http://www.eng.tau.ac.il/~bennyap/pubs/nc0.pdf}
+for a complexity-theoretic approach.}.
+
+To summarize four properties of a PRG:
+\begin{itemize}
+\item A PRG is a \emph{deterministic} function.
+\item A PRG efficiently computable.
+\item A PRG is \emph{length-expanding}.
+\item The output of a PRG \emph{looks like} a uniformly random string of the same length, i.e., drawing a uniformly random $x$ from $\bin^\lambda$ and computing $y\gets g(x)$ looks to any efficient algorithm like a uniformly random string $y$ of the same length as $g(x)$.
+\end{itemize}
+
+\paragraph{A reflection on domains}
+That this is possible is actually quite amazing. Consider stretch $s(\lambda)=\lambda$. In this case, $\abs{g(x)}=\abs{x}+\abs{x}=2\abs{x}$.
+Now, the image of $g$ contains at most $2^\lambda$ many values. However, there are $2^{2\lambda}$ many strings of length $2\lambda$. Therefore, the probability that a uniformly random string from $\bin^{2\lambda}$ is contained in the image of $g$ is exponentially small. Namely, it is at most $\frac{2^{\lambda}}{2^{2\lambda}}=\frac{1}{2^{\lambda}}$. And yet, the output of $g$ looks like a uniformly random string of the same length. That something like this should be possible is very surprising. We will even see, in this lecture, how to
+build a PRG. It is known that from any one-way function (OWF), we can build a PRG. This is a celebrated theorem by H{\aa}stad, Impagliazzo, Levin and Luby~\footnote{See \url{https://cseweb.ucsd.edu/~russell/sicomp.ps} for the original paper and \url{https://eccc.weizmann.ac.il/report/2010/089/} for a modern version by Haitner, Reingold and Vadhan. See \url{https://www.youtube.com/watch?v=5sTrXuykEKg} for a talk by Vadhan.} and known as the HILL theorem, by the initials of the authors. In this lecture, we are going to see a simpler variant of the HILL theorem. Yet, before turning to the construction, let us properly define what a PRG is.
+
+\begin{wrapfigure}{R}{0.42\textwidth}
+\vspace{-0.7cm}
+\begin{center}
+  \begin{pchstack}
+    \procedure{${\mathsf{Exp}}_{g,s,\adv}^{\mathsf{PRG},0}(1^\lambda)$}{
+    x\sample\bin^\lambda\\
+    y\gets g(x)\\
+    b^*\sample\adv(1^\lambda,y)\\
+    \pcreturn b^*}
+  \pchspace
+    \procedure{${\mathsf{Exp}}_{s,\adv}^{\mathsf{PRG},1}(1^\lambda)$}{
+    \\
+    y\sample\bin^{\lambda+s(\lambda)}\\
+    b^*\sample\adv(1^\lambda,y)\\
+    \pcreturn b^*}
+  \end{pchstack}\end{center}
+\vspace{-0.85cm}
+\caption{Security experiments for PRGs.}
+\label{fig:prg}
+\vspace{-0.25cm}
+\end{wrapfigure}
+
+\paragraph{Definition}
+As for one-wayness, we capture the security of a PRG via an experiment. However, now, instead of using just a single experiment, we use \emph{two} experiments and require that it should be hard for an (efficient) adversary to determine in which experiment it is playing. One of the experiments, the \emph{real} experiment, draws a uniformly random $x$ from $\bin^\lambda$, computes $y\gets g(x)$ and gives $y$ to the adversary. We denote this \emph{real} experiment by ${\mathsf{Exp}}_{g,s,\adv}^{\mathsf{PRG},0}(1^\lambda)$, see Fig.~\ref{fig:prg}. In turn, the \emph{ideal} experiment ${\mathsf{Exp}}_{s,\adv}^{\mathsf{PRG},1}(1^\lambda)$ draws a \underline{uniformly random} $y$ from $\bin^{\lambda+s(\lambda)}$ and gives it to the adversary $\adv$.
+
+\medskip
+Now, we need to say that the adversary cannot \emph{distinguish}. How do we formalize this? We \emph{compare} the probability that an adversary returns $1$ in the real experiment ${\mathsf{Exp}}_{g,s,\adv}^{\mathsf{PRG},0}(1^\lambda)$ and the probability that an adversary returns $1$ in the ideal experiment ${\mathsf{Exp}}_{g,s,\adv}^{\mathsf{PRG},0}(1^\lambda)$. We say that the adversary is a successful distinguisher, if the difference between these probabilities is kind of big, which, in the context of this course, means that it is non-negligible (non-negligible = not negligible). We define negligible functions formally in Appendix~\ref{app:negligible} and now state the definition of a pseudorandom generator.
+
+
+\begin{definition}[Pseudorandom generator (PRG)]
+A pseudorandom generator with stretch $s$ is a function
+  \[g:\bin^*\rightarrow\bin^*\] 
+that can be computed in deterministic polynomial time, which satisfies the correctness criteria
+\begin{align*}
+\forall \lambda\in\NN&:\ s(\lambda)\geq 1 \\
+\forall \lambda\in\NN\; \forall x\in\bin^\lambda&:\ \abs{g(x)}=\lambda+s(\lambda) \\
+\end{align*}
+Let ${\mathsf{Exp}}_{g,s,\adv}^{\mathsf{PRG},0}(1^\lambda)$ and ${\mathsf{Exp}}_{g,\adv}^{\mathsf{PRG},1}(1^\lambda)$ be the security experiments defined in Figure~\ref{fig:prg}, then $g$ is pseudorandom if for all PPT adversaries $\adv$ the difference
+\[ \mathsf{Adv}^{\mathsf{PRG}}_{g,s,\adv}(\lambda):=\big|\prob{{\mathsf{Exp}}_{g,s,\adv}^{\mathsf{PRG},0}(1^\lambda) = 1} 
+   - \prob{{\mathsf{Exp}}_{s,\adv}^{\mathsf{PRG},1}(1^\lambda) = 1}\big| \]
+is negligible in $\lambda$.
+\end{definition}
+
+\paragraph{Properties of pseudorandom generators}
+Unlike one-way functions, PRGs yield output which is pseudorandom. Therefore, there are one-way functions which are not pseudorandom
+generators, namely the one-way functions which append a lot of zeroes in the end. Although they might be length-expanding, their output
+looks very much not like a uniformly random string. Phrasing this intuition formally to practice the use of security experiments is one
+of the exercises on this week's exercise sheet. However, very much like one-way functions, a pseudorandom generator might leak a lot of information. The way to prove this is by generic counterexample: We take a PRG, apply it only to half of its input and append the other
+half of the input. This function is length-expanding and pseudorandom, if the original PRG was length-expanding and pseudorandom (exercise).
+By this example, we know that some PRGs might leak part of their input (while still satisfying the definition of a PRG. Therefore, if
+hiding all information about the input is desired, a PRG is not a suitable choice.
+
+\paragraph{Further Reading} If you are interested in reading more about pseudorandom generators, you can have a look at Section 3.3 in the Crypto Companion~\url{https://vlipiainen.github.io/cryptoproofcompanion/CryptoProofCompanion.pdf}.
+
+\begin{wrapfigure}{R}{0.45\textwidth}
+\vspace{-0.6cm}
+\begin{center}
+  \begin{pchstack}
+    \procedure{${\mathsf{Exp}}_{f,b,\adv}^{\mathsf{HB},0}(1^\lambda)$}{
+    x\sample\bin^\lambda\\
+    y\gets f(x)\\
+		z\gets b(x)\\
+    d^*\sample\adv(1^\lambda,y,z)\\
+    \pcreturn d^*}
+  \pchspace
+    \procedure{${\mathsf{Exp}}_{f,b,\adv}^{\mathsf{HB},1}(1^\lambda)$}{
+    x\sample\bin^\lambda\\
+    y\gets f(x)\\
+		z\sample\bin\\
+    d^*\sample\adv(1^\lambda,y,z)\\
+    \pcreturn d^*}
+  \end{pchstack}
+  \end{center}
+\vspace{-0.6cm}
+\caption{\label{fig:hb}Harcore bit security experiments}
+\vspace{-0.3cm}
+\end{wrapfigure}
+
+\section{The HILL Theorem: PRGs from OWFs}
+We are not going to study the HILL result in its full generality. Instead, we are going to see how to extract a \emph{single} pseudorandom bit from a OWF. While that does not give us a pseudorandom generator (PRG) immediately, it goes into the right direction. Such a pseudorandom bit, extracted from (the input of) a one-way function, is called a \emph{hardcore bit}. The Definition~\ref{def:hcb-ind} states that this bit is pseudorandom (i.e., indistinguishable from a uniformly random bit), even when given the output of the OWF.
+
+\begin{definition}[Hardcore Bits (Indistinguishability Formulation)]\label{def:hcb-ind}
+A poly-time computable deterministic function $b:\bin^*\rightarrow\bin$ is a \emph{hardcore bit} for a one-way function $f$ if
+for all PPT adversaries $\adv$, the difference
+\[ \mathsf{Adv}^{\mathsf{HB}}_{f,b,\adv}(\lambda)=\big|\prob{{\mathsf{Exp}}_{f,b,\adv}^{\mathsf{HB},0}(1^\lambda) = 1} 
+   - \prob{{\mathsf{Exp}}_{f,\adv}^{\mathsf{HB},1}(1^\lambda) = 1}\big| \]
+is negligible in $\lambda$, where ${\mathsf{Exp}}_{f,b,\adv}^{\mathsf{HB},0}(1^\lambda)$ and ${\mathsf{Exp}}_{f,\adv}^{\mathsf{HB},1}(1^\lambda)$ are the security experiments defined in Figure~\ref{fig:hb}.
+\end{definition}
+
+Before seeing how we can build a hardcore bit, let us see how a hardcore bit helps us in our project to build a PRG from an OWF.
+Instead of looking at arbitrary OWFs as the HILL theorem does, we look at one-way functions which are a little bit more friendly
+(e.g., they don't have lots of zeroes). Namely, we look at one-way functions which, if we feed them a uniform distribution, their
+output distribution is also uniformly random. This is the case for one-way functions which are \emph{length-preserving} and
+\emph{bijective}, i.e., each output has a pre-image, and two different domain values map to two different image values.
+Note that many of the examples of one-way functions we saw before in this lecture do not have this property, e.g., because the last bit of their output is always $0$ whereas the last bit of the uniform distribution is $0$ only with probability $\tfrac{1}{2}$.
+\begin{theorem}[Simplified HILL]\label{thm:weakHill}
+Let $f$ be a length-preserving, bijective one-way function and assume that there exists a hardcore bit $b$ for $f$. Then the following function is a pseudorandom generator with stretch $s(n)=1$:
+\[\forall x\in\bin^*\;g(x):=f(x)||b(x)\]
+\end{theorem}
+\begin{proof}
+To show this, we need to use the security of $b$ and show that it implies the security of $g$.
+As before, we do this by a transformation. Namely, we show that any adversary $\adv_g$ against $g$ can
+be turned into an adversary $\adv_b$ against $b$ (and then, since efficient adversaries against $b$ cannot
+ exist (by assumption), efficient adversaries against $g$ cannot exist either). In the following, consider
+an arbitrary PPT adversary $\adv_g$ against $g$, then we build $\adv_b$ as follows:
+\begin{center}
+				\begin{pchstack}
+					\procedure[syntaxhighlight=auto,addkeywords={from, to, do, for}]{$\adv_b\left(y,z,1^{n}\right)$}{ 
+						y'\gets y||z\\
+						d^*\sample \adv_g(y',1^n)\\
+						\pcreturn\;d^*\\
+					}
+				\end{pchstack}
+			\end{center}
+Observe that if $\adv_g$ is a (probabilistic) polynomial-algorithm, then $\adv_b$ is also a probabilistic
+polynomial-time algorithm. Moreover, we show the following claim:
+\begin{claim}\label{claim:hbprg}
+It holds that
+\begin{equation}\label{eqn:lalaland}
+\prob{{\mathsf{Exp}}_{f,b,\adv_b}^{\mathsf{HB},0}(1^\lambda) = 1} = \prob{{\mathsf{Exp}}_{g,1,\adv_g}^{\mathsf{PRG},0}(1^\lambda) = 1}
+\end{equation}
+and
+\begin{equation}\label{eqn:lalaland1}
+\prob{{\mathsf{Exp}}_{f,\adv_b}^{\mathsf{HB},1}(1^\lambda) = 1} = \prob{{\mathsf{Exp}}_{g,1,\adv_g}^{\mathsf{PRG},1}(1^\lambda) = 1}
+\end{equation}
+and thus, by the definition of the advantages,
+\[\mathsf{Adv}^{\mathsf{HB}}_{f,b,\adv_b}(\lambda)=
+\mathsf{Adv}^{\mathsf{PRG}}_{g,1,\adv_g}(\lambda).\]
+\end{claim}
+Let us quickly recall why it suffices to show Claim~\ref{claim:hbprg}. Claim~\ref{claim:hbprg} shows that
+the advantage of $\adv_b$ against the hardcore bit $b$ of OWF $f$, denoted by $\mathsf{Adv}^{\mathsf{HB}}_{f,b,\adv_b}(\lambda)$,
+is equal to the advantage of $\adv_g$ against the PRG $g$, denoted by $\mathsf{Adv}^{\mathsf{PRG}}_{g,1,\adv_g}(\lambda)$.
+Thus, if $\mathsf{Adv}^{\mathsf{PRG}}_{g,1,\adv_g}(\lambda)$ were non-negligible, then $\mathsf{Adv}^{\mathsf{HB}}_{f,b,\adv_b}(\lambda)$ would be non-negligible and we would have reached a contradiction with the assumption that $b$ is a hardcore bit for $f$. Therefore,
+we reached a contradiction and $\mathsf{Adv}^{\mathsf{PRG}}_{g,1,\adv_g}(\lambda)$ cannot be non-negligible. Thus, the PRG $g$ is a secure PRG assuming that $b$ is a hardcore bit for $f$.
+
+We now turn to proving Claim~\ref{claim:hbprg}. We start with Equation~\ref{eqn:lalaland}. 
+Note that in the experiments the stretch $s=1$.
+
+\begin{center}
+\begin{pchstack}
+	  \procedure{${\mathsf{Exp}}_{f,b,\adv_b}^{\mathsf{HB},0}(1^\lambda)$}{
+    x\sample\bin^\lambda\\
+    y\gets f(x)\\
+		z\gets b(x)\\
+    d^*\sample\adv_b(1^\lambda,y,z)\\
+		\\
+    \pcreturn d^*}
+		    \pchspace
+	  \procedure{${\mathsf{Exp}}_{f,b,\adv_b}^{\mathsf{HB},0}(1^\lambda)$}{
+    x\sample\bin^\lambda\\
+    y\gets f(x)\\
+		z\gets b(x)\\
+		\gamechange{$y'\gets y||z$}\\
+    \gamechange{$d^*\sample\adv_g(1^\lambda,y')$}\\
+    \pcreturn d^*}		\pchspace
+    \procedure{${\mathsf{Exp}}_{g,s,\adv_g}^{\mathsf{PRG},0}(1^\lambda)$}{
+    x\sample\bin^\lambda\\
+    y\gets \gamechange{$f(x)||b(x)$}\\
+		\\ \\
+    d^*\sample\adv_g(1^\lambda,y)\\
+    \pcreturn d^*}
+				\pchspace
+    \procedure{${\mathsf{Exp}}_{g,s,\adv_g}^{\mathsf{PRG},0}(1^\lambda)$}{
+    x\sample\bin^\lambda\\
+    y\gets g(x)\\
+		\\ \\
+    d^*\sample\adv_g(1^\lambda,y)\\
+    \pcreturn d^*}
+\end{pchstack}
+\end{center}
+The first (left-most) column contains ${\mathsf{Exp}}_{f,b,\adv_b}^{\mathsf{HB},0}(1^\lambda)$.
+From the first to the second column, we inline the code of $\adv_b$, marked in grey.
+
+The fourth (right-most) column contains ${\mathsf{Exp}}_{g,s,\adv_g}^{\mathsf{PRG},0}(1^\lambda)$.
+From the fourth to the third column, we inline the code of $g$, marked in grey.
+
+Now, we need to argue that the code of column 3 and column 2 behaves indeed in the same way.
+In column 3, let us first rename $y$ into $y'$. Then, we observe that $y'\gets f(x)||b(x)$ and $y\gets f(x);\;z\gets b(x),\; y'\gets y||z$
+has the same behaviour which concludes the proof of Equation~\ref{eqn:lalaland}.
+
+Let us now turn to Equation~\ref{eqn:lalaland1}.
+
+\begin{center}
+\begin{pchstack}
+	  \procedure{${\mathsf{Exp}}_{f,\adv_b}^{\mathsf{HB},1}(1^\lambda)$}{
+    x\sample\bin^\lambda\\
+    y\gets f(x)\\
+		z\sample\bin\\
+    d^*\sample\adv_b(1^\lambda,y,z)\\
+		\\ \\
+    \pcreturn d^*}
+		\pchspace
+	  \procedure{${\mathsf{Exp}}_{f,b,\adv_b}^{\mathsf{HB},1}(1^\lambda)$}{
+    \\
+    \gamechange{$y\sample \bin^\lambda$}\\
+		z\sample\bin\\
+		\gamechange{$y'\gets y||z$}\\ \\
+    \gamechange{$d^*\sample\adv_g(1^\lambda,y')$}\\
+    \pcreturn d^*}		
+		\pchspace
+    \procedure{${\mathsf{Exp}}_{g,s,\adv_g}^{\mathsf{PRG},1}(1^\lambda)$}{
+    \\
+    \gamechange{$y'$}\sample\bin^{\lambda+1}\\ \\ \\ \\
+    d^*\sample\adv_g(1^\lambda,\gamechange{$y'$})\\
+    \pcreturn d^*}
+	  \pchspace
+    \procedure{${\mathsf{Exp}}_{g,s,\adv_g}^{\mathsf{PRG},1}(1^\lambda)$}{
+    \\
+    y\sample\bin^{\lambda+1}\\
+		\\ \\ \\
+    d^*\sample\adv_g(1^\lambda,y)\\
+    \pcreturn d^*}
+\end{pchstack}
+\end{center}
+The first (left-most) column contains ${\mathsf{Exp}}_{f,\adv_b}^{\mathsf{HB},1}(1^\lambda)$.
+From the first to the second column, we inline the code of $\adv_b$, marked in grey.
+Moreover, we replace $x\sample\bin^\lambda;\; y\gets f(x)$ by $y\sample\bin^\lambda$ since
+$f$ is length-preserving and bijective and preserves the uniform distribution and since the
+variable $x$ is not accessed anywhere else in the experiment.
+
+The fourth (right-most) column contains ${\mathsf{Exp}}_{g,s,\adv_g}^{\mathsf{PRG},1}(1^\lambda)$.
+From the fourth to the third column, we rename variable $y$ to $y'$, marked in grey.
+
+Now, we need to argue that the code of column 3 and column 2 behaves indeed in the same way.
+
+This follows by realizing that sampling $z\sample\bin$ and $y\sample\bin^\lambda$ and appending
+the two into $y'\gets y||z$ is the same as sampling $y'\sample\bin^{\lambda+1}$ which concludes 
+the proof of Equation~\ref{eqn:lalaland1}.
+\end{proof}
+
+\section{Constructing a hardcore bit}
+Theorem~\ref{thm:weakHill} assumes the existence of a hardcore bit, but what actually guarantees
+the existence of a hardcore bit? Can we assume that every length-preserving, bijective one-way
+function has a hardcore bit? Maybe, can we even have a \emph{universal} hardcore bit which
+works for \emph{any} one-way function? The answer to the latter question is no, and one of the
+exercises this week is to prove this.
+
+However, as we will see shortly, when we turn $f$ into a different function
+\[f_{\text{GL}}(x,r):=f(x)||r\]
+which leaks half of its input, then we can show that this modified function $f_{\text{GL}}$
+has a hardcore bit. The idea for this construction is brillant, actually. From our counterexamples
+last week, it follows that the first bit cannot be a hardcore bit, since, if the function leaks
+its first half, then it also leaks the first bit, so, given $f(x)$, the first bit of $x$ would then
+be easy to distinguish. A same analysis applies to the last bit or the 3rd bit or really any input
+bit. A similar analysis even applies to the xor of all the bits, since leaking the xor of all the
+bits does not affect the one-wayness (see Exercise Sheet 1). However, the brillant idea of Goldreich
+and Levin is to take the xor of a \emph{random subset} of $x$. Namely, in the function $f_{\text{GL}}(x,r)$,
+the second input $r$ indicates which bits we take. Before going to the general definition, let
+us see an example:
+
+
+Consider $$x=101001$$ and $$ r=101101$$, then the Goldreich-Levin hardcore bit $b_{GL}(x,r)$ is
+\[(1\wedge 1) \oplus (0\wedge 0) \oplus (1\wedge 1) \oplus (0\wedge 1) \oplus (0\wedge 0) \oplus (1\wedge 1),\]
+which is equal to
+\[1  \oplus 0 \oplus 1 \oplus 0 \oplus 0 \oplus 1=1.\]
+
+Now, the general construction of the Goldreich-Levin hardcore bit is
+\[b_{\text{GL}}(x,r):=\bigoplus_{i=1}^{\abs{x}}x_i\wedge r_i\]
+and the Goldreich-Levin theorem states that this is a hardcore bit for $f_{\text{GL}}$.
+
+\begin{theorem}[Goldreich-Levin]
+Let $f$ be a one-way function, and consider the tranformed function $f_{\text{GL}}(x,r):=f(x)||r$,
+then $b_{\text{GL}}$ is a hardcore bit for $f_{\text{GL}}$.
+\end{theorem}
+The proof of the Goldreich-Levin hardcore bit is very nice from the perspective of amplification.
+After all, we need to take a distinguisher and turn it into an inverter for a one-way function.
+In \emph{Foundations of Cryptography I}, you can find a very nice description of this proof, and
+in the exercises, we'll have a simplified version of it.
+
+\section{Important take-away}
+This lecture introduced \emph{pseudorandom generators} which are \emph{deterministic},
+\emph{length-expanding} functions such that their output is indistinguishable from uniform. We formalized this notion by
+asking the adversary to distinguish between a \emph{real} and an \emph{ideal} experiment.
+This type of real-ideal-way of formulating security experiments will accompany us through
+most of the course, so it is a good thing to prioritize in understanding.
+
+The second most important content of this lecture is to remember that the existence of
+one-way functions implies the existence of PRGs and vice versa. In short:
+
+\[\exists\text{ OWF} \Leftrightarrow\exists\text{ PRG}\]
+
+\appendix
+\section{Negligible Functions}\label{app:negligible}
+\begin{definition}[Negligible Function]
+A function $\nu:\NN\rightarrow\RR_0^+$ is negligible if it converges to $0$ faster than any positive inverse polynomial, i.e., for all constants $c$, there is a natural number $N\in\NN$ such that for all $\lambda>N$, it holds that $\nu(\lambda)<\frac{1}{\lambda^c}$.
+\end{definition}
+Recall that the definition of negligible functions is a bit technical, but it is convenient to work with as long as we are aware of the following two properties:
+\begin{claim}
+For two negligible functions $\nu:\NN\rightarrow\RR_0^+$ and $\mu:\NN\rightarrow\RR_0^+$, the following hold:
+\begin{itemize}
+\item $\nu+\mu:\NN\rightarrow\RR_0^+$, $\lambda\mapsto\nu(\lambda)+\mu(\lambda)$ is negligible.
+\item For every positive polynomial $p$, $p\cdot\nu:\NN\rightarrow\RR_0^+$, $\lambda\mapsto p(\lambda)\cdot\nu(\lambda)$ is negligible.
+\end{itemize}
+\end{claim}
+\end{document}

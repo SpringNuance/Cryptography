@@ -1,0 +1,489 @@
+\documentclass[10pt,twoside]{article}
+\setlength{\oddsidemargin}{0 in}
+\setlength{\evensidemargin}{0 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+\newif\ifsolution
+%\solutiontrue
+ \solutionfalse
+\newcommand{\inputsol}[1]{\ifsolution\begin{tcolorbox}[breakable]\input{sol/#1}\end{tcolorbox}\fi}
+
+\usepackage{amsmath,amsfonts,graphicx,amssymb,amsthm}
+\usepackage[
+	lambda,
+	operators,
+	advantage,
+	sets,
+	adversary,
+	landau,
+	probability,
+	notions,
+	logic,
+	ff,
+	mm,
+	primitives,
+	events,
+	complexity,
+	asymptotics,
+	keys]{cryptocode}
+\usepackage[style=alphabetic]{biblatex}
+\usepackage{url}
+\usepackage[bookmarksdepth=2]{hyperref}
+\usepackage[capitalize]{cleveref}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+\usepackage{xifthen}
+\usepackage[inline]{enumitem}
+\usepackage[breakable]{tcolorbox}
+
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+
+\newcommand{\coursecode}{CS-E4340}
+\newcommand{\coursename}{Cryptography}
+\newcommand{\courseterm}{I-II 2022/2023}
+\newcommand{\lecturer}{Russell W.F. Lai}
+
+\newcommand{\lecture}[3]{
+	\pagestyle{myheadings}
+	\thispagestyle{plain}
+	\newpage
+	\setcounter{lecnum}{#1}
+	\setcounter{page}{1}
+	\noindent
+	\begin{center}
+		\framebox{
+			\vbox{\vspace{2mm}
+				\hbox to 6.28in { {\bf \coursecode: \coursename \hfill \courseterm} }
+				\vspace{4mm}
+				\hbox to 6.28in { {\Large \hfill Lecture #1: #2  \hfill} }
+				\vspace{2mm}
+				\hbox to 1in { {\it Lecturer: #3} }
+				\vspace{2mm}}
+		}
+	\end{center}
+	\markboth{\coursecode (\courseterm) Lecture #1: #2}{\coursecode (\courseterm) Lecture #1: #2}
+	\vspace*{4mm}
+}
+
+\newcommand{\tutorial}[3]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      \hbox to 6.28in { {\bf \coursecode: \coursename \hfill \courseterm} }
+      \vspace{4mm}
+      \hbox to 6.28in { {\Large \hfill Tutorial #1: #2  \hfill} }
+      \vspace{2mm}
+      \hbox to 1in { {\it Tutor: #3} }
+      \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{\coursecode (\courseterm) Tutorial #1: #2}{\coursecode (\courseterm) Tutorial #1: #2}
+   \vspace*{4mm}
+}
+
+\newcommand{\assignment}[3]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      \hbox to 6.28in { {\bf \coursecode: \coursename \hfill \courseterm} }
+      \vspace{4mm}
+      \hbox to 6.28in { {\Large \hfill Assignment #1: #2  \hfill} }
+      \vspace{2mm}
+      \hbox to 1in { {\it Deadline: #3} }
+      \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{\coursecode (\courseterm) Assignment #1: #2}{\coursecode (\courseterm) Assignment #1: #2}
+   \vspace*{4mm}
+}
+
+\newcommand{\exercise}[3]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      \hbox to 6.28in { {\bf \coursecode: \coursename \hfill \courseterm} }
+      \vspace{4mm}
+      \hbox to 6.28in { {\Large \hfill Exercise #1: #2  \hfill} }
+      \vspace{2mm}
+      \hbox to 1in { {\it Deadline: #3} }
+      \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{\coursecode (\courseterm) Exercise #1: #2}{\coursecode (\courseterm) Exercise #1: #2}
+   \vspace*{4mm}
+}
+
+\def\beginrefs{\begin{list}%
+        {[\arabic{equation}]}{\usecounter{equation}
+         \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+         \setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+%Use this command for a figure; it puts a figure in wherever you want it.
+%usage: \fig{NUMBER}{SPACE-IN-INCHES}{CAPTION}
+\newcommand{\fig}[3]{
+			\vspace{#2}
+			\begin{center}
+			Figure \thelecnum.#1:~#3
+			\end{center}
+	}
+
+% Use these for theorems, lemmas, proofs, etc.
+\theoremstyle{remark}
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem*{definition*}{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{question}{Question}
+\newtheorem{fact}{Fact}
+% \newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+\newcommand{\msg}{\mathsf{msg}}
+\newcommand{\ctxt}{\mathsf{ctxt}}
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\bits}[1][]{\{0,1\}^{#1}}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\inner}[2]{\langle #1, #2 \rangle}
+\newcommand{\transpose}{\mathtt{T}}
+\newcommand{\round}[1]{\lfloor #1 \rceil}
+\newcommand{\SIS}{\mathsf{SIS}}
+\newcommand{\LWE}{\mathsf{LWE}}
+\newcommand{\ring}{\mathcal{R}}
+\newcommand{\Hyb}{\mathsf{Hyb}}
+\newcommand{\pubparam}{\mathsf{pp}}
+
+\begin{document}
+%\lecture{**LECTURE-NUMBER**}{**TOPIC**}{**LECTURER**}
+%\tutorial{**TUTORIAL-NUMBER**}{**TOPIC**}{**TUTOR**}
+%\assignment{**ASSIGNMENT-NUMBER**}{**TOPIC**}{**DEADLINE**}
+%\exercise{**EXERCISE-NUMBER**}{**TOPIC**}{**DEADLINE**}
+\exercise{7}{Introduction to Lattice-based Cryptography}{11:30 on November 7, 2022 via MyCourses as a single pdf file}
+
+
+\begin{abstract}
+    This exercise is designed to help students to ...
+    \begin{itemize}
+        \item understand modular arithmetic,
+        \item understand the short integer solution (SIS) and learning with errors (LWE) assumptions,
+        \item understand the leftover hash lemma in the lattice setting,
+        \item be able to apply the above definitions and lemma to prove security of cryptographic schemes, and
+        \item learn the notion of hiding and binding commitment.  
+    \end{itemize} 
+\end{abstract}
+
+\begin{question}[Modular Arithmetic, Dual-Regev Encryption, and Linear Homomorphism] \quad \\
+
+\textbf{Answer Part (a) and choose between answering either Part (b) or Part (c).}
+\begin{enumerate}[label=(\alph*)]
+    \item Consider $\ZZ_{13}$ (integers with arithmetic modulo $13$) represented by $\set{-6,\ldots,-1,0,1,\ldots,6}$. Calculate the following (writing down just the answer):
+    \begin{enumerate*}[label=(\roman*)]
+        \item $4+5 \bmod 13$,
+        \item $-5 \times 2 \bmod 13$, and
+        \item $6^{-1} \bmod 13$, i.e. the element $x \in \ZZ_{13}$ such that $6x = 1$.
+    \end{enumerate*} 
+    \item Let $n,m, \log p, \log q \in \poly$ with $p < q$ and $\chi$ be the uniform distribution over $\ZZ_\beta$ for some $\log \beta \in \poly$ with $\beta < q$. 
+    In the following, we recall a slight generalisation of the dual-Regev encryption scheme with message space $\ZZ_p$:
+    \begin{pchstack}[center,boxed]
+        
+        \procedure[]{$\kgen(\secparam)$}
+        {
+            \mat{A} \sample \ZZ_q^{n \times m} \\
+            \vec{u} \sample \chi^{m} \\
+            \vec{v} \coloneqq \mat{A} \cdot \vec{u} \bmod q \\
+            \pk \coloneqq (\mat{A}, \vec{v}) \\
+            \sk \coloneqq \vec{u} \\
+            \pcreturn (\pk, \sk)
+        }
+
+        \pchspace
+
+        \procedure[]{$\enc(\pk, x \in \ZZ_p)$}
+        {
+    				\mathsf{Parse}\;(\mat{A}, \vec{v}) \gets\pk\\
+            \vec{s} \sample \ZZ_q^n \\
+            \vec{e}_0 \sample \chi^{m} \\
+            e_1 \sample \chi \\
+            \vec{c}_0^\transpose \coloneqq \vec{s}^\transpose \cdot \mat{A} + \vec{e}_0^\transpose \bmod q \\
+            c_1 \coloneqq \vec{s}^\transpose \cdot \vec{v} + e_1 + \floor{q/p} \cdot x \bmod q \\
+            \ctxt \coloneqq (\vec{c}_0, c_1) \\
+            \pcreturn \ctxt
+        }
+
+        \pchspace
+
+        \procedure[]{$\dec(\sk, \ctxt)$}
+        {   \mathsf{Parse}\;(\vec{c}_0, c_1) \gets\ctxt\\
+				    \vec{u}\gets\sk\\
+            \bar{x} \coloneqq c_1 - \vec{c}_0^\transpose \cdot \vec{u} \bmod q \\
+            \pcreturn \left \lfloor \frac{p}{q} \cdot \bar{x} \right \rceil \\
+            \pccomment{rounding to nearest integer} 
+        }
+
+    \end{pchstack}
+
+    \begin{enumerate}[label=(\roman*)]
+        \item Show that the scheme is correct when $q > m \cdot p \cdot \beta^2$ and $m \cdot \beta^2 \geq 2 \beta + 2$. 
+        You can use the fact that for any $x,y \in \ZZ$ we have $\abs{x+y} \leq \abs{x} + \abs{y}$ and $\abs{x \cdot y} \leq \abs{x} \cdot \abs{y}$. 
+        Furthermore, you may want to use the fact that $\abs{\frac{p}{q} \cdot \floor{\frac{q}{p}} - 1} \leq \frac{1}{q}$.
+        [Hint: Note that decryption is correct when $\abs{\frac{p}{q} \cdot \bar{x} - x} < \frac{1}{2}$. Read the proof of correctness of the (primal-)Regev encryption scheme in the lecture notes.]
+        \item Let $m \geq n \cdot \log_\beta q + \omega(\log n)$. 
+        Prove via a reduction that the scheme is IND-CPA-secure under the $\LWE_{n,m+1,q,\chi}$ assumption. 
+        [Hint: Read the proof of IND-CPA-security of the (primal-)Regev encryption scheme in the lecture notes. Follow the level of details of the lecture notes. The level of detail of the answer should be on a similar level as the lecture notes.]
+    \end{enumerate} 
+
+    \item In this question, we study the linearly homomorphic property of the dual-Regev encryption scheme, which is useful for understanding Lecture 9.
+    You may assume that $m \cdot \beta^2 \geq 2 \beta + 2$. 
+    [Hint: Read hint of Question 1 (b) (i)]
+    \begin{enumerate}[label=(\roman*)]
+        \item Let $(\pk, \sk) \in \kgen(\secparam)$, 
+        $x, x' \in \ZZ_p$, 
+        $\ctxt \coloneqq (\vec{c}_0, c_1) \in \enc(\pk, x)$, and 
+        $\ctxt' \coloneqq (\vec{c}'_0, c'_1) \in \enc(\pk, x')$. 
+        Consider $\ctxt'' \coloneqq (\vec{c}_0 + \vec{c}'_0 \bmod q, c_1 + c'_1 \bmod q)$.
+        Derive a lower bound $\underline{q}(m,p,\beta)$ of $q$ so that $\dec(\sk, \ctxt'') = x + x'$ whenever $x + x' \in \ZZ_p$ and $q > \underline{q}(m,p,\beta)$.
+        \item Generalising, let $\ell \in \NN$, 
+        $(\pk, \sk) \in \kgen(\secparam)$, 
+        $\vec{a} \in \ZZ_p^\ell$, $\vec{x} \in \ZZ_p^\ell$, and $\ctxt_i \in \enc(\pk, x_i)$ for all $i \in [\ell]$.
+        Consider $\ctxt \coloneqq \sum_{i=1}^\ell a_i \cdot \ctxt_i \bmod q$.
+        Derive a lower bound $\underline{q}'(\ell,m,p,\beta)$ of $q$ so that $\dec(\sk, \ctxt'') = \langle \vec{a}, \vec{x} \rangle$ whenever $\langle \vec{a}, \vec{x} \rangle \in \ZZ_p$ and $q > \underline{q}'(\ell,m,p,\beta)$.
+    \end{enumerate} 
+
+    
+\end{enumerate}
+\end{question}
+
+\inputsol{dual_regev_homo}
+
+\begin{question}[Normal-Form of LWE, Lindner-Peikert Encryption]
+    In this question, we study the ``normal form'' of the LWE assumption and use it to prove the security of the Lindner-Peikert encryption scheme. We first recall the ordinary LWE assumption and then state the normal-form variant.
+    \begin{definition*}[Decision-Learning with Errors (LWE) Assumption]
+        Let $n, m, \log q \in \poly$ with $n \leq m$ and $\chi$ be a distribution over $\ZZ$ parametrised by $\secpar$.
+        The Decision-$\LWE_{n,m,q,\chi}$ assumption states that for any PPT adversary $\adv$
+        \[
+            \abs{
+            \condprob{
+                b = 1
+            }
+            {
+                \begin{aligned}
+                    &\mat{A} \sample \ZZ_q^{n \times m} \\
+                    &\vec{s} \sample \ZZ_q^n,~\vec{e} \sample \chi^m \\
+                    &\vec{b}^\transpose \coloneqq \vec{s}^\transpose \cdot \mat{A} + \vec{e}^\transpose \bmod q \\
+                    &b \gets \adv(\mat{A},\vec{b}) \\
+                \end{aligned}
+            }
+            -
+            \condprob{
+                b = 1
+            }
+            {
+                \begin{aligned}
+                    &\mat{A} \sample \ZZ_q^{n \times m} \\
+                    &\vec{b} \sample \ZZ_q^m \\
+                    &b \gets \adv(\mat{A},\vec{b}) \\
+                \end{aligned}
+            }}
+            \leq \negl.
+        \]
+    \end{definition*}
+
+    \begin{definition*}[Normal-Form Decision-Learning with Errors (LWE) Assumption]
+        Let $n, m, \log q \in \poly$ with $n \leq m$ and $\chi$ be a distribution over $\ZZ$ parametrised by $\secpar$.
+        The Normal-Form Decision-$\LWE_{n,m,q,\chi}$ assumption states that for any PPT adversary $\adv$
+        \[
+            \abs{
+            \condprob{
+                b = 1
+            }
+            {
+                \begin{aligned}
+                    &\mat{A} \sample \ZZ_q^{n \times m} \\
+                    &\vec{s} \sample \chi^n,~\vec{e} \sample \chi^m \\
+                    &\vec{b}^\transpose \coloneqq \vec{s}^\transpose \cdot \mat{A} + \vec{e}^\transpose \bmod q \\
+                    &b \gets \adv(\mat{A},\vec{b}) \\
+                \end{aligned}
+            }
+            -
+            \condprob{
+                b = 1
+            }
+            {
+                \begin{aligned}
+                    &\mat{A} \sample \ZZ_q^{n \times m} \\
+                    &\vec{b} \sample \ZZ_q^m \\
+                    &b \gets \adv(\mat{A},\vec{b}) \\
+                \end{aligned}
+            }}
+            \leq \negl.
+        \]
+    \end{definition*}
+    Note that in the normal-form variant the LWE secret $\vec{s}$ is also drawn from the error distribution $\chi$. 
+
+    Next, let $n, \log p, \log q \in \poly$ with $p < q$, and $\chi$ be the uniform distribution over $\ZZ_\beta$, for some $\log \beta \in \poly$ with $\beta$ being odd and $\beta < q$. We introduce the Lindner-Peikert encryption scheme:
+
+    \begin{pchstack}[center,boxed]
+        
+        \procedure[]{$\kgen(\secparam)$}
+        {
+            \mat{A} \sample \ZZ_q^{n \times n} \\
+            \vec{s}, \vec{e} \sample \chi^n \\
+            \vec{b}^\transpose \coloneqq \vec{s}^\transpose \cdot \mat{A} + \vec{e}^\transpose \bmod q \\
+            \pk \coloneqq (\mat{A}, \vec{b}) \\
+            \sk \coloneqq \vec{s} \\
+            \pcreturn (\pk, \sk)
+        }
+
+        \pchspace
+
+        \procedure[]{$\enc(\pk, x \in \ZZ_p)$}
+        { 	\mathsf{Parse}\;(\mat{A}, \vec{v}) \gets\pk\\
+            \vec{r}, \vec{e}_0 \sample \chi^{n} \\
+            e_1 \sample \chi \\
+            \vec{c}_0 \coloneqq \mat{A} \cdot \vec{r} + \vec{e}_0 \bmod q \\
+            c_1 \coloneqq \vec{b}^\transpose \cdot \vec{r} + e_1 + \floor{\frac{q}{p}} \cdot x \bmod q \\
+            \ctxt \coloneqq (\vec{c}_0, c_1) \\
+            \pcreturn \ctxt
+        }
+
+        \pchspace
+
+        \procedure[]{$\dec(\sk, \ctxt)$}
+        {
+				    \mathsf{Parse}\;(\vec{c}_0, c_1) \gets\ctxt\\
+				    \vec{s}\gets\sk\\
+            \bar{x} \coloneqq c_1 - \vec{s}^\transpose \cdot \vec{c}_0 \bmod q \\
+            \pcreturn \left \lfloor \frac{p}{q} \cdot \bar{x} \right \rceil \\
+            \pccomment{rounding to nearest integer} 
+        }
+
+    \end{pchstack}
+
+    \textbf{Choose between answering either Part (a), or answering the two Parts (b) and (c).}
+    \begin{enumerate}[label=(\alph*)]
+        \item Let $q$ be prime, $m \geq n + \secpar$, and $\chi$ be symmetric about $0$, i.e. $\chi = -\chi$. 
+        Prove via a reduction that if the Decision-$\LWE_{n,m,q,\chi}$ assumption holds then the Normal-Form Decision-$\LWE_{n,m-n,q,\chi}$ assumption holds.
+        [Hint: The analysis of normal-form SIS in the lecture notes. The level of detail of the answer should be on a similar level as the lecture notes.]
+        \item Show that the Lindner-Peikert encryption scheme is correct when $q > 2 \cdot n \cdot p \cdot \beta^2$ and $n \cdot \beta^2 \geq \beta + 1$.
+        [Hint: Read hint of Question 1 (b) (i)]
+        \item Prove via a reduction that the Lindner-Peikert encryption scheme is IND-CPA-secure under the Normal-Form Decision-$\LWE_{n,n+1,q,\chi}$ assumption.
+        [Hint: Read hint of Question 1 (b) (ii). The level of detail of the answer should be on a similar level as the lecture notes.]
+    \end{enumerate}
+\end{question}
+
+\inputsol{lindner_peikert}
+
+\begin{question}[SIS Commitments]
+    In this question, we study a basic lattice-based commitment scheme. First, we introduce the concept of commitments.
+    \begin{definition*}[Commitments]
+        A commitment scheme for message space $\mathcal{X}$ is a tuple of PPT algorithms $\Gamma = (\mathsf{Setup}, \mathsf{Com})$ with the following syntax:
+        \begin{itemize}
+            \item $\pubparam \gets \mathsf{Setup}(\secparam, 1^\ell)$: The setup algorithm inputs the security parameter $\secpar \in \NN$ and a length parameter $\ell \in \NN$. It outputs the public parameters $\pubparam$ (also known as the commitment key). 
+            \item $\mathsf{com} \gets \mathsf{Com}(\pubparam, \vec{x} \in \mathcal{X}^\ell; r)$: The commitment algorithm inputs the public parameters $\pubparam$, a message $\vec{x} \in \mathcal{X}^\ell$, and some randomness $r$ (from some randomness space). It outputs a commitment $\mathsf{com}$. By default, the randomness $r$ is assumed to be sampled uniformly at random from the randomness space, and is omitted from the input.
+        \end{itemize}
+        A commitment scheme could satisfy the hiding and binding properties defined as follows:
+        \begin{description}
+            \item[(Statistically) Hiding] For any $\ell \in \NN$, any $\vec{x}, \vec{y} \in \mathcal{X}^\ell$, the statistical distance between the following distributions are negligible in $\secpar$:
+            \begin{align*}
+                \set{
+                    (\pubparam, \mathsf{com}): 
+                    \begin{aligned}
+                        &\pubparam \gets \mathsf{Setup}(\secparam, 1^\ell) \\
+                        &\mathsf{com} \gets \mathsf{Com}(\pubparam, \vec{x})
+                    \end{aligned}
+                }
+                && \text{and} &&
+                \set{
+                    (\pubparam, \mathsf{com}): 
+                    \begin{aligned}
+                        &\pubparam \gets \mathsf{Setup}(\secparam, 1^\ell) \\
+                        &\mathsf{com} \gets \mathsf{Com}(\pubparam, \vec{y})
+                    \end{aligned}
+                }.
+            \end{align*}
+            \item[(Computationally) Binding] For any $\ell \in \NN$ and any PPT adversary $\adv$, it holds that
+            \begin{align*}
+                \condprob{
+                    \begin{aligned}
+                        &\mathsf{Com}(\pubparam, \vec{x}; r) = \mathsf{Com}(\pubparam, \vec{y}; s) \\
+                        \land~&\vec{x} \neq \vec{y}
+                    \end{aligned}
+                }
+                {
+                    \begin{aligned}
+                        &\pubparam \gets \mathsf{Setup}(\secparam, 1^\ell) \\
+                        &((\vec{x}, r), (\vec{y}, s)) \gets \adv(\pubparam) 
+                    \end{aligned}
+                }
+                \leq \negl.
+            \end{align*}
+        \end{description}
+    \end{definition*}
+    Let $n,m, \log p, \log q = \poly$ with $p < q$. Consider the following commitment scheme construction for the message space $\ZZ_p$:
+    \begin{pchstack}[center,boxed]
+    
+        \procedure[]{$\mathsf{Setup}(\secparam, 1^\ell)$}
+        {
+            \mat{A} \sample \ZZ_q^{n \times m} \\
+            \mat{B} \sample \ZZ_q^{n \times \ell} \\
+            \pubparam \coloneqq (\mat{A}, \mat{B}) \\
+            \pcreturn \pubparam
+        }
+
+        \pchspace
+
+        \procedure[]{$\mathsf{Com}(\pubparam, \vec{x} \in \ZZ_p^\ell; \vec{r} \in \ZZ_p^m)$}
+        {
+            \vec{c} \coloneqq \mat{A} \cdot \vec{r} + \mat{B} \cdot \vec{x} \bmod q \\
+            \mathsf{com} \coloneqq \vec{c} \\ 
+            \pcreturn \mathsf{com}
+        }
+
+    \end{pchstack}
+    \begin{enumerate}[label=(\alph*)]
+        \item Prove that the above commitment scheme is statistically hiding if $m > n \cdot \log_p q + \omega(\log n)$. The level of detail of the answer should be on a similar level as the lecture notes.
+        \item Prove that the above commitment scheme is computationally binding under the $\SIS_{n,m+\ell,p,q}$ assumption. The level of detail of the answer should be on a similar level as the lecture notes.
+    \end{enumerate}
+\end{question}
+
+\inputsol{sis_com}
+
+\end{document}

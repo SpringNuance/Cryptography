@@ -1,0 +1,360 @@
+\newif\iffull\fullfalse% do not change flags here
+\newif\ifdraft\draftfalse% do not change flags here
+
+\documentclass[envcountsame,runningheads,notitlepage]{../llncs}
+\pagestyle{plain}
+
+\usepackage[letterpaper,hmargin=3.5cm,vmargin=3cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xifthen}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{lscape}
+%\usepackage{amsthm}
+\usepackage{xspace}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{color,soul}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows, calc}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{subcaption}
+\usepackage[probability,adversary,sets,notions,operators,complexity,keys,primitives,asymptotics,advantage]{cryptocode}
+\usepackage{savesym}
+\usepackage{relsize}
+\savesymbol{cb}
+\usepackage{combelow}
+\usepackage[normalem]{ulem}
+\usepackage{wrapfig}
+\newtheorem{crossed}{Esitehtävä}
+\usepackage{enumitem}
+
+\let\proof\relax
+\let\endproof\relax
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{graded}[crossed]{Exercise} 
+\newtheorem{challenge}[crossed]{Challenge exercise}
+
+% Colors
+\newcommand\maybecolor[1]{\color{#1}}
+\definecolor{lightblue}{rgb}{0.2,0.2,1.0}
+\definecolor{dkred}{rgb}{0.5, 0.0,0.0}
+\definecolor{lightgrey}{rgb}{0.8,0.8,0.8}
+\definecolor{dkblue}{rgb}{0,0.1,0.5}
+\definecolor{dkgreen}{rgb}{0,0.4,0}
+\definecolor{dkred}{rgb}{0.6,0,0}
+\definecolor{linkColor}{rgb}{0,0,0.5}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\ifdraft
+\newcommand{\fullcolor}{\color{blue}}
+\else
+\newcommand{\fullcolor}{\color{black}}
+\fi
+\newcommand{\blk}{\color{black}}
+\newcommand{\dkg}{\color{dkgreen}}
+
+% Variable and procedures names
+\renewcommand{\O}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\V}[1]{\ensuremath{\mathit{#1}}}
+\newcommand{\M}[1]{\ensuremath{\text{\tt#1}}}
+\def \G {\mathcal{G}}
+\newcommand{\hLen}{n}
+
+
+
+
+%\newcommand{\markulf}[1]{{\color{orange}{MK: #1}}}
+\newcommand{\mk}[1]{{\color{orange}{mk: #1}}}
+
+
+% WIDEBAR
+
+\makeatletter
+\let\save@mathaccent\mathaccent
+\newcommand*\if@single[3]{%
+  \setbox0\hbox{${\mathaccent"0362{#1}}^H$}%
+  \setbox2\hbox{${\mathaccent"0362{\kern0pt#1}}^H$}%
+  \ifdim\ht0=\ht2 #3\else #2\fi
+  }
+%The bar will be moved to the right by a half of \macc@kerna, which is computed by amsmath:
+\newcommand*\rel@kern[1]{\kern#1\dimexpr\macc@kerna}
+%If there's a superscript following the bar, then no negative kern may follow the bar;
+%an additional {} makes sure that the superscript is high enough in this case:
+\newcommand*\widebar[1]{\@ifnextchar^{{\wide@bar{#1}{0}}}{\wide@bar{#1}{1}}}
+%Use a separate algorithm for single symbols:
+\newcommand*\wide@bar[2]{\if@single{#1}{\wide@bar@{#1}{#2}{1}}{\wide@bar@{#1}{#2}{2}}}
+\newcommand*\wide@bar@[3]{%
+  \begingroup
+  \def\mathaccent##1##2{%
+%Enable nesting of accents:
+    \let\mathaccent\save@mathaccent
+%If there's more than a single symbol, use the first character instead (see below):
+    \if#32 \let\macc@nucleus\first@char \fi
+%Determine the italic correction:
+    \setbox\z@\hbox{$\macc@style{\macc@nucleus}_{}$}%
+    \setbox\tw@\hbox{$\macc@style{\macc@nucleus}{}_{}$}%
+    \dimen@\wd\tw@
+    \advance\dimen@-\wd\z@
+%Now \dimen@ is the italic correction of the symbol.
+    \divide\dimen@ 3
+    \@tempdima\wd\tw@
+    \advance\@tempdima-\scriptspace
+%Now \@tempdima is the width of the symbol.
+    \divide\@tempdima 10
+    \advance\dimen@-\@tempdima
+%Now \dimen@ = (italic correction / 3) - (Breite / 10)
+    \ifdim\dimen@>\z@ \dimen@0pt\fi
+%The bar will be shortened in the case \dimen@<0 !
+    \rel@kern{0.6}\kern-\dimen@
+    \if#31
+      \overline{\rel@kern{-0.6}\kern\dimen@\macc@nucleus\rel@kern{0.4}\kern\dimen@}%
+      \advance\dimen@0.4\dimexpr\macc@kerna
+%Place the combined final kern (-\dimen@) if it is >0 or if a superscript follows:
+      \let\final@kern#2%
+      \ifdim\dimen@<\z@ \let\final@kern1\fi
+      \if\final@kern1 \kern-\dimen@\fi
+    \else
+      \overline{\rel@kern{-0.6}\kern\dimen@#1}%
+    \fi
+  }%
+  \macc@depth\@ne
+  \let\math@bgroup\@empty \let\math@egroup\macc@set@skewchar
+  \mathsurround\z@ \frozen@everymath{\mathgroup\macc@group\relax}%
+  \macc@set@skewchar\relax
+  \let\mathaccentV\macc@nested@a
+%The following initialises \macc@kerna and calls \mathaccent:
+  \if#31
+    \macc@nested@a\relax111{#1}%
+  \else
+%If the argument consists of more than one symbol, and if the first token is
+%a letter, use that letter for the computations:
+    \def\gobble@till@marker##1\endmarker{}%
+    \futurelet\first@char\gobble@till@marker#1\endmarker
+    \ifcat\noexpand\first@char A\else
+      \def\first@char{}%
+    \fi
+    \macc@nested@a\relax111{\first@char}%
+  \fi
+  \endgroup
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     FONTS AND EDITING
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\highlight}[1]{\colorbox{red!20}{$\displaystyle#1$}}
+\definecolor{purple}{RGB}{139,0,139}
+\newcommand{\ben}[1]{{\color{purple}{BD: #1}}}
+\definecolor{darkgreen}{RGB}{0,128,0}
+\newcommand{\chris}[1]{{\color{darkgreen}{CB: #1}}}
+\definecolor{orange}{RGB}{210,105,30}
+\newcommand{\geoffroy}[1]{{\color{orange}{GC: #1}}}
+\newcommand{\todo}[1]{{\color{red}{TODO: #1}}}
+
+\definecolor{darkblue}{RGB}{0,0,128}
+\definecolor{midnightblue}{RGB}{0,0,210}
+\definecolor{darkred}{RGB}{128,0,0}
+\definecolor{figred}{RGB}{230,0,26}
+\definecolor{figgreen}{RGB}{153,192,0}
+\definecolor{figorange}{RGB}{245,163,0}
+\definecolor{figblue}{RGB}{0,104,157}
+\definecolor{figpurple}{RGB}{149,17,105}
+
+
+
+
+%\theoremstyle{plain}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{proposition}{Proposition}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem*{corollary}{Corollary}
+
+%\newtheorem{definition}{Definition}
+%\newtheorem{conjecture}{Conjecture}
+%\newtheorem{algorithm}{Algorithm}
+\newtheorem{construction}{Construction}
+%\newtheorem{claim}{Claim}
+
+%\theoremstyle{remark}
+%\newtheorem*{remark}{Remark}
+%\newtheorem*{note}{Note}
+%\newtheorem{case}{Case}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%         STYLES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\R}{\mathbb{R}} \newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}} \newcommand{\Q}{\mathbb{Q}}
+\newcommand{\card}[1]{\abs{#1}}
+%\theoremstyle{definition} \newtheorem*{definition}{Definition}
+%\newtheorem*{remark}{Remark} \newtheorem*{lemma}{Lemma}
+%\newtheorem*{conjecture}{Conjecture} \newtheorem*{hint}{Hint}
+%\newtheorem{claim}{Claim}
+\newcommand{\cnt}{\textsf{ctr}}
+\renewcommand{\H}{\textsf{H}}
+\newcommand{\RO}{\textsf{RO}}
+\newcommand{\RPO}{\textsf{RPO}}
+\renewcommand{\O}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\E}{\textsf{E}}
+\newcommand{\ininterface}[1]{{\mathsf{in}(#1)}} %{I^{in}_{#1}}
+\newcommand{\outinterface}[1]{{\mathsf{out}(#1)}} %{I^{out}_{#1}}
+\newcommand{\StyleModel}[1]{\V{{#1}}}
+\newtheorem*{hint}{Hint}
+
+\newcommand{\kgen}{\StyleModel{kgen}}
+\newcommand{\m}{\StyleModel{m}}
+\newcommand{\se}{\StyleModel{se}}
+\renewcommand{\enc}{\StyleModel{enc}}
+\renewcommand{\dec}{\StyleModel{dec}}
+%\newcommand{\prp}{\StyleModel{prp}}
+\newcommand{\nonce}{\StyleModel{nonce}}
+\newcommand{\ac}{\StyleModel{ac}}
+\newcommand{\ch}{\StyleModel{ch}}
+\renewcommand{\mac}{\StyleModel{mac}}
+\newcommand{\ver}{\StyleModel{ver}}
+\renewcommand{\verify}{\StyleModel{ver}}
+\newcommand{\receive}{\StyleModel{receive}}
+\newcommand{\send}{\StyleModel{send}}
+\newcommand{\unfcma}{\M{UNF-CMA}}
+\newcommand{\unfcmaac}{\M{UNF-CMA-AC}}
+\newcommand{\flunfcma}{\M{FL-UNF-CMA}}
+%\newcommand{\pcassert}{\mathbf{assert}\;} cb: update cryptocode package if you get an error saying that pcassert has not yet been defined.
+%\specialcomment{solution}{\textbf{Solution:}\;}{}
+\newboolean{ifsolution}
+\setboolean{ifsolution}{true}
+
+\usepackage[breakable]{tcolorbox}
+
+% if exercises only:
+\newcommand{\sol}[1]{}
+
+% if solution included:
+%\newcommand{\sol}[1]{\begin{tcolorbox}[breakable]\solution{#1}\end{tcolorbox}}
+
+\title{CS-E4340 Cryptography: Exercise Sheet 2\\[0.5\baselineskip]
+\large ---One-Way Functions \& Pseudorandom Generators---}
+\author{}\institute{}
+
+\begin{document}
+\maketitle
+
+\noindent
+\textbf{Submission Deadline: September 19, 11:30 via MyCourses}
+
+\medskip
+\noindent
+Each exercise can give up to two participation points, 2 for a mostly correct solution and 1 point for a good attempt. Overall, the exercise sheet gives at most 4 participation points. We encourage to \textbf{choose} those exercises which \textbf{interesting} and/or adequately challenging to you.
+
+\medskip
+\noindent
+Exercise Sheet 2 is intended to help...
+\begin{itemize}
+\item[(a)] ...understand the \emph{definition} of pseudorandom generators (PRGs).
+\item[(b)] ...understand the \emph{relation} between PRGs and OWFs.
+\item[(c)] ...develop intuition about the difficulty of \emph{constructing} hardcore bits.
+\item[(d)] ...continue familiarizing with the idea of \emph{generic counterexamples}.
+\item[(e)] ...familiarize yourself with proofs via \emph{transformations} (which we will later call \emph{reductions}).
+\end{itemize}
+
+\begin{description}
+\item[Exercise 1] shows that a PRG might leak half of its input and thus, just like one-way functions, is not guaranteed to hide its input. \item[Ex. 2 \& Ex. 3] show that PRGs are a strictly stronger notion than OWFs. Namely, Exercise 3 shows that every PRG is a OWF, while Exercise 2 shows that not every OWF is a PRG. 
+\item[Counterexamples \& Adversary transformation] Exercise 1 and Exercise 2 help practice the notion of generic counterexamples, whereas Exercise 3 helps practice the notion of transformation of one adversary into another.
+\item[Ex. 4 \& Ex. 5] aim to help understand the notion of universal hardcore bits. 
+\item[Exercise 6] is advanced; you are asked to prove that the Goldreich-Levin hard-core bit is, indeed, a hard-core bit. 
+\item[Exercise 7] is experimental---note that we do not know whether it has a solution.
+\end{description}
+
+%\clearpage
+
+\begin{graded}[\textbf{PRGs can leak half their input}]
+Let $f:\bin^*\rightarrow\bin^*$ be a PRG. We define
+\begin{align*}
+g_f(x)= f(x_\ell)||x_r
+\end{align*}
+Here, $x_\ell$ consists of the first $\ceil{\abs{x}/2}$ bits of $x$ and $x_r$ consists of the last $\floor{\abs{x}/2}$ bits of $x$, i.e., $x=x_\ell||x_r$.
+
+\medskip
+\noindent
+\textbf{Task:} Prove via reduction that if $f$ is a PRG, then $g_f$ is a PRG, too.
+\end{graded}
+
+\begin{graded}[Some OWFs are not PRGs]
+Assume the existence of length-preserving one-way functions. 
+
+\medskip
+\noindent
+\textbf{Task:} Show that there exists a length-expanding one-way function $h$ which is not a PRG.
+\end{graded}
+
+\begin{graded}[PRGs are OWFs]
+	Let $g$ be a pseudorandom generator with $s(\lambda):=\lambda$, i.e., for all $x\in\bin^\lambda$, we have $\abs{g(x)}=2\lambda$.
+	
+\medskip
+\noindent
+\textbf{Task:} Prove that $g$ is also a one-way function.
+\end{graded}
+
+\begin{graded}\textbf{(Universal Hardcore Bit I)}
+A universal hardcore bit is a function $b:\bin^*\rightarrow\bin$ such that $b$ is a hardcore bit for \emph{all} one-way functions $f$. This and the next exercise show that such a universal hardcore bit cannot exist. Namely: Assume towards contradiction that there exists a universal hardcore bit $b$. Assume that there exists a one-way function $f$. Consider the one-way function $h_{b,f}$ defined as $h_{b,f}(x):=f(x)||b(x)$.
+
+\medskip
+\noindent
+\textbf{Task:} Show via reduction that if $f$ is a one-way function, then $h_{b,f}$ is a one-way function, too.
+\end{graded}
+
+
+\begin{graded}\textbf{(Universal Hardcore Bit II)}
+As in the previous exercise, consider a (candidate) universal hardcore bit $b:\bin^*\rightarrow\bin$ and a one-way function $f$. Again, we look at the one-way function $h_{b,f}$ defined as $h_{b,f}(x):=f(x)||b(x)$.
+
+\medskip
+\noindent
+\textbf{Task:} Show that $b$ is not a hardcore bit for $h_{b,f}$.
+\end{graded}
+
+\begin{graded}\textbf{(Goldreich-Levin Hard-Core Bit)}
+	Let $f_\text{base}$ be a polynomial-time computable function, and let $f$ be defined (on even-lengths inputs) as $f(x||r):=f_\text{base}(x)||r$,
+	where $|x|=|r|$.
+	Assume that there is a PPT algorithm $\adv$ using $p(n)$ random bits such that
+	\begin{align}\label{huhu}
+	\prob{\adv(f(x||r),1^n)=b_{GL}(x,r)}=1,
+	\end{align}
+where the probability is over sampling $x\sample\bin^n$, $r\sample\bin^n$ and the randomness of the adversary $\adv$. \newline
+
+\noindent
+\textbf{Task:}
+	Construct a PPT algorithm $\rdv$ that uses $\adv$ to invert $f_\text{base}$ on even-length inputs.
+	\begin{hint}
+		The algorithm $\rdv$ uses $\adv$ to recover $x$ bitwise.
+	\end{hint}
+\noindent
+\textbf{Advanced Task (optional):} Does your reduction $\rdv$ still work if 
+	\begin{align}\label{stuff}
+	\prob{\adv(f(x||r),1^n)=b_{GL}(x,r)}=1-\mathsf{negl}(n).
+	\end{align}
+If so, analyse why. If no, explain why not. Can you come up with a reduction which works in the
+case (\ref{stuff}), where the success probability is only $1-\mathsf{negl}(n)$ instead of $1$?
+\end{graded}
+
+
+\begin{graded}[Crocodile Experiment]
+Give a function $f_{10}:\{1,..,10\}\rightarrow\{1,..,10\}$ which predicts the next number in the crocodile experiment
+in 80\% of the data (based on the experimental data given in the materials section of the MyCourses page). (Doing this is considered solving the exercise, but here are further
+questions to consider if you like to:) Try to use less than 10 previous results, say, use only 5. Can you give a very simple prediction function $f_3$ or $f_2$ or even $f_1$ which is less accurate and takes only the last 3, 2, 1 numbers, respectively? Which reflections come to mind in terms of whether a more complex or a more simple function describes the experiment ``better'' (for this, we need a notion of what a ``better'' description is)? What is the easiest \emph{distinguisher} which you can come up with for this experiment?
+Finally, assume that you are provided with a second crocodile. Can your function $f_{10}$ be used for predicting the outputs of the second crocodile as well? On this line, is it possible to extend the function in such way that it includes a data collection loop at the beginning? 
+\end{graded}
+
+\end{document}

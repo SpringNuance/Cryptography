@@ -1,0 +1,571 @@
+\newif\iffull\fullfalse% do not change flags here
+\newif\ifdraft\draftfalse% do not change flags here
+
+\documentclass[envcountsame,runningheads,notitlepage]{../llncs}
+\pagestyle{plain}
+
+\usepackage[letterpaper,hmargin=3.5cm,vmargin=3cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xifthen}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{lscape}
+%\usepackage{amsthm}
+\usepackage{xspace}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{color,soul}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows, calc}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{subcaption}
+\usepackage[probability,adversary,sets,notions,operators,complexity,keys,primitives,asymptotics,advantage]{cryptocode}
+\usepackage{savesym}
+\usepackage{relsize}
+\savesymbol{cb}
+\usepackage{combelow}
+\usepackage[normalem]{ulem}
+\usepackage{wrapfig}
+\newtheorem{crossed}{Esitehtävä}
+\usepackage{enumitem}
+
+\let\proof\relax
+\let\endproof\relax
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{graded}[crossed]{Exercise}
+\newtheorem{challenge}[crossed]{Challenge exercise}
+
+% Colors
+\newcommand\maybecolor[1]{\color{#1}}
+\definecolor{lightblue}{rgb}{0.2,0.2,1.0}
+\definecolor{dkred}{rgb}{0.5, 0.0,0.0}
+\definecolor{lightgrey}{rgb}{0.8,0.8,0.8}
+\definecolor{dkblue}{rgb}{0,0.1,0.5}
+\definecolor{dkgreen}{rgb}{0,0.4,0}
+\definecolor{dkred}{rgb}{0.6,0,0}
+\definecolor{linkColor}{rgb}{0,0,0.5}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\ifdraft
+\newcommand{\fullcolor}{\color{blue}}
+\else
+\newcommand{\fullcolor}{\color{black}}
+\fi
+\newcommand{\blk}{\color{black}}
+\newcommand{\dkg}{\color{dkgreen}}
+
+% Variable and procedures names
+\renewcommand{\O}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\V}[1]{\ensuremath{\mathit{#1}}}
+\newcommand{\M}[1]{\ensuremath{\text{\tt#1}}}
+\def \G {\mathcal{G}}
+\newcommand{\hLen}{n}
+
+
+
+
+%\newcommand{\markulf}[1]{{\color{orange}{MK: #1}}}
+\newcommand{\mk}[1]{{\color{orange}{mk: #1}}}
+
+
+% WIDEBAR
+
+\makeatletter
+\let\save@mathaccent\mathaccent
+\newcommand*\if@single[3]{%
+  \setbox0\hbox{${\mathaccent"0362{#1}}^H$}%
+  \setbox2\hbox{${\mathaccent"0362{\kern0pt#1}}^H$}%
+  \ifdim\ht0=\ht2 #3\else #2\fi
+  }
+%The bar will be moved to the right by a half of \macc@kerna, which is computed by amsmath:
+\newcommand*\rel@kern[1]{\kern#1\dimexpr\macc@kerna}
+%If there's a superscript following the bar, then no negative kern may follow the bar;
+%an additional {} makes sure that the superscript is high enough in this case:
+\newcommand*\widebar[1]{\@ifnextchar^{{\wide@bar{#1}{0}}}{\wide@bar{#1}{1}}}
+%Use a separate algorithm for single symbols:
+\newcommand*\wide@bar[2]{\if@single{#1}{\wide@bar@{#1}{#2}{1}}{\wide@bar@{#1}{#2}{2}}}
+\newcommand*\wide@bar@[3]{%
+  \begingroup
+  \def\mathaccent##1##2{%
+%Enable nesting of accents:
+    \let\mathaccent\save@mathaccent
+%If there's more than a single symbol, use the first character instead (see below):
+    \if#32 \let\macc@nucleus\first@char \fi
+%Determine the italic correction:
+    \setbox\z@\hbox{$\macc@style{\macc@nucleus}_{}$}%
+    \setbox\tw@\hbox{$\macc@style{\macc@nucleus}{}_{}$}%
+    \dimen@\wd\tw@
+    \advance\dimen@-\wd\z@
+%Now \dimen@ is the italic correction of the symbol.
+    \divide\dimen@ 3
+    \@tempdima\wd\tw@
+    \advance\@tempdima-\scriptspace
+%Now \@tempdima is the width of the symbol.
+    \divide\@tempdima 10
+    \advance\dimen@-\@tempdima
+%Now \dimen@ = (italic correction / 3) - (Breite / 10)
+    \ifdim\dimen@>\z@ \dimen@0pt\fi
+%The bar will be shortened in the case \dimen@<0 !
+    \rel@kern{0.6}\kern-\dimen@
+    \if#31
+      \overline{\rel@kern{-0.6}\kern\dimen@\macc@nucleus\rel@kern{0.4}\kern\dimen@}%
+      \advance\dimen@0.4\dimexpr\macc@kerna
+%Place the combined final kern (-\dimen@) if it is >0 or if a superscript follows:
+      \let\final@kern#2%
+      \ifdim\dimen@<\z@ \let\final@kern1\fi
+      \if\final@kern1 \kern-\dimen@\fi
+    \else
+      \overline{\rel@kern{-0.6}\kern\dimen@#1}%
+    \fi
+  }%
+  \macc@depth\@ne
+  \let\math@bgroup\@empty \let\math@egroup\macc@set@skewchar
+  \mathsurround\z@ \frozen@everymath{\mathgroup\macc@group\relax}%
+  \macc@set@skewchar\relax
+  \let\mathaccentV\macc@nested@a
+%The following initialises \macc@kerna and calls \mathaccent:
+  \if#31
+    \macc@nested@a\relax111{#1}%
+  \else
+%If the argument consists of more than one symbol, and if the first token is
+%a letter, use that letter for the computations:
+    \def\gobble@till@marker##1\endmarker{}%
+    \futurelet\first@char\gobble@till@marker#1\endmarker
+    \ifcat\noexpand\first@char A\else
+      \def\first@char{}%
+    \fi
+    \macc@nested@a\relax111{\first@char}%
+  \fi
+  \endgroup
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     FONTS AND EDITING
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\highlight}[1]{\colorbox{red!20}{$\displaystyle#1$}}
+\definecolor{purple}{RGB}{139,0,139}
+\newcommand{\ben}[1]{{\color{purple}{BD: #1}}}
+\definecolor{darkgreen}{RGB}{0,128,0}
+\newcommand{\chris}[1]{{\color{darkgreen}{CB: #1}}}
+\definecolor{orange}{RGB}{210,105,30}
+\newcommand{\geoffroy}[1]{{\color{orange}{GC: #1}}}
+\newcommand{\todo}[1]{{\color{red}{TODO: #1}}}
+
+\definecolor{darkblue}{RGB}{0,0,128}
+\definecolor{midnightblue}{RGB}{0,0,210}
+\definecolor{darkred}{RGB}{128,0,0}
+\definecolor{figred}{RGB}{230,0,26}
+\definecolor{figgreen}{RGB}{153,192,0}
+\definecolor{figorange}{RGB}{245,163,0}
+\definecolor{figblue}{RGB}{0,104,157}
+\definecolor{figpurple}{RGB}{149,17,105}
+
+
+
+
+%\theoremstyle{plain}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{proposition}{Proposition}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem*{corollary}{Corollary}
+
+%\newtheorem{definition}{Definition}
+%\newtheorem{conjecture}{Conjecture}
+%\newtheorem{algorithm}{Algorithm}
+\newtheorem{construction}{Construction}
+%\newtheorem{claim}{Claim}
+
+%\theoremstyle{remark}
+%\newtheorem*{remark}{Remark}
+%\newtheorem*{note}{Note}
+%\newtheorem{case}{Case}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%         STYLES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\R}{\mathbb{R}} \newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}} \newcommand{\Q}{\mathbb{Q}}
+\newcommand{\card}[1]{\abs{#1}}
+%\theoremstyle{definition} \newtheorem*{definition}{Definition}
+%\newtheorem*{remark}{Remark} \newtheorem*{lemma}{Lemma}
+%\newtheorem*{conjecture}{Conjecture} \newtheorem*{hint}{Hint}
+%\newtheorem{claim}{Claim}
+\newcommand{\cnt}{\textsf{ctr}}
+\renewcommand{\H}{\textsf{H}}
+\newcommand{\RO}{\textsf{RO}}
+\newcommand{\mactag}{t}
+\newcommand{\macinput}{x}
+\newcommand{\RPO}{\textsf{RPO}}
+\renewcommand{\O}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\E}{\textsf{E}}
+\newcommand{\ininterface}[1]{{\mathsf{in}(#1)}} %{I^{in}_{#1}}
+\newcommand{\outinterface}[1]{{\mathsf{out}(#1)}} %{I^{out}_{#1}}
+\newcommand{\StyleModel}[1]{\V{{#1}}}
+
+\newcommand{\kgen}{\StyleModel{kgen}}
+\newcommand{\m}{\StyleModel{m}}
+\newcommand{\se}{\StyleModel{se}}
+\renewcommand{\enc}{\StyleModel{enc}}
+\renewcommand{\dec}{\StyleModel{dec}}
+\renewcommand{\prp}{\StyleModel{prp}}
+\newcommand{\nonce}{\StyleModel{nonce}}
+\newcommand{\ac}{\StyleModel{ac}}
+\newcommand{\ch}{\StyleModel{ch}}
+\renewcommand{\mac}{\StyleModel{mac}}
+\newcommand{\ver}{\textsf{ver}}
+\renewcommand{\verify}{\textsf{ver}}
+\renewcommand{\mac}{\textsf{mac}}
+\newcommand{\receive}{\StyleModel{receive}}
+\newcommand{\send}{\StyleModel{send}}
+\newcommand{\unfcma}{\M{UNF-CMA}}
+\newcommand{\unfcmaac}{\M{UNF-CMA-AC}}
+\newcommand{\flunfcma}{\M{FL-UNF-CMA}}
+%\newcommand{\pcassert}{\mathbf{assert}\;} cb: update cryptocode package if you get an error saying that pcassert is not defined
+%\specialcomment{solution}{\textbf{Solution:}\;}{}
+\newboolean{ifsolution}
+\setboolean{ifsolution}{true}
+
+\usepackage[breakable]{tcolorbox}
+
+% if exercises only:
+\newcommand{\sol}[1]{}
+
+% if solution included:
+%\newcommand{\sol}[1]{\begin{tcolorbox}[breakable]\solution{#1}\end{tcolorbox}}
+
+\title{CS-E4340 Cryptography: Exercise Sheet 4\\[0.5\baselineskip]
+\normalsize ---Message Authentication Codes (MACs) \& Pseudorandom Functions (PRFs)---}
+\author{}\institute{}
+
+\begin{document}
+\maketitle
+
+\noindent
+\textbf{Submission Deadline: October 3, 11:30 via MyCourses}
+
+\medskip
+\noindent
+Each exercise can give up to two participation points, 2 for a mostly correct solution and 1 point for a good attempt. Overall, the exercise sheet gives at most 4 participation points.
+
+%Exercise Sheet 4  focuses on message authentication codes (MACs) and their security properties. We also study and practice how to define the security for a cryptographic primitive via security notions. Additionally, we revisit the notions of PRFs and PRPs.
+
+
+\medskip
+\noindent
+Exercise Sheet 4 is intended to help...
+\begin{itemize}
+\item[(a)] ...understand the \emph{definition} of a message authentication code (MAC).
+\item[(b)] ...understand the \emph{relation} between PRFs and MACs.
+\item[(c)] ...understand and practice how to define the security for a cryptographic primitive via security notions.
+\end{itemize}
+
+\begin{description}
+\item[Exercise 1] shows that a UNF-CMA-secure MAC might leak the message it authenticates.
+\item[Exercise 2] explores the differences/similarities between one-way functions and UNF-CMA-secure MAC schemes.
+\item[Exercise 3] constructs variants of MAC schemes and the goal is to distinguish modifications which harm security from modifications which don't harm security.
+\item[Exercise 4] deepens understanding of the UNF-CMA game and provide some definitions in which no scheme can be secure. In this case, we say that these are variants of the MAC game which are \emph{trivial to break} (trivial does not mean that the exercise is easy. Rather, it means that the constructions are not meaningful.).
+%\item[Exercise 5] is an advanced reflection on PRFs and PRPs.(removed because the model solution was missing.)
+\item[Exercise 5] is an advanced counterexample for showing that not every UNF-CMA-secure MAC is a one-way function. (In fact, every UNF-CMA-secure MAC is a so-called \emph{distributional} one-way function. Ask Miikka Tiainen if you are curious on the definition and its implications.)
+\item[Hint:] \emph{Lecture 4} and the beginning of \emph{Lecture 5} cover message authentication codes, so you can have a look at both lecture videos to help with this exercise sheet.
+\end{description}
+
+
+
+\clearpage
+\begin{graded}[MACs can leak the message]
+Let $m_1$ be a UNF-CMA secure MAC scheme. Prove that also $m_2$ is a UNF-CMA secure MAC scheme, where
+\begin{equation*}
+  m_2.\mac(k,\macinput) := m_1.\mac(k,\macinput)||\macinput
+\end{equation*}
+and
+\begin{center}
+\procedure{$\m_2.\ver(k,\macinput,\mactag)$}{
+  \pcassert t \neq \bot \\
+  \mactag' \leftarrow \mactag_{1... |\mactag|-|\macinput|}\\
+  \macinput'  \leftarrow \mactag_{|\mactag|-|\macinput|+1 ...|\mactag|}\\
+  \pcif \macinput' \neq \macinput\\
+  \pcind \pcreturn 0\\
+  \pcreturn m_1.\ver(k,\macinput,\mactag')
+}
+\end{center}
+\textbf{Hint:} You need to provide a reduction in pseudo-code (main task) and show that the reduction works. In order to show that the reduction works as it should (explain in your solution what this means), you can either provide the main conceptual argument (in text) or an inlining proof (in pseudocode) as in the lecture.
+\end{graded}
+
+\begin{graded}[OWFs \& MACs]
+Prove or disprove: For all one-way functions $f$, $m$ is an UNF-CMA secure MAC scheme, where $m.\mac(k,\macinput) = f(k||\macinput)$ and
+\begin{center}
+\procedure{$\m.\ver(k,\macinput,\mactag)$}{
+\mactag' \leftarrow f(k||\macinput)\\
+\pcif \mactag' \neq \mactag\\
+\pcind \pcreturn 0\\
+\pcelse\\
+\pcind \pcreturn 1
+}
+\end{center}
+\textbf{Hint:} If you believe that this is an UNF-CMA secure MAC scheme, see hint for Exercise 1. If you believe that this is not necessarily an UNF-CMA secure MAC scheme, define a counterexample OWF $f$ and provide an adversary in pseudocode. See lecture notes for Lecture 4 for an example on how to write such adversary pseudocode.
+\end{graded}
+
+\begin{graded}[Candidate MAC schemes]
+%todo: maybe use one of the very bad ciphers from the first half of the course.
+Let $f$ be a secure $(\lambda,\lambda)$-PRF. Consider the four MAC schemes $\m_1,\m_2,\m_3,\m_4$ given below.
+\begin{enumerate}
+\item Which of these MAC-schemes are UNF-CMA and which are not? Justify your intuition.
+\item Choose one of the MAC schemes $\m_i$ that you think is not UNF-CMA secure. Provide an adversary $\adv$ (in pseudocode) that can distinguish between the real and ideal games  $\texttt{Gunf-cma}_m^b$ (see Chapter 3 in the Crypto Companion). An intuitive explanation for why the adversary works suffices in this exercise.
+\end{enumerate}
+
+\noindent
+\textbf{Note:} Below, the syntax $x[i]$ refers to the value assigned to $x$ during the $i$th loop. Moreover, $y[i]\leftarrow f(k,x[i])$ is the output value of $f$ during the $i$th loop.
+%The outputs of MAC are t as in the DAF
+%\newpage
+
+\hspace{-2cm}
+\begin{minipage}{1.2\textwidth}
+%\begin{center}
+\begin{pchstack}
+\begin{pcvstack}
+\procedure{$\m_1.\mac(k,\macinput)$}{
+j\gets \lambda-(\abs{\macinput} \bmod \lambda)\\
+\macinput'\gets \macinput||0^j,\, h\gets\frac{\abs{\macinput'}}{\lambda}\\[0.1\baselineskip]
+\\
+\pcfor i=0\ \mathbf{ until }\ h-1\\
+\pcind \ell\gets \lambda i+1\\
+\pcind r\gets \lambda i+\lambda\\
+\pcind \macinput[i]\gets \macinput'_{\ell..r}\\
+\pcind y[i]\gets f(k,\macinput[i])\\
+\mactag\gets (y[0],y[1], ... ,y[h-1])\\
+\pcreturn\ \mactag
+}
+\pcvspace
+\procedure{$\m_1.\ver(k,\macinput,t)$}{
+j \gets \lambda -(\abs{\macinput} \bmod \lambda )\\
+\macinput'\gets \macinput||0^j,\, h\gets\frac{\abs{\macinput'}}{\lambda}\\[0.1\baselineskip]
+\\
+(y[0],y[1], ...,y[h-1])\gets\mactag\\
+\pcfor i=0\ \mathbf{ until }\ h-1\\
+\pcind \ell\gets \lambda i+1\\
+\pcind r\gets \lambda i+\lambda \\
+\pcind \macinput[i]\gets \macinput'_{\ell..r}\\
+\pcind \pcif y[i]\neq f(k,\macinput[i])\\
+\pcind \pcind \pcreturn 0\\
+\pcreturn\ 1
+}
+\end{pcvstack}
+\pchspace
+\begin{pcvstack}
+\procedure{$\m_2.\mac(k,\macinput)$}{
+j\gets \lambda -(\abs{\macinput} \bmod \lambda )\\
+\macinput'\gets \macinput||0^j,\, h\gets\frac{\abs{\macinput'}}{\lambda}\\
+y[-1]\gets 0^{\lambda }\\
+\pcfor i=0\ \mathbf{ until }\ h-1\\
+\pcind \ell\gets \lambda i+1\\
+\pcind r\gets \lambda i+\lambda \\
+\pcind \macinput[i]\gets \macinput'_{\ell..r}\\
+\pcind y[i]\gets f(k,\macinput[i] \oplus y[i-1] )\\
+\mactag \gets (y[0],y[1],... ,y[h-1])\\
+\pcreturn\ \mactag
+}
+\pcvspace
+\procedure{$\m_2.\ver(k,\macinput,\mactag)$}{
+j\gets \lambda -(\abs{\macinput} \bmod \lambda )\\
+\macinput'\gets \macinput||0^j,\, h\gets\frac{\abs{\macinput'}}{\lambda}\\
+y[-1]\gets 0^{\lambda }\\
+(y[0],y[1],... ,y[h-1]) \gets \mactag\\
+\pcfor i=0\ \mathbf{ until }\ h-1\\
+\pcind \ell\gets \lambda i+1\\
+\pcind r\gets \lambda i+\lambda \\
+\pcind \macinput[i]\gets \macinput'_{\ell..r}\\
+\pcind \pcif y[i]\neq f(k,\macinput[i]\oplus y[i-1])\\
+\pcind \pcind \pcreturn 0\\
+\pcreturn\ 1
+}
+\end{pcvstack}
+%\end{pchstack}
+\pchspace
+%\begin{pchstack}
+\begin{pcvstack}
+\procedure{$\m_3.\mac(k,\macinput)$}{
+j\gets \lambda -(\abs{\macinput}+1) \bmod \lambda )\\
+\macinput'\gets \macinput||1||0^j,\, h\gets\frac{\abs{\macinput'}}{\lambda}\\
+y[-1]\gets 0^{\lambda }\\
+\pcfor i=0\ \mathbf{ until }\ h-1\\
+\pcind \ell\gets \lambda i+1\\
+\pcind r\gets \lambda i+\lambda \\
+\pcind \macinput[i]\gets \macinput'_{\ell..r}\\
+\pcind y[i]\gets f(k,\macinput[i] \oplus y[i-1] )\\
+\mactag\gets (y[0],y[1],... ,y[h-1])\\
+\pcreturn\ \mactag
+}
+\pcvspace
+\procedure{$\m_3.\ver(k,\macinput, \mactag)$}{
+z\gets \lambda -((\abs{\macinput}+1) \bmod \lambda )\\
+\macinput'\gets \macinput||1||0^z,\, h\gets\frac{\abs{\macinput'}}{\lambda}\\
+y[-1]\gets 0^{\lambda }\\
+(y[0],... ,y[h-1])\gets\mactag\\
+\pcfor i=0\ \mathbf{ until }\ h-1\\
+\pcind \ell\gets \lambda i+1\\
+\pcind r\gets \lambda i+\lambda \\
+\pcind \macinput[i]\gets \macinput'_{\ell..r}\\
+\pcind \pcif y[i]\neq f(k,\macinput[i]\oplus y[i-1])\\
+\pcind \pcind \pcreturn 0\\
+\pcreturn\ 1
+}
+\end{pcvstack}
+\pchspace
+\begin{pcvstack}
+\procedure{$\m_4.\mac(k,\macinput)$}{
+j\gets \lambda -((\abs{\macinput}+1) \bmod \lambda )\\
+\macinput'\gets \macinput||1||0^j,\, h\gets\frac{\abs{\macinput'}}{\lambda}\\
+y[-1]\gets 0^{\lambda }\\
+\pcfor i=0\ \mathbf{ until }\ h-1\\
+\pcind \ell\gets \lambda i+1\\
+\pcind r\gets \lambda i+\lambda \\
+\pcind \macinput[i]\gets \macinput'_{\ell..r}\\
+\pcind y[i]\gets f(k,\macinput[i] \oplus y[i-1] )\\
+t\gets y[h-1]\\
+\pcreturn\ t
+}
+\pcvspace
+\procedure{$\m_4.\ver(k,\macinput, \mactag)$}{
+z\gets \lambda -(\abs{\macinput}+1) \bmod \lambda )\\
+\macinput'\gets \macinput||1||0^z,\, h\gets\frac{\abs{\macinput'}}{\lambda}\\
+y[-1]\gets 0^{\lambda }\\
+\pcfor i=0\ \mathbf{ until }\ h-1\\
+\pcind \ell\gets \lambda i+1\\
+\pcind r\gets \lambda i+\lambda \\
+\pcind \macinput[i]\gets \macinput'_{\ell..r}\\
+\pcind y[i]\gets f(k,\macinput[i] \oplus y[i-1] )\\
+\pcif y\left[\frac{\abs{\macinput'}}{\lambda }-1\right]=\mactag:\\
+\pcind \pcreturn 1\\
+\pcelse \pcreturn\ 0
+}
+\end{pcvstack}
+\end{pchstack}
+%\end{center}
+\end{minipage}
+%\end{figure}
+
+\end{graded}
+
+
+\clearpage
+\begin{graded}\textbf{(Security Models, Weak Unforgeability)}
+In this exercise, we aim to understand what would be a good model for a weak unforgeability definition that captures that only the message $m$ is authenticated whereas the tag might be malleable. We capture weak unforgeability as computational indistinguishability between a real game $\M{Gwunf-cma}^0_\m$ and an ideal game $\M{Gwunf-cma}^1_\m$. We define the real game for weak unforgeability under chosen message attacks (wUNF-CMA) as the real game for UNF-CMA security, i.e., $\M{Gwunf-cma}^0_\m:=\M{Gunf-cma}^0_\m$, where $\m$ is a message authentication scheme. Below, we give three candidates for the ideal game $\M{Gwunf-cma}^1_\m$. You need to choose one candidate such that weak unforgeability (integrity on the message only) is best captured. Justify your choice.
+
+\end{graded}
+
+
+\begin{center}
+  \begin{pchstack}
+      \begin{pcvstack}
+      \procedure{$\text{Package Parameters}$}{
+    \lambda: \text{security parameter} \\
+    m: \text{MAC scheme}
+      }
+     \pcvspace
+      \procedure{$\text{Package State}$}{
+    k: \text{k} \\
+    \mathcal{L}: \text{list}
+      }
+       \pcvspace
+      \procedure{$\O{MAC}(x)$}{
+    \pcif k = \bot \\
+     \quad k \sample \{0,1\}^\lambda \\
+    \mactag \leftarrow m.\mac(k,x) \\
+    \mathcal{L} \leftarrow \mathcal{L} \cup \{x\} \\
+    \pcreturn \mactag
+      }
+  \pcvspace
+      \procedure{$\O{VERIFY}(x, \mactag)$}{
+    \pcassert \ x \neq \bot \\
+    \pcif (x) \in \mathcal{L} \ \textbf{and } \pcif \m.\verify(k,x,\mactag)=1\\
+    \pcind\pcreturn 1 \\
+    \pcelse\ \pcreturn 0
+      }
+    \end{pcvstack}
+\pchspace
+      \begin{pcvstack}
+      \procedure{$\text{Package Parameters}$}{
+    \lambda: \text{security parameter} \\
+    m: \text{MAC scheme}
+      }
+     \pcvspace
+      \procedure{$\text{Package State}$}{
+    k: \text{k} \\
+    \mathcal{L}: \text{list}
+      }
+       \pcvspace
+      \procedure{$\O{MAC}(x)$}{
+    \pcif k = \bot \\
+     \quad k \sample \{0,1\}^\lambda \\
+    \mactag \leftarrow m.\mac(k,x) \\
+    \mathcal{L} \leftarrow \mathcal{L} \cup \{x\} \\
+    \pcreturn \mactag
+      }
+  \pcvspace
+      \procedure{$\O{VERIFY}(x, \mactag)$}{
+    \pcassert \ x \neq \bot \\
+    \pcif (x) \in \mathcal{L} \\
+    \pcind\pcreturn 1 \\
+    \pcelse\ \pcreturn 0
+      }
+    \end{pcvstack}
+      \pchspace
+      \pchspace
+          \begin{pcvstack}
+      \procedure{$\text{Package Parameters}$}{
+    \lambda: \text{security parameter} \\
+    m: \text{MAC scheme}
+      }
+     \pcvspace
+      \procedure{$\text{Package State}$}{
+    k: \text{k} \\
+    \mathcal{L}: \text{list}
+      }
+       \pcvspace
+      \procedure{$\O{MAC}(x)$}{
+    \pcif k = \bot \\
+     \quad k \sample \{0,1\}^\lambda \\
+    \mactag \leftarrow m.\mac(k,x) \\
+    \mathcal{L} \leftarrow \mathcal{L} \cup \{(x,\mactag) \} \\
+    \pcreturn \mactag
+      }
+  \pcvspace
+      \procedure{$\O{VERIFY}(x, \mactag)$}{
+    \pcassert \ x \neq \bot \\
+    \pcif (x,\mactag) \in \mathcal{L} \\
+    \pcind\pcreturn 1 \\
+    \pcelse\ \pcreturn 0
+      }
+    \end{pcvstack}
+    \end{pchstack}
+\end{center}
+
+
+\begin{graded}\textbf{(Advanced counterexamples)}
+Assume the existence of secure $(*,\lambda)$-PRFs. Prove that there exists an UNF-CMA-secure MAC scheme $\m$ such that the function
+\begin{align*}
+f_{\m}: z\mapsto x||\m.\mac(k,x)\text{ where }k=z_{1..\ell}\text{ and }x=z_{\ell+1..\abs{x}}\text{ for }\ell=\left\lceil\frac{\abs{z}}{2}\right\rceil
+\end{align*}
+is not a one-way function. Notation: $k$ is the first half of the input of $f_{\m}$, and $x$ is the second half of the input of $f_{\m}$. When the input is of odd length, then $x$ has one bit more than $k$.
+
+\medskip
+\noindent
+\textbf{Hint:} Consult the counterexample theorems in the Crypto Companion.
+
+\end{graded}
+
+\end{document}

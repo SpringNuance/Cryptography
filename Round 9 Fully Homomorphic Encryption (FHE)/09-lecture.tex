@@ -1,0 +1,1143 @@
+\documentclass[10pt,twoside]{article}
+\setlength{\oddsidemargin}{0 in}
+\setlength{\evensidemargin}{0 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+\usepackage{amsmath,amsfonts,graphicx,amssymb}
+\usepackage[
+	lambda,
+	operators,
+	advantage,
+	sets,
+	adversary,
+	landau,
+	probability,
+	notions,
+	logic,
+	ff,
+	mm,
+	primitives,
+	events,
+	complexity,
+	asymptotics,
+	keys]{cryptocode}
+\usepackage[style=alphabetic]{biblatex}
+\usepackage{url}
+\usepackage[bookmarksdepth=2]{hyperref}
+\usepackage[capitalize]{cleveref}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+
+\begin{filecontents*}{09-lecture.bbl}
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{anyt/global//global/global}
+    \entry{STOC:Gentry09}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=bd007b2a3d698c39bd758b253f7c2ebf}{%
+           family={Gentry},
+           familyi={G\bibinitperiod},
+           given={Craig},
+           giveni={C\bibinitperiod}}}%
+      }
+      \name{editor}{1}{}{%
+        {{hash=4dbcb1c7060726deee27d97b4bf31321}{%
+           family={Mitzenmacher},
+           familyi={M\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {{ACM} Press}%
+      }
+      \strng{namehash}{bd007b2a3d698c39bd758b253f7c2ebf}
+      \strng{fullhash}{bd007b2a3d698c39bd758b253f7c2ebf}
+      \strng{bibnamehash}{bd007b2a3d698c39bd758b253f7c2ebf}
+      \strng{authorbibnamehash}{bd007b2a3d698c39bd758b253f7c2ebf}
+      \strng{authornamehash}{bd007b2a3d698c39bd758b253f7c2ebf}
+      \strng{authorfullhash}{bd007b2a3d698c39bd758b253f7c2ebf}
+      \strng{editorbibnamehash}{4dbcb1c7060726deee27d97b4bf31321}
+      \strng{editornamehash}{4dbcb1c7060726deee27d97b4bf31321}
+      \strng{editorfullhash}{4dbcb1c7060726deee27d97b4bf31321}
+      \field{labelalpha}{Gen09}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{41st ACM STOC}
+      \field{month}{5~/~6}
+      \field{title}{Fully homomorphic encryption using ideal lattices}
+      \field{year}{2009}
+      \field{pages}{169\bibrangedash 178}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/1536414.1536440
+      \endverb
+    \endentry
+    \entry{C:GenSahWat13}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=bd007b2a3d698c39bd758b253f7c2ebf}{%
+           family={Gentry},
+           familyi={G\bibinitperiod},
+           given={Craig},
+           giveni={C\bibinitperiod}}}%
+        {{hash=0e9166224409c3d193f407331ef18b02}{%
+           family={Sahai},
+           familyi={S\bibinitperiod},
+           given={Amit},
+           giveni={A\bibinitperiod}}}%
+        {{hash=86b19cae38747f83bc6146f03e291e49}{%
+           family={Waters},
+           familyi={W\bibinitperiod},
+           given={Brent},
+           giveni={B\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=7faf0f3900af6c70795ea089d283f02e}{%
+           family={Canetti},
+           familyi={C\bibinitperiod},
+           given={Ran},
+           giveni={R\bibinitperiod}}}%
+        {{hash=1ab6cd41a7b93b6a353fcc233d214387}{%
+           family={Garay},
+           familyi={G\bibinitperiod},
+           given={Juan\bibnamedelima A.},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer, Heidelberg}%
+      }
+      \strng{namehash}{22cc1e4c66549f4036120ecec40cce7f}
+      \strng{fullhash}{22cc1e4c66549f4036120ecec40cce7f}
+      \strng{bibnamehash}{22cc1e4c66549f4036120ecec40cce7f}
+      \strng{authorbibnamehash}{22cc1e4c66549f4036120ecec40cce7f}
+      \strng{authornamehash}{22cc1e4c66549f4036120ecec40cce7f}
+      \strng{authorfullhash}{22cc1e4c66549f4036120ecec40cce7f}
+      \strng{editorbibnamehash}{90d73db63297a5b766a366717f6fe400}
+      \strng{editornamehash}{90d73db63297a5b766a366717f6fe400}
+      \strng{editorfullhash}{90d73db63297a5b766a366717f6fe400}
+      \field{labelalpha}{GSW13}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{CRYPTO~2013, Part~I}
+      \field{month}{8}
+      \field{series}{{LNCS}}
+      \field{title}{Homomorphic Encryption from Learning with Errors: Conceptually-Simpler, Asymptotically-Faster, Attribute-Based}
+      \field{volume}{8042}
+      \field{year}{2013}
+      \field{pages}{75\bibrangedash 92}
+      \range{pages}{18}
+      \verb{doi}
+      \verb 10.1007/978-3-642-40041-4_5
+      \endverb
+    \endentry
+    \entry{RivAdlDer78}{article}{}
+      \name{author}{3}{}{%
+        {{hash=6a630bbc1f4da3f000de53a8c3fcda9a}{%
+           family={Rivest},
+           familyi={R\bibinitperiod},
+           given={R\bibnamedelima L},
+           giveni={R\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=4a8266f26fefcaad4dc64bfd4220a4ae}{%
+           family={Adleman},
+           familyi={A\bibinitperiod},
+           given={L},
+           giveni={L\bibinitperiod}}}%
+        {{hash=ac83fc9c2ca6131a36d31651a7d284c2}{%
+           family={Dertouzos},
+           familyi={D\bibinitperiod},
+           given={M\bibnamedelima L},
+           giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \strng{namehash}{095486dc502bfb4c450b8199c7e39ed6}
+      \strng{fullhash}{095486dc502bfb4c450b8199c7e39ed6}
+      \strng{bibnamehash}{095486dc502bfb4c450b8199c7e39ed6}
+      \strng{authorbibnamehash}{095486dc502bfb4c450b8199c7e39ed6}
+      \strng{authornamehash}{095486dc502bfb4c450b8199c7e39ed6}
+      \strng{authorfullhash}{095486dc502bfb4c450b8199c7e39ed6}
+      \field{labelalpha}{RAD78}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Foundations of Secure Computation, Academia Press}
+      \field{title}{On Data Banks and Privacy Homomorphisms}
+      \field{year}{1978}
+      \field{pages}{169\bibrangedash 179}
+      \range{pages}{11}
+      \keyw{imported}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
+
+\end{filecontents*}
+
+\usepackage{xpatch}
+
+%Patch the biblatex input command.
+%replace "testinput-bbl" if you change the name above.
+%disable if you want to run biblatex/biber normally
+\makeatletter
+\patchcmd\blx@bblinput{\blx@blxinit}
+                      {\blx@blxinit
+                       \def\jobname{09-lecture}%new jobname
+                      }{}{\fail}
+\makeatother
+			     
+\begin{filecontents*}{09-lecture.bbl}
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{anyt/global//global/global}
+    \entry{STOC:Gentry09}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=bd007b2a3d698c39bd758b253f7c2ebf}{%
+           family={Gentry},
+           familyi={G\bibinitperiod},
+           given={Craig},
+           giveni={C\bibinitperiod}}}%
+      }
+      \name{editor}{1}{}{%
+        {{hash=4dbcb1c7060726deee27d97b4bf31321}{%
+           family={Mitzenmacher},
+           familyi={M\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {{ACM} Press}%
+      }
+      \strng{namehash}{bd007b2a3d698c39bd758b253f7c2ebf}
+      \strng{fullhash}{bd007b2a3d698c39bd758b253f7c2ebf}
+      \strng{bibnamehash}{bd007b2a3d698c39bd758b253f7c2ebf}
+      \strng{authorbibnamehash}{bd007b2a3d698c39bd758b253f7c2ebf}
+      \strng{authornamehash}{bd007b2a3d698c39bd758b253f7c2ebf}
+      \strng{authorfullhash}{bd007b2a3d698c39bd758b253f7c2ebf}
+      \strng{editorbibnamehash}{4dbcb1c7060726deee27d97b4bf31321}
+      \strng{editornamehash}{4dbcb1c7060726deee27d97b4bf31321}
+      \strng{editorfullhash}{4dbcb1c7060726deee27d97b4bf31321}
+      \field{labelalpha}{Gen09}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{41st ACM STOC}
+      \field{month}{5~/~6}
+      \field{title}{Fully homomorphic encryption using ideal lattices}
+      \field{year}{2009}
+      \field{pages}{169\bibrangedash 178}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/1536414.1536440
+      \endverb
+    \endentry
+    \entry{C:GenSahWat13}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=bd007b2a3d698c39bd758b253f7c2ebf}{%
+           family={Gentry},
+           familyi={G\bibinitperiod},
+           given={Craig},
+           giveni={C\bibinitperiod}}}%
+        {{hash=0e9166224409c3d193f407331ef18b02}{%
+           family={Sahai},
+           familyi={S\bibinitperiod},
+           given={Amit},
+           giveni={A\bibinitperiod}}}%
+        {{hash=86b19cae38747f83bc6146f03e291e49}{%
+           family={Waters},
+           familyi={W\bibinitperiod},
+           given={Brent},
+           giveni={B\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=7faf0f3900af6c70795ea089d283f02e}{%
+           family={Canetti},
+           familyi={C\bibinitperiod},
+           given={Ran},
+           giveni={R\bibinitperiod}}}%
+        {{hash=1ab6cd41a7b93b6a353fcc233d214387}{%
+           family={Garay},
+           familyi={G\bibinitperiod},
+           given={Juan\bibnamedelima A.},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer, Heidelberg}%
+      }
+      \strng{namehash}{22cc1e4c66549f4036120ecec40cce7f}
+      \strng{fullhash}{22cc1e4c66549f4036120ecec40cce7f}
+      \strng{bibnamehash}{22cc1e4c66549f4036120ecec40cce7f}
+      \strng{authorbibnamehash}{22cc1e4c66549f4036120ecec40cce7f}
+      \strng{authornamehash}{22cc1e4c66549f4036120ecec40cce7f}
+      \strng{authorfullhash}{22cc1e4c66549f4036120ecec40cce7f}
+      \strng{editorbibnamehash}{90d73db63297a5b766a366717f6fe400}
+      \strng{editornamehash}{90d73db63297a5b766a366717f6fe400}
+      \strng{editorfullhash}{90d73db63297a5b766a366717f6fe400}
+      \field{labelalpha}{GSW13}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{CRYPTO~2013, Part~I}
+      \field{month}{8}
+      \field{series}{{LNCS}}
+      \field{title}{Homomorphic Encryption from Learning with Errors: Conceptually-Simpler, Asymptotically-Faster, Attribute-Based}
+      \field{volume}{8042}
+      \field{year}{2013}
+      \field{pages}{75\bibrangedash 92}
+      \range{pages}{18}
+      \verb{doi}
+      \verb 10.1007/978-3-642-40041-4_5
+      \endverb
+    \endentry
+    \entry{RivAdlDer78}{article}{}
+      \name{author}{3}{}{%
+        {{hash=6a630bbc1f4da3f000de53a8c3fcda9a}{%
+           family={Rivest},
+           familyi={R\bibinitperiod},
+           given={R\bibnamedelima L},
+           giveni={R\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=4a8266f26fefcaad4dc64bfd4220a4ae}{%
+           family={Adleman},
+           familyi={A\bibinitperiod},
+           given={L},
+           giveni={L\bibinitperiod}}}%
+        {{hash=ac83fc9c2ca6131a36d31651a7d284c2}{%
+           family={Dertouzos},
+           familyi={D\bibinitperiod},
+           given={M\bibnamedelima L},
+           giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \strng{namehash}{095486dc502bfb4c450b8199c7e39ed6}
+      \strng{fullhash}{095486dc502bfb4c450b8199c7e39ed6}
+      \strng{bibnamehash}{095486dc502bfb4c450b8199c7e39ed6}
+      \strng{authorbibnamehash}{095486dc502bfb4c450b8199c7e39ed6}
+      \strng{authornamehash}{095486dc502bfb4c450b8199c7e39ed6}
+      \strng{authorfullhash}{095486dc502bfb4c450b8199c7e39ed6}
+      \field{labelalpha}{RAD78}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Foundations of Secure Computation, Academia Press}
+      \field{title}{On Data Banks and Privacy Homomorphisms}
+      \field{year}{1978}
+      \field{pages}{169\bibrangedash 179}
+      \range{pages}{11}
+      \keyw{imported}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
+
+\end{filecontents*}
+
+\usepackage{xpatch}
+
+%Patch the biblatex input command.
+%replace "testinput-bbl" if you change the name above.
+%disable if you want to run biblatex/biber normally
+\makeatletter
+\patchcmd\blx@bblinput{\blx@blxinit}
+                      {\blx@blxinit
+                       \def\jobname{09-lecture}%new jobname
+                      }{}{\fail}
+\makeatother
+			     
+\begin{filecontents*}{09-lecture.bbl}
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{anyt/global//global/global}
+    \entry{STOC:Gentry09}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=bd007b2a3d698c39bd758b253f7c2ebf}{%
+           family={Gentry},
+           familyi={G\bibinitperiod},
+           given={Craig},
+           giveni={C\bibinitperiod}}}%
+      }
+      \name{editor}{1}{}{%
+        {{hash=4dbcb1c7060726deee27d97b4bf31321}{%
+           family={Mitzenmacher},
+           familyi={M\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {{ACM} Press}%
+      }
+      \strng{namehash}{bd007b2a3d698c39bd758b253f7c2ebf}
+      \strng{fullhash}{bd007b2a3d698c39bd758b253f7c2ebf}
+      \strng{bibnamehash}{bd007b2a3d698c39bd758b253f7c2ebf}
+      \strng{authorbibnamehash}{bd007b2a3d698c39bd758b253f7c2ebf}
+      \strng{authornamehash}{bd007b2a3d698c39bd758b253f7c2ebf}
+      \strng{authorfullhash}{bd007b2a3d698c39bd758b253f7c2ebf}
+      \strng{editorbibnamehash}{4dbcb1c7060726deee27d97b4bf31321}
+      \strng{editornamehash}{4dbcb1c7060726deee27d97b4bf31321}
+      \strng{editorfullhash}{4dbcb1c7060726deee27d97b4bf31321}
+      \field{labelalpha}{Gen09}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{41st ACM STOC}
+      \field{month}{5~/~6}
+      \field{title}{Fully homomorphic encryption using ideal lattices}
+      \field{year}{2009}
+      \field{pages}{169\bibrangedash 178}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/1536414.1536440
+      \endverb
+    \endentry
+    \entry{C:GenSahWat13}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=bd007b2a3d698c39bd758b253f7c2ebf}{%
+           family={Gentry},
+           familyi={G\bibinitperiod},
+           given={Craig},
+           giveni={C\bibinitperiod}}}%
+        {{hash=0e9166224409c3d193f407331ef18b02}{%
+           family={Sahai},
+           familyi={S\bibinitperiod},
+           given={Amit},
+           giveni={A\bibinitperiod}}}%
+        {{hash=86b19cae38747f83bc6146f03e291e49}{%
+           family={Waters},
+           familyi={W\bibinitperiod},
+           given={Brent},
+           giveni={B\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=7faf0f3900af6c70795ea089d283f02e}{%
+           family={Canetti},
+           familyi={C\bibinitperiod},
+           given={Ran},
+           giveni={R\bibinitperiod}}}%
+        {{hash=1ab6cd41a7b93b6a353fcc233d214387}{%
+           family={Garay},
+           familyi={G\bibinitperiod},
+           given={Juan\bibnamedelima A.},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer, Heidelberg}%
+      }
+      \strng{namehash}{22cc1e4c66549f4036120ecec40cce7f}
+      \strng{fullhash}{22cc1e4c66549f4036120ecec40cce7f}
+      \strng{bibnamehash}{22cc1e4c66549f4036120ecec40cce7f}
+      \strng{authorbibnamehash}{22cc1e4c66549f4036120ecec40cce7f}
+      \strng{authornamehash}{22cc1e4c66549f4036120ecec40cce7f}
+      \strng{authorfullhash}{22cc1e4c66549f4036120ecec40cce7f}
+      \strng{editorbibnamehash}{90d73db63297a5b766a366717f6fe400}
+      \strng{editornamehash}{90d73db63297a5b766a366717f6fe400}
+      \strng{editorfullhash}{90d73db63297a5b766a366717f6fe400}
+      \field{labelalpha}{GSW13}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{CRYPTO~2013, Part~I}
+      \field{month}{8}
+      \field{series}{{LNCS}}
+      \field{title}{Homomorphic Encryption from Learning with Errors: Conceptually-Simpler, Asymptotically-Faster, Attribute-Based}
+      \field{volume}{8042}
+      \field{year}{2013}
+      \field{pages}{75\bibrangedash 92}
+      \range{pages}{18}
+      \verb{doi}
+      \verb 10.1007/978-3-642-40041-4_5
+      \endverb
+    \endentry
+    \entry{RivAdlDer78}{article}{}
+      \name{author}{3}{}{%
+        {{hash=6a630bbc1f4da3f000de53a8c3fcda9a}{%
+           family={Rivest},
+           familyi={R\bibinitperiod},
+           given={R\bibnamedelima L},
+           giveni={R\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=4a8266f26fefcaad4dc64bfd4220a4ae}{%
+           family={Adleman},
+           familyi={A\bibinitperiod},
+           given={L},
+           giveni={L\bibinitperiod}}}%
+        {{hash=ac83fc9c2ca6131a36d31651a7d284c2}{%
+           family={Dertouzos},
+           familyi={D\bibinitperiod},
+           given={M\bibnamedelima L},
+           giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \strng{namehash}{095486dc502bfb4c450b8199c7e39ed6}
+      \strng{fullhash}{095486dc502bfb4c450b8199c7e39ed6}
+      \strng{bibnamehash}{095486dc502bfb4c450b8199c7e39ed6}
+      \strng{authorbibnamehash}{095486dc502bfb4c450b8199c7e39ed6}
+      \strng{authornamehash}{095486dc502bfb4c450b8199c7e39ed6}
+      \strng{authorfullhash}{095486dc502bfb4c450b8199c7e39ed6}
+      \field{labelalpha}{RAD78}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Foundations of Secure Computation, Academia Press}
+      \field{title}{On Data Banks and Privacy Homomorphisms}
+      \field{year}{1978}
+      \field{pages}{169\bibrangedash 179}
+      \range{pages}{11}
+      \keyw{imported}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
+
+\end{filecontents*}
+
+\usepackage{xpatch}
+
+%Patch the biblatex input command.
+%replace "testinput-bbl" if you change the name above.
+%disable if you want to run biblatex/biber normally
+\makeatletter
+\patchcmd\blx@bblinput{\blx@blxinit}
+                      {\blx@blxinit
+                       \def\jobname{09-lecture}%new jobname
+                      }{}{\fail}
+\makeatother
+			     
+
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+
+\newcommand{\coursecode}{CS-E4340}
+\newcommand{\coursename}{Cryptography}
+\newcommand{\courseterm}{I-II 2022/2023}
+\newcommand{\lecturer}{Russell W.F. Lai}
+
+\newcommand{\lecture}[3]{
+	\pagestyle{myheadings}
+	\thispagestyle{plain}
+	\newpage
+	\setcounter{lecnum}{#1}
+	\setcounter{page}{1}
+	\noindent
+	\begin{center}
+		\framebox{
+			\vbox{\vspace{2mm}
+				\hbox to 6.28in { {\bf \coursecode: \coursename \hfill \courseterm} }
+				\vspace{4mm}
+				\hbox to 6.28in { {\Large \hfill Lecture #1: #2  \hfill} }
+				\vspace{2mm}
+				\hbox to 1in { {\it Lecturer: #3} }
+				\vspace{2mm}}
+		}
+	\end{center}
+	\markboth{\coursecode (\courseterm) Lecture #1: #2}{\coursecode (\courseterm) Lecture #1: #2}
+	\vspace*{4mm}
+}
+
+\newcommand{\tutorial}[3]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      \hbox to 6.28in { {\bf \coursecode: \coursename \hfill \courseterm} }
+      \vspace{4mm}
+      \hbox to 6.28in { {\Large \hfill Tutorial #1: #2  \hfill} }
+      \vspace{2mm}
+      \hbox to 1in { {\it Tutor: #3} }
+      \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{\coursecode (\courseterm) Tutorial #1: #2}{\coursecode (\courseterm) Tutorial #1: #2}
+   \vspace*{4mm}
+}
+
+\newcommand{\assignment}[3]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      \hbox to 6.28in { {\bf \coursecode: \coursename \hfill \courseterm} }
+      \vspace{4mm}
+      \hbox to 6.28in { {\Large \hfill Assignment #1: #2  \hfill} }
+      \vspace{2mm}
+      \hbox to 1in { {\it Deadline: #3} }
+      \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{\coursecode (\courseterm) Assignment #1: #2}{\coursecode (\courseterm) Assignment #1: #2}
+   \vspace*{4mm}
+}
+
+\def\beginrefs{\begin{list}{[\arabic{equation}]}{\usecounter{equation}
+         \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}\setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+\newcommand{\fig}[3]{
+			\vspace{#2}
+			\begin{center}
+			Figure \thelecnum.#1:~#3
+			\end{center}
+	}
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+\newcommand{\msg}{\mathsf{msg}}
+\newcommand{\ctxt}{\mathsf{ctxt}}
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\bits}[1][]{\{0,1\}^{#1}}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\inner}[2]{\langle #1, #2 \rangle}
+\newcommand{\transpose}{\mathtt{T}}
+\newcommand{\round}[1]{\lfloor #1 \rceil}
+\newcommand{\SIS}{\mathsf{SIS}}
+\newcommand{\LWE}{\mathsf{LWE}}
+\renewcommand{\NAND}{\mathsf{NAND}}
+
+\begin{document}
+\lecture{9}{Fully Homomorphic Encryption}{\lecturer}
+
+\begin{abstract}
+    This lecture aims to:
+    \begin{itemize}
+        \item introduce the notion of fully homomorphic encryption (FHE),
+        \item construct FHE from public-key encryption with (almost-)bilinear decryption, and
+        \item construct FHE from the learning with errors (LWE) assumption.
+    \end{itemize}
+\end{abstract}
+
+\section{Background}
+
+A fully homomorphic encryption (FHE) is an encryption scheme where arbitrary computation can be performed on the encrypted data without knowing the decryption key.
+The concept of FHE was first proposed by Rivest, Adleman, Dertouzos~\cite{RivAdlDer78} in 1978 under the name ``privacy homomorphism'' but without a plausible candidate construction.
+Constructing FHE remained a major open problem until 2009, when Gentry~\cite{STOC:Gentry09} proposed a candidate scheme based on ideal lattices.
+Perhaps more importantly, Gentry introduced the bootstrapping technique, which turns a scheme supporting a bounded number homomorphic operations into an unbounded one.
+Since then, numerous improvements have been made in both efficiency and security.
+Open-source libraries have also been made available.\footnote{Since this is a growing list, we refer to~\url{https://en.wikipedia.org/wiki/Homomorphic_encryption}.}
+
+\section{Why Fully Homomorphic Encryption?}
+
+There are many reasons why we may want to compute over encrypted data. Below is a classic example of communication-efficient secure two-party computation:
+
+Suppose Alice has some secret data $x$ and wants to compute $f(x)$ for some complicated public function $f$. 
+Since doing the computation herself is too costly, she wants to delegate it to Bob. To do this securely, Alice and Bob engage in the following protocol:
+
+\begin{pchstack}[center]
+    \procedure[]{}
+    {
+        \textbf{Alice} \> \> \textbf{Bob} \\
+        (\pk, \sk) \gets \kgen(\secpar) \\
+        \> \sendmessageright*{\ctxt_x = \enc(\pk, x)} \\
+        \> \> \ctxt_{f(x)} = f(\ctxt_x) \\
+        \> \sendmessageleft*{\ctxt_{f(x)}} \\
+        \pcreturn f(x) \gets \dec(\sk, \ctxt_{f(x)})
+    }
+\end{pchstack}
+
+Note that in the above protocol:
+\begin{itemize}
+    \item Bob learns nothing about $x$ since it is encrypted.
+    \item Alice's work only depends on the size of $x$, but independent of the complexity of $f$.
+    \item The communication takes only 2 rounds, which is optimal.
+\end{itemize}
+
+
+
+\section{Definitions}
+
+A (public-key) FHE scheme is simply a public-key encryption (PKE) scheme with an additional homomorphic evaluation algorithm $\eval$ which allows to homomorphically evaluate arbitrary functions over encrypted messages. Below, we define FHE for the message space $\bits$.
+
+\begin{definition}[FHE]
+    A fully homomorphic encryption (FHE) scheme for the message space $\bits$ is a tuple of PPT algorithms $(\kgen,\enc,\dec,\eval)$ with the following syntax:
+    \begin{itemize}
+        \item $(\pk, \sk) \gets \kgen(\secparam)$: The key generation algorithm generates a pair of public and secret keys $(\pk, \sk)$.
+        \item $\ctxt \gets \enc(\pk, x)$: The encryption algorithm takes a public key $\pk$ and a message $x \in \bits$ and outputs a ciphertext $\ctxt$.
+        \item $x \gets \dec(\sk, \ctxt)$: The decryption algorithm takes a secret key $\sk$ and a ciphertext $\ctxt$ and outputs a message $x$.
+        \item $\ctxt' \gets \eval(\pk, f, \ctxt_1, \ldots, \ctxt_n)$: The homomorphic evaluation algorithm takes a public key $\pk$, an $n$-variate Boolean function $f: \bits[n] \to \bits$ for some $n \in \NN$, and a sequence of ciphertexts $(\ctxt_1, \ldots, \ctxt_n)$ and outputs a new ciphertext $\ctxt'$.
+    \end{itemize}
+\end{definition}
+
+Note that, to construct the $\eval$ algortihm of an FHE scheme, it suffices to describe the procedures for evaluating a functionally complete set of logic gates, e.g. the $\NAND$ gate.
+The homomorphic evaluation of arbitrary Boolean functions can be done by composing the homomorphic evaluations of $\NAND$.
+
+The correctness of an FHE scheme consists of two separate requirements -- decryption correctness and evaluation correctness.
+Decryption correctness basically says that the FHE scheme is correct as a PKE scheme.
+Evaluation correctness says that if $\ctxt_i$ is an encryption of $x_i$ for all $i$, then $\eval(\pk, f, \ctxt_1, \ldots, \ctxt_n)$ is an encryption of $f(x_1, \ldots, x_n)$.
+
+\begin{definition}[Correctness]
+    An FHE scheme $(\kgen,\enc,\dec,\eval)$ is correct if the following properties are satisfied for any $\secpar \in \NN$ and any $(\pk, \sk) \in \kgen(\secparam)$:
+    \begin{itemize}
+        \item Decryption correctness: For any $x \in \bits$, it holds that
+        \[\dec(\sk, \enc(\pk, x)) = x.\]
+        \item Evaluation correctness\footnote{The definition of evaluation correctness considered in this lecture notes is stronger than those usually found in the literature. The former requires evaluation correctness to hold for any ciphertexts in the ciphertext space, including potentially invalid ones, while the latter only requires evaluation correctness to hold for fresh ciphertexts or those resulting from prior homomorphic evaluations.}: For any $n \in \NN$, $n$-variate Boolean function $f: \bits[n] \to \bits$, any $x_1, \ldots, x_n \in \bits$ and ciphertexts $\ctxt_1, \ldots, \ctxt_n$ such that $\dec(\sk,\ctxt_i) = x_i$ for all $i$, it holds that
+        \begin{align*}
+            \dec(\sk, \eval(\pk, f , \ctxt_1, \ldots, \ctxt_n)) = f(x_1, \ldots, x_n).
+        \end{align*}
+    \end{itemize}
+\end{definition}
+
+The basic security notion of FHE schemes is ciphertext indistinguishability under chosen-plaintext attacks (IND-CPA), i.e. same as that for PKE schemes.
+The definition of IND-CPA-security is exactly the same as that for PKE schemes.
+Below, we recall the definition.
+
+\begin{definition}[IND-CPA]
+    An FHE scheme $\Pi = (\kgen,\enc,\dec,\eval)$ has ciphertext indistinguishability under chosen-plaintext attacks (IND-CPA-secure) if for any (two-stage) PPT adversary $\adv$ it holds that
+    \[
+        \abs{\prob{\indcpa_{\Pi,\adv}^0(\secparam) = 1} - \prob{\indcpa_{\Pi,\adv}^1(\secparam) = 1}} \leq \negl
+    \]
+    where the experiment $\indcpa_{\Pi,\adv}^b$ for $b \in \bits$ is defined as follows:
+    \begin{pchstack}[boxed,center]
+        \procedure{$\indcpa_{\Pi,\adv}^b(\secparam)$}
+        {
+            (\pk, \sk) \gets \kgen(\secparam) \\
+            (x_0, x_1) \gets \adv(\pk) \\
+            \ctxt^* \gets \enc(\pk, x_b) \\
+            b' \gets \adv(\ctxt^*) \\
+            \pcreturn b'
+        }
+    \end{pchstack}
+\end{definition}
+
+Note that the IND-CPA-security of FHE only concerns about the secrecy of encrypted messages.
+It says nothing about the secrecy of a function $f$ when evaluated on an FHE ciphertext.
+In some applications, we may want that a ciphertext $\ctxt'$, obtained by homomorphically evaluating a function $f$ at a ciphertext $\ctxt$ encrypting $x$, reveals nothing more than the value $f(x)$ even with knowledge of the secret key.
+Such a property is known as circuit privacy (where the function $f$ is considered to be represented by a circuit).
+We formalise a variant of this property below.
+
+\begin{definition}[Circuit Privacy]
+    An FHE scheme $\Pi = (\kgen,\enc,\dec,\eval)$ has (semi-honest, statistical) circuit privacy if there exists a PPT simulator $\sdv$ such that for any $n \in \NN$, any $n$-variate function $f$, and any messages $x_1, \ldots, x_n \in \bits$, the distributions
+    \begin{align*}
+        \set{
+        (\pk, \sk, \ctxt_1, \ldots, \ctxt_n, \ctxt'):
+        \begin{aligned}
+            &(\pk,\sk) \gets \kgen(\secparam) \\
+            &\ctxt_i \gets \enc(\pk, x_i),~\forall i \in [n] \\
+            &\ctxt' \gets \eval(\pk, f, \ctxt_1, \ldots, \ctxt_n)
+        \end{aligned}
+        }
+    \end{align*}
+    and
+    \begin{align*}
+        \set{
+        (\pk, \sk, \ctxt_1, \ldots, \ctxt_n, \ctxt'):
+        \begin{aligned}
+            &(\pk,\sk) \gets \kgen(\secparam) \\
+            &\ctxt_i \gets \enc(\pk, x_i),~\forall i \in [n] \\
+            &\ctxt' \gets \sdv(\pk, |f|, f(x_1, \ldots, x_n), \ctxt_1, \ldots, \ctxt_n)
+        \end{aligned}
+        }
+    \end{align*}
+    are statistically close in $\secpar$.
+\end{definition}
+
+In the above, $|f|$ denotes the (circuit description) size of $f$. Note that the secrecy of $|f|$ is not required by the above definition.
+
+One could think of different variants of the above definition.
+For example, the public and secret keys and the input ciphertexts could be adversarially generated.
+The simulator might only be given one-time oracle access to $f$ instead of the output value $f(x_1, \ldots, x_n)$.
+The notion of closeness could be computational rather than statistical.
+
+\section{FHE from Homomorphic Encryption with Linear Decryption}
+
+In the invited talk ``Fully Homomorphic Encryption from the Ground Up''\footnote{\url{https://youtu.be/TySXpV86958}} of Eurocrypt 2019, Daniele Micciancio presented an elementary construction of FHE from a PKE with (almost-)bilinear decryption.
+The point of the construction is not to build the most efficient or secure scheme possible, but to make it easily accessible using only simple mathematics, i.e. linear algebra.
+This section is a remix of Daniele's inspiring talk.
+We emphasise that the FHE built in this section is not entirely correct -- there are issues regarding how messages are encoded in ciphertexts and containing evaluations of them in the message space -- but it serves to give an intuition towards FHE constructions.
+
+\subsection{Warm Up: The Noise-Free Case}
+
+Consider a hypothetical public-key encryption scheme $\Pi = (\kgen, \enc, \dec)$ for the message space $\ZZ_q$ with bilinear decryption.
+By bilinear decryption, we mean that $\dec(\cdot, \cdot)$ is a bilinear function, i.e. for any secret keys $\sk, \sk'$, ciphertexts $\ctxt, \ctxt'$, and scalar $a \in \ZZ_q$, it holds that
+\begin{itemize}
+    \item $\dec(\sk, \ctxt) + \dec(\sk', \ctxt) = \dec(\sk + \sk', \ctxt)$,
+    \item $\dec(\sk, \ctxt) + \dec(\sk, \ctxt') = \dec(\sk, \ctxt + \ctxt')$, and
+    \item $a \cdot \dec(\sk, \ctxt) = \dec(a \cdot \sk, \ctxt) = \dec(\sk, a \cdot \ctxt)$.
+\end{itemize}
+The second and the third item imply that $\Pi$ is linearly homomorphic.
+As a corollary, for any linear function $L$ over $\ZZ_q$, secret keys $\sk$, $(\sk_i)_{i=1}^k$, and ciphertexts $\ctxt$, $(\ctxt_i)_{i=1}^k$, the following properties also hold:
+\begin{itemize}
+    \item Key-Homomorphism: $L(\dec(\sk_1, \ctxt), \ldots, \dec(\sk_k, \ctxt)) = \dec(L(\sk_1,\ldots,\sk_k), \ctxt)$
+    \item Ciphertext-Homomorphism: $L(\dec(\sk, \ctxt_1), \ldots, \dec(\sk, \ctxt_k)) = \dec(\sk, L(\ctxt_1, \ldots, \ctxt_k))$
+\end{itemize}
+Note that such a scheme cannot be secure even in the weakest sense, as there exists a simple key-recovery attack given only the public key $\pk$:
+\begin{itemize}
+    \item Using $\pk$, generate encryptions $\ctxt_0, \ctxt_1, \ldots$ of a few arbitrary messages $\msg_0, \msg_1, \ldots$.
+    \item By the bilinear decryption property, we know that the system of equations $(\dec(\sk, \ctxt_i) = \msg_i)_i$ in variable $\sk$ is a system of linear equations over $\ZZ_q$.
+    \item Solve the linear system of equations, e.g. using Gaussian elimination, to recover $\sk$.
+\end{itemize}
+Despite the attack, here we focus on what we can do with the linearity of the scheme, and deal with the minor problem of the scheme being completely broken later.
+
+\paragraph{Supporting Multiplication.}
+
+Our goal is to construct an FHE $\Pi' = (\kgen', \enc', \dec', \eval')$ for the message space $\ZZ_q$, and our choice of functionally complete set of operations is naturally addition $+$ and multiplication $\cdot$ over $\ZZ_q$.
+Since the scheme $\Pi$ is already linearly homomorphic, i.e. it supports addition, we only need to deal with multiplication.
+Towards this, we observe from the bilinear decryption property that
+\[\dec(y \cdot \sk, \ctxt_x) = \dec(\sk, y \cdot \ctxt_x) = x \cdot y.\]
+The above suggests a way of computing $\ctxt_{x \cdot y}$ from $\ctxt_x$ and $\ctxt_{y \cdot \sk}$, the latter of which can be computed as $\ctxt_{y \cdot \sk} = y \cdot \ctxt_\sk$ given $\ctxt_{\sk}$:
+\begin{itemize}
+    \item Let $L(\cdot)$ be the linear function that computes $\dec(\cdot, \ctxt_x)$.
+    \item Output $\ctxt_{L(y \cdot \sk)} = L(\ctxt_{y \cdot \sk})$.
+\end{itemize}
+Since $L(y \cdot \sk) = \dec(y \cdot \sk, \ctxt_x) = x \cdot y$, by ciphertext-homomorphism we have $\ctxt_{L(y \cdot \sk)} = \ctxt_{x \cdot y}$.
+
+Summarising the above, from $\ctxt_x$ and $\ctxt_{y \cdot \sk}$, where the latter can be computed given $y$ and $\ctxt_{\sk}$, we can homomorphically compute $\ctxt_{x \cdot y}$ without knowing $\sk$. This allows us to construct an FHE $\Pi'$ as follows:
+\begin{itemize}
+    \item Key Generation: $\pk' = (\pk, \ctxt_\sk)$, $\sk' = \sk$.
+    \item Encryption: $\ctxt'_x = x \cdot \ctxt_\sk$.
+    \item Decrytpion: Compute $x \cdot \sk \gets \dec(\sk, \ctxt'_x)$, then recover $x$ from $x \cdot \sk$.
+    \item Homomorphic Addition: $\ctxt'_x + \ctxt'_y (= \ctxt_{x \cdot \sk} + \ctxt_{y \cdot \sk} = \ctxt_{(x+y) \cdot \sk} = \ctxt'_{x+y})$.
+    \item Homomorphic Multiplication: Let $L(\cdot) = \dec(\cdot, \ctxt'_x)$. Output $L(\ctxt'_y)$.
+\end{itemize}
+
+\subsection{Achieving Security: Adding Noise and Dealing with it}
+
+Since $\Pi$ is completely broken by linear algebra, so does $\Pi'$.
+A natural idea to fix this issue is to add noise to secret keys/ciphertexts and rely on the LWE assumption for security.
+This brings two consequences:
+\begin{itemize}
+    \item Noisy linear decryption: 
+    For any ciphertext $\ctxt_x$, $\dec(\cdot,\ctxt_x)$ is only approximated by a linear function $L(\cdot)$ where $L(\sk) = x + \mathsf{error}$. (Think of Regev's and dual-Regev PKE.)
+    \item Error accumulation: Suppose $\ctxt_x$ and $\ctxt_y$ has (absolute) error $e_x$ and $e_y$ respectively, then
+    \begin{itemize}
+        \item $\ctxt_x + \ctxt_y$ has error $e_x + e_y$, and
+        \item for scalar $a \in \ZZ_q$, $a \cdot \ctxt_x$ has error $a \cdot e_x$.
+    \end{itemize}
+\end{itemize}
+To apply the transformation from $\Pi$ to $\Pi'$, we need to tackle two challenges:
+\begin{itemize}
+    \item Since $\dec(\cdot,\ctxt_x)$ is non-linear, it cannot be evaluated homomorphically on $\ctxt_{y \cdot \sk}$.
+    \item Even if we settle for noisy linear decryption $L(\cdot) \approx \dec(\cdot,\ctxt_x)$, the function $L$ likely has large coefficients which blow up the error.
+\end{itemize}
+
+In the following, we will first discuss how multiplications by large scalars can be supported. This allows us to homomorphically evaluate the noisy linear decryption function $L(\cdot)$ and, using a transformation similar to that from $\Pi$ to $\Pi'$, to perform noisy homomorphic multiplication. Second, we will discuss the bootstrapping technique which allows to reduce the error in a ciphertext.
+
+
+\paragraph{Supporting Large-Scalar Multiplication.}
+
+To handle multiplication by a large scalar $a \in \ZZ_q$, the idea is to break $a$ down into its binary representation $a = \sum_{i=0}^{\ell} a_i \cdot 2^i$ where $\ell = \floor{\log q}$.
+Based on this idea, we construct another scheme $\Pi'' = (\kgen'',\enc'',\dec'',\eval'')$ from the scheme $\Pi'$, which itself is built from $\Pi$.
+Note that now $\Pi$ and $\Pi'$ are noisy.
+In $\Pi''$, a message $x$ is encrypted as $\ctxt''_x = (\ctxt'_{x \cdot 2}, \ldots, \ctxt'_{x \cdot 2^\ell})$ where $\ell = \floor{\log q}$. 
+To compute $\ctxt'_{a \cdot x}$ given $a$ and $\ctxt''_x$ , we can perform the following:
+\begin{itemize}
+    \item Write down the binary decomposition $a = \sum_{i=0}^{\ell} a_i \cdot 2^i$.
+    \item Output $\ctxt'_{a \cdot x} = \sum_{i=0}^\ell a_i \cdot \ctxt'_{x \cdot 2^i} (= \ctxt'_{\sum_{i=0}^\ell a_i \cdot x \cdot 2^i})$.
+\end{itemize}
+Note that the error in $\ctxt'_{a \cdot x}$ remains small since $a_i \in \bits$ for all $i$.
+By repeating the above for $a \cdot 2 \bmod q, \ldots, a \cdot 2^\ell \bmod q$, we obtain
+\[
+    \ctxt''_{a \cdot x} = (\ctxt'_{a \cdot x \cdot 2}, \ldots, \ctxt'_{a \cdot x \cdot 2^\ell}).
+\] 
+If we start with $\ctxt''_x$ with error $e$, (each component of) the resulting ciphertext $\ctxt''_{a \cdot x}$ will have error $e \cdot \log q$.
+
+\paragraph{Supporting Homomorphic Multiplication.}
+
+To show that $\Pi''$ supports homomorphic multiplication, we revisit the transformation from $\Pi$ to $\Pi'$.
+Recall that the ciphertexts $\ctxt''_x$ and $\ctxt''_y$ are of the form
+\begin{align*}
+    \ctxt''_x = (\ctxt'_{x \cdot 2^j})_{j=0}^\ell = (\ctxt_{x \cdot \sk_i \cdot 2^j})_{i=1,j=0}^{n,\ell}
+    && \text{and} &&
+    \ctxt''_y = (\ctxt'_{y \cdot 2^j})_{j=0}^\ell = (\ctxt_{y \cdot \sk_i \cdot 2^j})_{i=1,j=0}^{n,\ell}
+\end{align*}
+To obtain $\ctxt''_{x \cdot y}$ from $\ctxt''_x$ and $\ctxt''_y$, we can perform the following for each $(i,j)$:
+\begin{itemize}
+    \item Let $L_{i,j}(\cdot) \approx \dec(\cdot, \ctxt_{x \cdot \sk_i \cdot 2^j})$.
+    \item Write $L_{i,j}(\sk_1,\ldots,\sk_n) = \sum_{h=1}^n a_h \cdot \sk_h$ with binary decomposition $a_h = \sum_{k=0}^\ell a_{h,k} \cdot 2^k$.
+    \item Output $\ctxt_{L_{i,j}(y \cdot \sk)} = \sum_{h=1}^n \sum_{k=0}^\ell a_{h,k} \cdot \ctxt_{y \cdot \sk_h \cdot 2^k}$.
+\end{itemize}
+Since 
+\[
+    L_{i,j}(y \cdot \sk) = \dec(y \cdot \sk, \ctxt_{x \cdot \sk_i \cdot 2^j}) = x \cdot y \cdot \sk_i \cdot 2^j,
+\] 
+the above yields
+\[
+    \ctxt''_{x \cdot y} = (\ctxt_{x \cdot y \cdot \sk_i \cdot 2^j})_{i=1,j=0}^{n,\ell}.
+\]
+If we start with $\ctxt''_x$ and $\ctxt''_y$ with error $e$, the resulting ciphertext $\ctxt''_{x \cdot y}$ will have error roughly $e \cdot n \cdot \log q$.
+
+\paragraph{Bringing Down the Noise by Bootstrapping.}
+
+In the above, we constructed a scheme $\Pi''$ which supports noisy homomorphic additions and multiplications.
+Evaluating a depth-$d$ circuit brings the error from $e$ to roughly $e \cdot (n \cdot \log q)^d$ which is exponential in the depth $d$.
+In order to evaluate circuit of arbitrary depth, we need a mechanism to bring the noise level down.
+The bootstrapping technique of Gentry~\cite{STOC:Gentry09} provides precisely such a mechanism.
+The idea is to homomorphically evaluate the (exact) decryption circuit on an encryption of the secret key.
+To be more concrete, suppose we are given the following:
+\begin{itemize}
+    \item $\ctxt_x$: An encryption of some message $x$ whose noise level is very close to blowing up so that no more homomorphic operation can be safely performed.
+    \item $\ctxt_\sk$: A fresh encryption of the secret key $\sk$ with low noise level.
+\end{itemize}
+We investigate the output of the following operation:
+\[
+    \eval(\pk, \dec(\cdot, \ctxt_x), \ctxt_\sk)
+\]
+In words, we consider the decryption circuit, hardwired with the ciphertext $\ctxt_x$, as a function of the secret key $\sk$, and homomorphically evaluate this function on a ciphertext $\ctxt_\sk$ of $\sk$.
+Note that since the homomorphic operation is performed on $\ctxt_\sk$, the noise level of the resulting ciphertext depends only on the noise level of $\ctxt_\sk$ and the complexity of $\dec(\cdot, \ctxt_x)$, but is independent of the noise level of $\ctxt_x$.
+By choosing parameters so that the maximum supported depth is considerably greater than the depth of $\dec(\cdot, \ctxt_x)$, the ciphertext resulting from $\eval(\pk, \dec(\cdot, \ctxt_x), \ctxt_\sk)$ will have a moderate noise level. 
+Moreover, by evaluation correctness, the homomorphic operation results in a ciphertext of
+\[
+    \dec(\sk, \ctxt_x) = x.
+\]
+We therefore went from a ciphertext $\ctxt_x$ of $x$ with a high noise level to a new ciphertext of $x$ with a moderate noise level, which allows us to carry on with whatever homomorphic operations that we wish to perform on $x$.
+
+\section{GSW Construction}
+
+To conclude this lecture, we study below the FHE construction of Gentry, Sahai, and Waters (GSW)~\cite{C:GenSahWat13} which can be explained by the above generic construction.
+
+
+\paragraph{Gadget Matrix.}
+
+\setcounter{MaxMatrixCols}{20}
+To explain the GSW construction, we need to introduce a structured matrix $\mat{G} \in \ZZ_q^{n \times m}$, where $m = n \cdot (\floor{\log q}+1)$, known as the ``gadget matrix'':
+\begin{align*}
+    \mat{G} &\coloneqq 
+    \begin{pmatrix}
+        1 & 2 & \ldots & 2^{\floor{\log q}} \\
+        & & & & 1 & 2 & \ldots & 2^{\floor{\log q}} \\
+        & & & & & & & & \ddots \\
+        & & & & & & & & & 1 & 2 & \ldots & 2^{\floor{\log q}}
+    \end{pmatrix}
+\end{align*}
+Observe that left-multiplying $\mat{G}$ to the concatenation $n$ binary representations yields the $n$ $\ZZ_q$ elements that they represent.
+Correspondingly, define the binary-decomposition operator $\mat{G}^{-1}: \ZZ_q^n \to \bits[m]$ which takes as input a vector $\vec{x} \in \ZZ_q^n$ and outputs a binary vector $\vec{u}_{\vec{x}} \in \bits[m]$ which consists of binary representations of entries of $\vec{x}$ concatenated together.
+We emphasise that $\mat{G}^{-1}(\cdot)$ is not a matrix but an operator that acts on $\ZZ_q^n$ values.
+We can extend this operator naturally to operate on matrices $\ZZ_q^{n \times m}$, so that for a matrix $\mat{X} = (\vec{x}_1, \ldots, \vec{x}_m) \in \ZZ_q^{n \times m}$,
+\[\mat{G}^{-1}(\mat{X}) \coloneqq (\mat{G}^{-1}(\vec{x}_1), \ldots, \mat{G}^{-1}(\vec{x}_m)).\]
+Observe that for any $\vec{X} \in \ZZ_q^{n \times m}$, it holds that
+\[
+    \mat{G} \cdot \mat{G}^{-1}(\mat{X}) = \mat{X} \bmod q.
+\]
+
+\paragraph{Scheme Description.}
+
+We are now ready to describe the GSW construction.
+The GSW FHE scheme is for the message space $\bits$.
+Below, we give an informal summary of the construction.
+
+The public key consists of $m$ LWE samples $(\overline{\mat{A}}, \vec{b})$ packed into the form $\mat{A} \coloneqq
+\begin{pmatrix}
+    \overline{\mat{A}} \\
+    \vec{b}^\transpose
+\end{pmatrix} \in \ZZ_q^{n \times m}$.
+The secret key is the corresponding LWE secret $\vec{s}$.
+Note that the public and secret keys satisfy $(-\vec{s}^\transpose, 1) \cdot \mat{A} \approx \vec{0}^\transpose \bmod q$.
+To encrypt, the public key $\mat{A}$ is rerandomised as $\mat{A} \cdot \mat{R}$ by a random square matrix $\mat{R}$ with small entries, and then used as a one-time-pad to mask the message $x \in \bits$, which is encoded as $x \cdot \mat{G}$.
+Decryption relies on the observation that if a ciphertext $\mat{C}$ is encrypting $x$, then $(-\vec{s}^\transpose, 1) \cdot \mat{A} \approx x \cdot (-\vec{s}^\transpose, 1) \cdot \mat{G} \bmod q$.
+Therefore, a decryption procedure similar to that of Regev's construction can recover the message $x$.
+
+To support homomorphic evaluation of bounded-depth Boolean functions, it suffices to support the homomrophic evaluation of the $\NAND$ operation which, on the ciphertexts $\mat{C}_0$ and $\mat{C}_1$, can be computed as $\mat{G} - \mat{C}_0 \cdot \mat{G}^{-1}(\mat{C}_1) \bmod q$.
+To support arbitrary Boolean functions, the parameters are chosen such that the scheme is capable of evaluating its own decryption circuit, and the bootstrapping technique applies.
+
+Formally, let $n,m,\log q, \log \beta \in \poly$ and let $\chi$ be the uniform distribution over $\ZZ_\beta$.
+We first describe the basic key generation, encryption, and decryption algorithms.
+
+\noindent\underline{Key Generation $\kgen(\secparam)$}:
+\begin{itemize}
+    \item Sample a uniformly random matrix $\overline{\mat{A}} \sample \ZZ_q^{(n-1) \times m}$,
+    an LWE secret vector $\vec{s} \sample \ZZ_q^{n-1}$,
+    and a short noise vector $\vec{e} \sample \chi^{m}$.
+    \item Compute $\vec{b}^\transpose \coloneqq \vec{s}^\transpose \cdot \overline{\mat{A}} + \vec{e}^\transpose \bmod q$.
+    \item Set $\mat{A} \coloneqq
+    \begin{pmatrix}
+        \overline{\mat{A}} \\
+        \vec{b}^\transpose
+    \end{pmatrix} \in \ZZ_q^{n \times m}$.
+    \item Output $\pk \coloneqq \mat{A}$ and $\sk \coloneqq \vec{s}$.
+\end{itemize}
+
+\noindent\underline{Encryption $\enc(\pk, x \in \bits)$}:
+\begin{itemize}
+    \item Sample short matrix $\mat{R} \sample \chi^{m \times m}$.
+    \item Output $\ctxt \coloneqq \mat{C} \coloneqq \mat{A} \cdot \mat{R} + x \cdot \mat{G}$.
+\end{itemize}
+
+\noindent\underline{Decryption $\dec(\sk, \ctxt)$}:
+\begin{itemize}
+    \item Compute $\overline{\vec{x}}^\transpose \coloneqq (-\vec{s}^\transpose, 1) \cdot \mat{C} \bmod q$.
+    \item Let $\bar{x}$ be the last entry of $\overline{\vec{x}}$.
+\item If $|\bar{x}| < q/4$, output $0$. Else, output $1$.
+\end{itemize}
+
+\paragraph{Decryption Correctness.}
+
+The analysis of decryption correctness is similar to that of Regev's encryption.
+We provide a sketch.
+Let $q \gg \beta$ be sufficiently large.
+Observe that
+\begin{align*}
+    \overline{\vec{x}}^\transpose
+    &\coloneqq (-\vec{s}^\transpose, 1) \cdot \mat{C} \bmod q \\
+    &= (-\vec{s}^\transpose, 1) \cdot \mat{A} \cdot \mat{R} + x \cdot (-\vec{s}^\transpose, 1) \cdot \mat{G} \bmod q \\
+    &= \vec{e}^\transpose \cdot \mat{R} + x \cdot (-\vec{s}^\transpose, 1) \cdot \mat{G} \bmod q.
+\end{align*}
+If $\vec{r}$ is the last column of $\mat{R}$, we have
+\begin{align*}
+    \bar{x}
+    &= \vec{e}^\transpose \cdot \vec{r} + 2^{\floor{\log q}} \cdot x \bmod q.
+\end{align*}
+Since $\vec{e}$ and $\vec{r}$ are both short vectors, $\vec{e}^\transpose \cdot \vec{r}$ is still short.
+Therefore $x = 0$ if and only if $\bar{x}$ is closer to $0$ than to $q/2$.
+
+\paragraph*{Homomorphic Evaluation and Evaluation Correctness.}
+
+To understand the homomorphic $\NAND$ operation, we first describe a way to evaluate addition $+$ and multiplication $\cdot$ over $\ZZ$ which is not always correct. 
+Then, we use the fact that, for $x,y \in \bits$, $\NAND(x,y) = 1 - (x \cdot y)$, to evaluate the $\NAND$ operation homomorphically. 
+
+\noindent\underline{Addition (over $\ZZ$) $\eval(\pk, +, \ctxt_0 = \mat{C}_0, \ctxt_1 = \mat{C}_1)$}:
+\begin{itemize}
+    \item Output $\mat{C}_0 + \mat{C}_1 \bmod q$.
+\end{itemize}
+
+\noindent\underline{Multiplication (over $\ZZ$) $\eval(\pk, \cdot, \ctxt_0 = \mat{C}_0, \ctxt_1 = \mat{C}_1)$}:
+\begin{itemize}
+    \item Output $\mat{C}_0 \cdot \mat{G}^{-1}(\mat{C}_1) \bmod q$.
+\end{itemize}
+
+\noindent\underline{$\NAND$ Operation $\eval(\pk, \NAND, \ctxt_0 = \mat{C}_0, \ctxt_1 = \mat{C}_1)$}:
+\begin{itemize}
+    \item Output $\mat{G} - \mat{C}_0 \cdot \mat{G}^{-1}(\mat{C}_1) \bmod q$.
+\end{itemize}
+
+Let us investigate the evaluation correctness of the $+$ and $\cdot$ operations. 
+Suppose $\mat{C}_0$ and $\mat{C}_1$ are ciphertexts of $x_0$ and $x_1$ with randomness $\mat{R}_0$ and $\mat{R}_1$ respectively, then
+\[
+    \mat{C}_0 + \mat{C}_1 = \mat{A} \cdot \mat{R}_0 + x_0 \cdot \mat{G} + \mat{A} \cdot \mat{R}_1 + x_1 \cdot \mat{G} = \mat{A} \cdot \underbrace{(\mat{R}_0 + \mat{R}_1)}_{\text{short}} + (x_0 + x_1) \cdot \mat{G} \bmod q.
+\]
+For the case of $\cdot$, we have
+\begin{align*}
+    \mat{C}_0 \cdot \mat{G}^{-1}(\mat{C}_1)
+    &= (\mat{A} \cdot \mat{R}_0 + x_0 \cdot \mat{G}) \cdot \mat{G}^{-1}(\mat{C}_1) \bmod q \\
+    &= \mat{A} \cdot \mat{R}_0 \cdot \mat{G}^{-1}(\mat{C}_1) + x_0 \cdot \mat{G} \cdot \mat{G}^{-1}(\mat{C}_1) \bmod q \\
+    &= \mat{A} \cdot \mat{R}_0 \cdot \mat{G}^{-1}(\mat{C}_1) + x_0 \cdot \mat{C}_1 \bmod q \\
+    &= \mat{A} \cdot \mat{R}_0 \cdot \mat{G}^{-1}(\mat{C}_1) + x_0 \cdot (\mat{A} \cdot \mat{R}_1 + x_1 \cdot \mat{G}) \bmod q \\
+    &= \mat{A} \cdot \underbrace{(\mat{R}_0 \cdot \mat{G}^{-1}(\mat{C}_1) + x_0 \cdot \mat{R}_1)}_{\text{short}} + x_0 \cdot x_1 \cdot \mat{G} \bmod q
+\end{align*}
+where the encryption randomness in the resulting ciphertext is short because
+\begin{itemize}
+    \item $\mat{R}_0$ and $\mat{R}_1$ are short encryption randomness in the input ciphertexts, and
+    \item $\mat{G}^{-1}(\mat{C}_1)$ and $x_0$ are binary and hence short.
+\end{itemize}
+
+At first glance, the above suffices to prove the evaluation correctness of the $+$ and $\cdot$ operations, which would mean that we have constructed an FHE for $(\bits,+,\cdot)$! 
+However, there is a subtle issue: For $x_0, x_1 \in \bits$, it does not necessarily hold that $x_0 + x_1 \in \bits$. 
+In particular, we have $1 + 1 = 2$.
+Therefore, as we homomorphically evaluate more and more $+$ and $\cdot$ operations, the underlying message will grow so large that decryption correctness no longer holds.
+To fix this, we use the fact that the $\NAND$ operation can be expressed in terms of operations over $\ZZ$ by $\NAND(x,y) = 1 - (x \cdot y)$, and observe that
+\begin{align*}
+    \mat{G} - \mat{C}_0 \cdot \mat{G}^{-1}(\mat{C}_1)
+    &= \mat{G} - (\mat{A} \cdot (\mat{R}_0 \cdot \mat{G}^{-1}(\mat{C}_1) + x_0 \cdot \mat{R}_1) + x_0 \cdot x_1 \cdot \mat{G}) \bmod q \\
+    &= \mat{A} \cdot \underbrace{(-\mat{R}_0 \cdot \mat{G}^{-1}(\mat{C}_1) - x_0 \cdot \mat{R}_1)}_{\text{still short}} + (1 - x_0 \cdot x_1) \cdot \mat{G} \bmod q.
+\end{align*}
+
+
+\paragraph{IND-CPA-Security.}
+
+The analysis of IND-CPA-security is again similar to that of Regev's encryption.
+We provide a sketch.
+First, notice that the public key matrix $\mat{A}$ consists of the LWE samples $(\overline{\mat{A}}, \vec{b})$.
+By the LWE assumption (with the appropriate parameters), the distribution of public keys is computationally indistinguishable to that of uniformly random matrices.
+Second, by the leftover hash lemma, the distribution of $(\mat{A}, \mat{A} \cdot \mat{R} \bmod q)$ is statistically close to a uniform distribution.
+Consequently, ciphertexts are statistically close to uniformly random matrices.
+
+\paragraph{Bootstrapping and Circular Security.}
+
+By setting parameters appropriately, it is possible make the GSW construction support the homomorphic evaluation of its own (exact) decryption circuit, thereby allowing bootstrapping.
+However, note that bootstrapping requires publishing an encryption of the secret key $\sk$ as part of the public key.
+This makes proving IND-CPA-security from the LWE assumption tricky.
+Instead, what is always done in the literature is to simply assume that publishing an encryption of the secret key under itself does not harm IND-CPA-security.
+This is known as circular security.
+To date, the security of all FHE constructions rely on the bootstrapping technique and circular security assumptions.
+
+\printbibliography
+
+\end{document}

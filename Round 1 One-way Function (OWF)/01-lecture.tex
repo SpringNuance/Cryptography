@@ -1,0 +1,634 @@
+\documentclass[a4paper,table,dvipsnames]{article}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{latexsym}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{mathpartir}
+\usepackage{amsthm}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage[probability,adversary,sets,operators]{cryptocode}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{wrapfig}
+\usepackage{graphics}
+%\usepackage[table]{xcolor}
+\usepackage{mdframed}
+\newmdenv[hidealllines=false]{codebox}
+\mdfdefinestyle{myenvs}{%
+  hidealllines=true,%
+  nobreak=true, % comment this to allow breaking
+  leftmargin=0pt,
+  rightmargin=0pt,
+  innerleftmargin=0pt,
+  innerrightmargin=0pt,
+}
+
+\pagestyle{fancy}
+\usetikzlibrary{shapes,arrows,positioning}
+\tikzstyle{vertex} = [draw, circle]
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{claim}{Claim}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{hint}{Hint}
+\setlength{\parindent}{0ex}
+%\newcommand{\pcassert}{\mathbf{assert}}
+
+\rhead[Lecture Notes 1]{Lecture Notes 1, September 5, 2022}
+\lhead[CS-E4340 Cryptography]{CS-E4340 Cryptography}
+
+\newcommand\defeq{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily
+def}}}{=}}}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) --
+(.25,.15) -- cycle;}
+
+\title{Lecture 1}
+\author{Christopher Brzuska}
+\date{\today}
+
+\begin{document}
+
+\section*{Goal and Structure of the Course}
+The goal of this course is to give you access to cryptography as an academic field.
+I.e., in the end of this course, you will hopefully be able to navigate scientific
+literature on cryptography and be able to find results that you are interested in.
+Cryptography is a rapidly developing field, so that knowledge about particular
+algorithms does not necessarily age very well. Thus, the goal of this course is to
+support you in developing \emph{timeless} skills which will still be relevant in
+10, 20 and 30 years from now.
+
+The main timeless skills we offer to develop in this course is to think precisely and
+clearly about the security of a cryptographic system. What is my attacker model? Which
+class of attacks do I want to protect against? Which security properties shall my system
+have? On which assumptions does the security of my system rely?
+
+When building a secure system, this type of thinking is more useful than thinking in terms of concrete algorithms,
+because two concrete algorithms are hard to compare. Instead, comparing \emph{properties}
+of algorithms is rather easy. Therefore, \emph{definitions} of security play a fundamental
+role in this course, since we can define properties and see which property implies which.
+Then, when building a system, it suffices to choose one of the (hopefully many) algorithms
+which (according to the cryptographic community's beliefs) achieves the desired properties.
+And once we narrowed down the set of algorithms which provide the security we want, we can
+then look at the set of suitable candidates and match them against our system and efficiency
+requirements. This way of proceeding provides a structured way of making choices on which
+cryptographic primitive to use.
+
+A second timeless skill we offer is thinking in terms of \emph{abstract transformations} and 
+\emph{proofs}. We can transform a one-way function into a symmetric encryption scheme (which 
+provides confidentiality), and we can transform a symmetric encryption scheme and a message
+authentication code together into a new symmetric encryption scheme which provides confidentiality
+\emph{and} authentication. We'll return to this point shortly in the \emph{before the lecture}
+part of Lecture 3.
+
+\paragraph{Structure of the lectures.} Each lecture is preceded by a part called \emph{before the lecture} which is a 10-30 minutes
+informal introduction to a sub-field of cryptography or a new cryptographic concept. The idea
+of these \emph{before the lecture} parts is that they represent the \emph{breadth} of cryptography as
+an academic field. Thus, the course integrates many perspectives of cryptography researchers, e.g.,
+Sabine Oechsner\footnote{\url{https://soechsner.de/}} on secure multi-party computation. Fortunately, 
+many cryptographic researchers and teaching assistants contribute
+their perspective to this course---and this year, Russell W. Lai \footnote{Russell joined Aalto as an
+assistant professor just two month ago! If you are interested in his work in cryptography, have a look at his 
+webpage: \url{https://russell-lai.hk/}}
+will be co-teaching this course! Russell works on \emph{algebraic} cryptography and will give a mini-introduction to
+what is called \emph{lattice-based} cryptography which is one of the core techniques for
+exciting cryptography such as \emph{fully homomorphic encryption} and amongst the most promising candidates for public-key cryptography which is conjectured to be \emph{post-quantum secure}, i.e., robust against attacks by quantum computers,
+see, e.g., the current post-quantum cryptography competition organized by NIST\footnote{\url{https://csrc.nist.gov/projects/post-quantum-cryptography}}. If you are curious about the fancy cryptography which one can built
+from lattices, you can take Russell's advanced course MS-E1687 Advanced topics in Cryptography in
+teaching period III and IV (January-April 2023). For other sub-fields of
+cryptography, see, e.g., our colleague Kaisa Nyberg\footnote{\url{https://users.ics.aalto.fi/knyberg/}}
+who uses statistical methods to cryptanalyze cryptographic algorithms, and our colleague Camilla 
+Hollanti\footnote{\url{https://math.aalto.fi/en/people/camilla.hollanti}} who uses number theory to 
+study the hardness of code-based and lattice-based problems on which our cryptographic systems rely. %Code-based and lattice-based
+%cryptography are  
+Throughout the course, we share similar such pointers with you to reflect
+the diversity of cryptography as a field and give hints for where to find a cryptographic 
+construction for a particular purpose.
+
+\section{Before the lecture: Zero-Knowledge Proofs}
+Today's \emph{before the lecture} part discusses 
+\emph{zero-knowledge proofs} which have become a standard building block in cryptographic
+systems, see, e.g., in the cryptocurrency zcash~\url{https://z.cash/technology/zksnarks/},
+but... 
+
+\begin{quote}
+\emph{What are zero-knowledge proofs?}
+\end{quote}
+
+
+Zero-knowledge proofs are a way for one person (the prover) to convince another (the verifier)
+of the truth of a statement without the verifier learning anything else besides the fact that
+the statement is true (whence the name \emph{zero-knowledge}. Zero-knowledge proofs were originally introduced by Goldwasser, Micali
+and Rackoff~\footnote{\url{https://core.ac.uk/download/pdf/194164868.pdf}} in their article \emph{The Knowledge Complexity of Interactive Proof Systems} in
+1985. In a subsequent article in 1986, in the article \emph{Proofs which yield 
+nothing but their validity}, Goldreich, Micali, Wigderson\footnote{\url{http://www.wisdom.weizmann.ac.il/~oded/gmw1.html}} suggested a way for a prover to 
+convince a verifier that a graph is 3-colorable without the verifier learning anything else! In
+particular, the verifier learns that the graph is 3-colorable without learning the coloring itself.
+
+It is very surprising that something like this is possible at all. How does it work? Before turning
+to the computer version of this marvelous zero-knowledge proof, let us think about a pen-and-paper version. 
+The prover and the verifier both know a graph, and the prover tries to convince the verifier that the
+graph is 3-colorable. Since 3-colorability is a hard problem\footnote{\url{http://www.en.wikipedia.org/wiki/Graph_coloring\#Algorithms}},
+the prover has some additional knowledge (a graph-coloring) and can perform certain actions which convince the
+verifier of the 3-colorability of graph.
+
+\paragraph{The pen-and-paper protocol.} The prover
+\begin{itemize}
+\item[(1)] knows a coloring, i.e., has a version of the graph where each node is labeled by 1, 2 or 3
+such that no edge has the same number on both sides.
+\item[(2)] now randomly assigns the colors red, blue and black to 1, 2, 3 and puts a sticker with the
+relevant color on each node, but such that the color is on the \emph{back} of the sticker and not
+visible.
+\end{itemize}
+The verifier then
+\begin{itemize}
+\item[(3)] randomly chooses an edge.
+\end{itemize}
+The prover then 
+\begin{itemize}
+\item[(4)] turns the stickers which where on the two nodes incident to the edge and shows them to the verifier.
+\end{itemize}
+The verifier accepts
+\begin{itemize}
+\item[(5)] if the two colors are different.
+\end{itemize}
+
+
+\paragraph{Soundness.} The prover has quite some possibility/probability of successfully cheating here. E.g., even if the entire graph is colored in blue
+with only a single black node, then the prover might be lucky and the verifier chooses an edge which is
+incident to the black node (in which case the verifier accepts). Therefore, running the protocol once will
+not really \emph{convince} the verifier. However, when the verifier can run the protocol many times with
+the prover and each time, the prover opens two different colors, then eventually, the verifier becomes
+convinced.
+
+If the cheating probability in the original protocol was (at most) 
+\[\left(1-\tfrac{1}{\text{nbr. of edges}}\right),\]
+then after $n$ repetition, it becomes 
+\[\left(1-\tfrac{1}{\text{nbr. of edges}}\right)^n,\] i.e., exponentially small in $n$, the
+number of repetitions. Thus, we can make the cheating probability as small as we want.
+
+\paragraph{Zero-knowledge.} You might wonder: 
+\begin{quote}
+\emph{Does the verifier learn the coloring, if the protocol is repeated?}
+\end{quote}
+The answer
+is no, the reason is that in step (2), the prover assigns the colors \emph{randomly}, i.e., they do not 
+necessarily fit together when the protocol is repeated. Each time, the verifier only sees a random edge with
+two distinct, random colors. This is something that the verifier could emulate itself---the verifier can just 
+put some stickers \emph{after} choosing which edge it will pick and make sure that the target edge contains
+stickers with two different colors. Thus, since the verifier could emulate the interaction itself, it does
+not learn anything from the interaction and thus, the interaction is \emph{zero-knowledge}.\footnote{One can
+make these notions and arguments mathematically precise, see Chapter 4 of \emph{Foundations of Cryptography I}
+by Oded Goldreich~\url{http://www.wisdom.weizmann.ac.il/~oded/foc-vol1.html}.}
+
+\paragraph{A remote version of the protocol.} Now, we want to run this protocol remotely and transmit messages
+via the internet. The following simple way of translating the pen-and-paper version into a computer version might 
+come to mind: The prover uses a \emph{one-way function}
+or a hash-function such as Sha-3 
+
+\medskip
+{\small
+(We have not introduced either of these notions, but let's say that we have
+heard of these concepts before and they make sense to us intuitively: A one-way function, in a nutshell, is
+a function which is easy to compute, but hard to invert.)}
+
+\medskip
+and sends the value $y_1\gets \text{Sha-3}(\textit{blue})$ for each blue node,
+ $y_2\gets \text{Sha-3}(\textit{red})$ for each red node and $y_3\gets \text{Sha-3}(\textit{black})$ for each black node. Then, the
+prover doesn't send
+the color to the verifier.
+\begin{quote}
+\emph{Does this work?}
+\end{quote}
+Unfortunately, no---the resulting protocol is not zero-knowledge anymore. Firstly, Sha-3 is \emph{deterministic}, so all
+blue nodes have the \emph{same} value, all black nodes have the same value and all black nodes have the same value, and one
+can recover the coloring. In fact, this can be seen as a full-knowledge protocol rather than a zero-knowledge protocol.
+In addition, since the verifier knows that the input to the one-way function is either one of three colors, the verifier
+can also simply try them out and re-compute the value of the hash-value to recover the color of each node.
+
+What would be needed to make this work is a \emph{commitment} scheme, namely a protocol which allows the prover to \emph{commit}
+to a value such that the verifier does not learn anything about that value \emph{(hiding property)} and such that the prover 
+cannot change the value later \emph{(binding property)}. We will see how to build a commitment scheme in lecture 2.
+
+
+\section{One-Way Functions}
+A one-way function is a function which is \emph{easy to compute} but \emph{hard to invert}. In the discussion we just had, we saw
+something rather surprising: We had the output of a one-way function, but we could go back! How is this possible? The reason is
+that one-way functions actually cannot and do not hide \emph{short} inputs. In fact, the cases in which we can use one-way functions are
+rather specific. But what does it mean, actually, to be \emph{hard to invert} if, sometimes, as we saw, the function is \emph{easy}
+to invert?
+
+\subsection{Definition}
+\begin{wrapfigure}{R}{0.25\textwidth}
+\vspace{-0.8cm}
+\begin{center}
+  \procedure{${\sf{Exp}}_{f,\adv}^{\sf{OW}}(1^\lambda)$}{
+	x\sample\bin^\lambda\\
+	y\gets f(x)\\
+	x'\sample\adv(1^\lambda,y)\\
+	\pcif \abs{x'}\neq\lambda:\\
+	\pcind \pcreturn 0\\
+	\pcif f(x')=y:\\
+	\pcind \pcreturn 1\\
+	\pcreturn 0}
+\end{center}
+\caption{Security experiment for one-wayness.}
+\label{fig:owf}
+\vspace{-0.5cm}
+\end{wrapfigure}
+
+In order to be able to communicate precisely, we use \emph{security experiments} such as the one-wayness experiment for one-way function $f$ with adversary $\adv$, written as ${\sf{Exp}}_{f,\adv}^{\sf{OW}}(1^n)$, which is given in Figure~\ref{fig:owf} on the right. The adversary $\adv$ models an arbitrary \emph{algorithm} which aims to invert the one-way function $f$. Throughout this course, the term \emph{adversary} refers to an \emph{algorithm} trying to break a property (in this case: one-wayness) and the experiment models what it means for the adversary to \emph{break} this property.
+
+\medskip
+\small
+(See Chapter 1 and Chapter 2 of the \emph{Crypto Companion} for a more detailed discussion of adversaries and security models: \url{https://github.com/cryptocompanion/cryptocompanion})
+
+\medskip
+\normalsize
+The one-wayness experiment ${\sf{Exp}}_{f,\adv}^{\sf{OW}}(1^n)$ samples a uniformly random string $x$ of length $\lambda$ ($x \sample S$ for a set $S$ means to \emph{sample} uniformly at random from set $S$ and to assign the result to $x$), applies the function $f$ to $x$ and assigns the result to variable $y$. The adversary is then given $y$ and tasked with finding a pre-image of $y$. We also tell the adversary how long the pre-image should be by giving $1^\lambda$ to the adversary, i.e., the length of $\lambda$, encoded in unary, i.e., $1^\lambda$ is shorthand for a bitstring of length $\lambda$ consisting only of ones. The adversary $\adv$ then returns a string $x'$, the experiment checks whether $x'$ is really of length $\lambda$ and whether $f(x')$ is really equal to $y$ and returns $1$ if yes.
+%There were many excellent questions on Zulip regarding why one-wayness is defined the way it is defined. We refer to the Zulip discussion in the stream \emph{Lecture 1} and \emph{Exercise 1} for these discussions. They might be interesting even if you find the definition of one-wayness natural.
+
+Now, the notion of \emph{hard-to-invert} captures that for every \emph{efficient} adversary $\adv$, the probability of the experiment ${\sf{Exp}}_{f,\adv}^{\sf{OW}}(1^\lambda)$ returning $1$ should be \emph{small}. We define the notions of \emph{efficient} and \emph{small} shortly, but before this, we would like to point out why the easyness of inverting on small inputs is consistent with the definition. Namely, $\lambda$ is a (potentially long) parameter, and the input $x$ is drawn as a uniformly random bitstring of length $\lambda$. And one-wayness only guarantees security in this case. Let us now turn to the notions of \emph{probability}, \emph{efficient}, \emph{small} and also discuss the parameter $\lambda$.
+
+\medskip
+\small
+(You can post questions regarding one-way functions in the Zulip stream for \emph{Lecture 1}: \url{https://crypto21.zulip.cs.aalto.fi/#narrow/stream/716-Lecture-01})
+
+\normalsize
+\paragraph{Probability.} You can either use an intuitive notion of probability or define probability as 
+\[\tfrac{\text{nbr. or random tapes which yield result 1}}{\text{overall nbr. or random tapes}},\] 
+when thinking of the randomness used in the experiment as random tapes, , see Chapter 1 and 2 of the Crypto Companion\footnote{\url{https://github.com/cryptocompanion/cryptocompanion}} for details. 
+
+\paragraph{Efficient Algorithms.} Our notion of \emph{efficient adversary} is an adversary which takes only a \emph{polynomial} number of steps. Here, a step is an intuitive notion of computation, as you might be used to from an algorithms class, see Chapter 1 and 2 of the Crypto Companion\footnote{\url{https://github.com/cryptocompanion/cryptocompanion}} for additional clarification. The \emph{polynomial} upper bound is supposed to be a polynomial in $\lambda$.\footnote{If you have taken a complexity theory course, observe the following: Complexity theorists define an algorithm as polynomial time, if its number of steps are upper bounded by a polynomial in the \emph{length of the input} to the algorithm. Encoding $\lambda$ as a string of many ones makes our definition of polynomial-time adversaries $\adv$ consistent with the complexity-theoretic notion of polynomal-time adversaries $\adv$.
+Namely, we obtain equivalent definitions of polynomials regardless of whether we consider polynomials in the input-length or polynomials in $\lambda$. To see this, observe (1) that $y$ is of polynomial-length in $\lambda$, since $f$ is poly-time computable, too, and (2) that polynomials of polynomials are polynomials again.} 
+%Thus, it does not matter whether we define runtime of $\adv$ as polynomial in $\lambda$ or polynomial in the input size of $\adv$.} 
+
+\paragraph{Security Parameter.}
+Now, what is $\lambda$? We often refer to $\lambda$ as the \emph{security parameter}. $\lambda$ will often correspond to the length of keys or, in this case, the length of the input to the one-way function. E.g., think of choosing a random password---choosing a longer random password makes the system automatically more secure. Now, choosing longer and longer passwords is not necessarily practical, because we cannot remember them. On the other hand, choosing longer keys is not so much a problem, since only our systems remember them. Guessing an input randomly would take $2^{\lambda}$ trials. There might be more efficient attack strategies than brute-force. Nevertheless, the idea behind the security parameter is that security (necessary runtime of a successful adversary) should grow exponentially (or at least superpolynomially) in $\lambda$, i.e., when $\lambda$ increases linearly. Our security definitions express this type of property that the runtime of a system increases (much) more slowly than the required attacker resources to attack. See Chapter 1 \& 2 of the Crypto Companion for more discussion.
+
+\paragraph{Negligible functions.} We are left with one more item to explain, the notion of $\emph{small}$. We will use the notion of \emph{negligible} which is \emph{a function that tends to zero faster than any inverse polynomial}. This slightly technical definition is merely out of convenience, since this definition is nicely compatible with polynomials. If this definition is hard, there is no need to spend much time on it. It suffices to know that the sum of two negligible functions is negligible and that multiplying a negligible function by a polynomial yields a negligible again (see Chapter 2 of the crypto companion or the first quiz in Lecture 2 or Exercise Sheet 2). We conclude this discussion by stating the full definition of a one-way function.
+
+\begin{definition}[One-Way Functions]\label{sec:OWF}
+A function $f:\bin^*\rightarrow\bin^*$ is \emph{one-way} if it is
+\begin{itemize}
+\item \textbf{easy to compute}: $f$ can be computed in deterministic polynomial-time.
+\item \textbf{hard to invert}: For all probabilistic polynomial-time (PPT) adversaries $\adv$, it holds that
+\[{\sf{Win}}_{f,\adv}^{{\sf{OW}}}(\lambda):=\prob{1={\sf{Exp}}_{f,\adv}^{\sf{OW}}(1^n)}\]
+%\probsub{x\sample\bin^\lambda}{\adv(f(x),1^\lambda)\stackrel{\$}{\rightarrow} x'\in f^{-1}(f(x))}\]
+is a negligible function in $\lambda$.
+\end{itemize}
+\end{definition}
+
+\paragraph{Remark.} Some authors prefer to ``inline'' the security experiment into
+a probability statement and, e.g., Goldreich in Chapter 2 of \emph{Foundations of Cryptography I}\footnote{\url{http://www.wisdom.weizmann.ac.il/~oded/foc-vol1.html}}
+follows this approach, i.e., ${\sf{Win}}_{f,\adv}^{{\sf{OW}}}(\lambda)$ is defined equivalently as
+\begin{equation}\label{eqn:onewayness}
+\probsub{x\sample\bin^\lambda}{\adv(f(x),1^\lambda)\stackrel{\$}{\rightarrow} x'\in f^{-1}(f(x))\cap\bin^\lambda}.
+\end{equation}
+Note that in (\ref{eqn:onewayness}), the adversary $\adv$ is only given the \emph{value} $f(x)$ and not $x$.
+
+\paragraph{Kerhoff principle.} The Kerhoff principle states that cryptographic systems should only consider \emph{values}
+as secret, while \emph{algorithms} are always public. I.e., the description of $f$ is \emph{public}. In the definition
+of a one-way function, the Kerkhoff principle is captured by quantifying over \emph{all} algorithms which includes, in
+particular, those which know the description of the one-way function $f$.
+
+\subsection{Properties of One-Way Functions}
+\paragraph{No input-hiding} We have already observed that a one-way function does not hide \emph{short} inputs. In fact, no one-way function does,
+since one-way functions are deterministic. But what about longer inputs? If I choose a uniformly random input, can I be 
+sure, that the one-way function hides most of the input? This might be the case for some one-way functions, but as we
+will see, a one-way function can very well leak half of its input.
+\begin{theorem}[Leaking one half]\label{thm:leakhalf}
+If $f$ is a one-way function, then $g^f_{\text{leak-l}}$ and $g^f_{\text{leak-r}}$ are one-way functions. See Figure~\ref{fig:owf-transforms} for the definition of $g^f_{\text{leak-l}}$ and $g^f_{\text{leak-r}}$.
+\end{theorem}
+Intuitively, this theorem is true, because the other half is still a one-way function applied to a uniformly random input,
+but we can also prove it (omitted). Importantly, Theorem~\ref{thm:leakhalf} is an example of a \emph{generic counterexample}. It establishes that the definition of one-wayness \emph{does not cover} a certain property (in this case: hiding most of its input). I.e., if someone wants to capture the property that a function hides its input, the definition of one-wayness is not suitable. The counterexample is \emph{generic} in the sense that it does not care about what the original one-way function is as long as it is a one-way function. This is useful because the statement is \emph{robust} under cryptanalysis advances. I.e., if a specific one-way function is broken, then this does not affect our understanding of the definition of one-wayness. If we were to use a specific one-way function, then we would need to first revisit the statement and re-prove it. So, this type of generic statement gives us a truth which holds for as long as we believe in the existence of one-way functions\footnote{One-way functions have not been proven to exist and will, most likely, not be proven to exist for many years. The main reason is that they imply that $\textbf{NP}\neq\textbf{P}$, which is one of the main open questions in complexity theory. Intimate or even superficial understanding of the $\textbf{P}$ vs. $\textbf{NP}$ question is not required for this course, but if you are curious, then you can watch an informal discussion here~\url{https://www.youtube.com/watch?v=3MFVnbw6zYo} or read a more thorough introduction in Chapter 2 of \emph{Computational Complexity: A Conceptual Perspective} by Oded Goldreich, available in the library.}. It does not require us to believe in the hardness of factoring numbers or the hardness of inverting Sha-3.
+
+\begin{figure}
+\begin{codebox}
+	\begin{center}
+		\begin{pchstack}
+  		\begin{pcvstack}
+				  \procedure{$g^f_{\text{app-zer}}(x)$}{
+					y\gets f(x)||0^{\abs{x}}\\
+					\pcreturn y}
+					
+%					\pcvspace
+				  \procedure{$g^f_{\text{app-one}}(x)$}{
+					y\gets f(x)||1^{\abs{x}}\\
+					\pcreturn y}
+  		\end{pcvstack}
+					\pchspace
+				  \procedure{$g^f_{\text{leak-l}}(x)$}{
+					m\gets \left\lfloor{\tfrac{\abs{x}}{2}}\right\rfloor\\
+					x_\ell\gets x_{1..m}\\
+					x_r\gets x_{m+1..\abs{x}}\\					
+					y\gets x_\ell||f(x_r)\\
+					\pcreturn y}
+					\pchspace
+				  \procedure{$g^f_{\text{leak-r}}(x)$}{
+					m\gets \left\lfloor{\tfrac{\abs{x}}{2}}\right\rfloor\\
+					x_\ell\gets x_{1..m}\\
+					x_r\gets x_{m+1..\abs{x}}\\					
+					y\gets f(x_\ell)||x_r\\
+					\pcreturn y}
+					\pchspace
+				  \procedure{$g^f_{\text{ign-l}}(x)$}{
+					m\gets \left\lfloor{\tfrac{\abs{x}}{2}}\right\rfloor\\
+					\\
+					x_r\gets x_{m+1..\abs{x}}\\					
+					y\gets f(x_r)\\
+					\pcreturn y}
+					\pchspace
+				  \procedure{$g^f_{\text{ign-r}}(x)$}{
+					m\gets \left\lfloor{\tfrac{\abs{x}}{2}}\right\rfloor\\
+					x_\ell\gets x_{1..m}\\
+					\\					
+					y\gets f(x_\ell)\\
+					\pcreturn y}
+		\end{pchstack}
+	\end{center}
+	\end{codebox}
+\caption{Generic transformations of one-way functions\label{fig:owf-transforms}}
+\end{figure}
+\paragraph{Ignoring one half.} 
+We would now like to cover two more properties. One property of a one-way function is already implicit in the example which leaks half of the input: A one-way function might \emph{ignore} half of its input and will still be a one-way function. Let us include this theorem for completeness.
+\begin{theorem}[Ignoring one half]
+If $f$ is a one-way function, then $g^f_{\text{ign-l}}$ and $g^f_{\text{ign-r}}$ are one-way functions. See Figure~\ref{fig:owf-transforms} for the definition of $g^f_{\text{ign-l}}$ and $g^f_{\text{ign-r}}$.
+\end{theorem}
+
+\paragraph{No Pseudorandomness.} 
+The next (and last) property might be surprising when thinking of hash-functions such as Sha-3. Sha-3 has rather random-looking outputs. Then, does this mean that all one-way functions have random-looking outputs? The answer is no. Given any one-way function, we can append a long zero-string to the output of the function, and it remains a one-way function---but it does not have a random-looking output, since a long string of zeroes (say, $\lambda$ many zeroes) does not look like a uniformly random string (since a uniformly random string of length $\lambda$ would be the constant zero string only with probability $2^{-\lambda}$.
+
+
+\begin{theorem}[Appending zeroes or ones]\label{thm:owf-app-zer}
+If $f$ is a one-way function, then $g^f_{\text{app-zer}}$ and $g^f_{\text{app-one}}$ are one-way functions. See Figure~\ref{fig:owf-transforms} for the definition of $g^f_{\text{app-zer}}$ and $g^f_{\text{app-one}}$.
+\end{theorem}
+
+%\begin{align*}
+%h_f:&\bin^*\rightarrow\bin^*\\
+%    &x\mapsto f(x)||0^{\abs{x}},
+%\end{align*}
+
+\paragraph{Proof of Theorem~\ref{thm:owf-app-zer}.}
+Recall that Theorem~\ref{thm:owf-app-zer} states that if $f$ is a one-way function, then $g^f_{\text{app-zer}}$ and $g^f_{\text{app-one}}$ are one-way functions, too. We first prove the statement for $g^f_{\text{app-zer}}$.
+In order to prove that $g^f_{\text{app-zer}}$ \emph{is} a one-way function, we will first assume towards contradiction that it \emph{isn't}. We will see that this leads us to a contradiction with the assumption that $f$ is a one-way function. Thus, if $f$ is a one-way function, then
+$g^f_{\text{app-zer}}$ must be a one-way function, too. We now go into the details of this proof.
+
+\medskip
+Assume towards contradiction that $g^f_{\text{app-zer}}$ is not a one-way function. Then, by definition of one-wayness (Definition~\ref{sec:OWF}), there must be a PPT adversary $\adv_g$ against $g^f_{\text{app-zer}}$ such that ${\sf{Win}}_{g^f_{\text{app-zer}},\adv_g}^{{\sf{OW}}}(\lambda)=\prob{1={\mathsf{Exp}}_{g^f_{\text{app-zer}},\adv_g}^{\mathsf{OW}}(1^\lambda)}$ is non-negligible. From $\adv_g$, we will now construct another PPT adversary $\adv^f_{\text{app-zer}}$ such that 
+\begin{equation}\label{eq:reductionowfzeroes}
+\prob{1={\mathsf{Exp}}_{f,\adv^f_{\text{app-zer}}}^{\mathsf{OW}}(1^\lambda)}=\prob{1={\mathsf{Exp}}_{g^f_{\text{app-zer}},\adv_g}^{\mathsf{OW}}(1^\lambda)}
+\end{equation}
+and thus, $\prob{1={\mathsf{Exp}}_{f,\adv^f_{\text{app-zer}}}^{\mathsf{OW}}(1^\lambda)}={\sf{Win}}_{f,\adv^f_{\text{app-zer}}}^{{\sf{OW}}}(\lambda)$ is non-negligible, too, leading to a contradiction with the one-wayness of $f$. Thus, all we are left to do is to prove the following claim.
+\begin{claim}\label{claim:owfsimple}
+For each PPT adversary $\adv_g$ against the one-wayness of $g^f_{\text{app-zer}}$, there exists a PPT adversary $\adv^f_{\text{app-zer}}$ against the one-wayness of $f$ such that Equation~\ref{eq:reductionowfzeroes} holds.
+\end{claim}
+To prove Claim~\ref{claim:owfsimple}, we need to \emph{construct} $\adv^f_{\text{app-zer}}$, argue that $\adv^f_{\text{app-zer}}$
+runs in \emph{polynomial-time} and finally argue about its \emph{success probability}, i.e., that Equation (\ref{eq:reductionowfzeroes}) holds. We now turn to adversary construction, runtime analysis and success probability analysis each in turn.
+
+\paragraph{Adversary construction.} We construct $\adv^f_{\text{app-zer}}$, see the leftmost column of Figure~\ref{fig:owfreductions}. 
+
+\paragraph{Polynomial runtime.} We argue that $\adv^f_{\text{app-zer}}$ is polynomial-time. First, recall that $\adv_g$ is polynomial-time. In addition to running $\adv_g$, the adversary $\adv^f_{\text{app-zer}}$ merely adds $\lambda$ many zeroes and else essentially has the same runtime as $\adv_g$. Adding $\lambda$ many zeroes is an operation which takes linear many steps in $\lambda$, and thus, the steps which 
+$\adv^f_{\text{app-zer}}$ takes in addition to the steps of $\adv_g$ are only polynomially many (since a linear function is a polynomial of degree $1$).
+
+\paragraph{Success probability.}
+We now need to prove that Equation~\ref{eq:reductionowfzeroes} holds. We prove this by showing that, essentially, the two experiments behave in the same way. I.e., below, we start with experiment ${\mathsf{Exp}}_{f,\adv^f_{\text{app-zer}}}^{\mathsf{OW}}(1^\lambda)$, where from the left-most column to the second column, we inline the code of ${\mathsf{Exp}}_{f,\adv^f_{\text{app-zer}}}^{\mathsf{OW}}(1^\lambda)$ (marked in grey). We also replace $y$ by $f(x)$ (marked in grey), since it is the same value.
+\begin{center}
+\begin{pchstack}
+	  \procedure{${\mathsf{Exp}}_{f,\adv^f_{\text{app-zer}}}^{\mathsf{OW}}(1^\lambda)$}{
+		x\sample\bin^\lambda\\
+		y\gets f(x)\\
+		x'\sample\adv^f_{\text{app-zer}}(1^\lambda,y)\\
+		\\
+		\pcassert \abs{x'}=\lambda\\
+		\pcif f(x')=y:\\
+		\\
+		\pcind \pcreturn 1\\
+		\pcreturn 0}
+		    \pchspace
+	  \procedure{${\mathsf{Exp}}_{f,\adv^f_{\text{app-zer}}}^{\mathsf{OW}}(1^\lambda)$}{
+		x\sample\bin^\lambda\\
+		y\gets f(x)\\
+		\gamechange{$y'\gets y||0^\lambda$}\\		
+		\gamechange{$x'\sample\adv_g(1^\lambda,y')$}\\
+		\pcassert \abs{x'}=\lambda\\
+		\pcif f(x')=\gamechange{$f(x)$}:\\
+		\\
+		\pcind \pcreturn 1\\
+		\pcreturn 0}
+		\pchspace
+			  \procedure{${\mathsf{Exp}}_{g^f_{\text{app-zer}},\adv_g}^{\mathsf{OW}}(1^\lambda)$}{
+		x\sample\bin^\lambda\\
+		\gamechange{$y\gets f(x)||0^{\abs{x}}$}\\
+		\\
+		x'\sample\adv_g(1^\lambda,y)\\
+		\pcassert \abs{x'}=\lambda\\
+		\pcif \gamechange{$f(x')||0^{\abs{x'}}$}:\\
+		\pcind \pcind \gamechange{$=f(x)||0^{\abs{x}}$}\\
+		\pcind \pcreturn 1\\
+		\pcreturn 0}
+				\pchspace
+			  \procedure{${\mathsf{Exp}}_{g^f_{\text{app-zer}},\adv_g}^{\mathsf{OW}}(1^\lambda)$}{
+		x\sample\bin^\lambda\\
+		y\gets g^f_{\text{app-zer}}(x)\\
+		\\
+		x'\sample\adv_g(1^\lambda,y)\\
+		\pcassert \abs{x'}=\lambda\\
+		\pcif g^f_{\text{app-zer}}(x')=y:\\
+		\\
+		\pcind \pcreturn 1\\
+		\pcreturn 0}
+\end{pchstack}
+\end{center}
+The right-most experiment (column 4) describes ${\mathsf{Exp}}_{g^f_{\text{app-zer}},\adv_g}^{\mathsf{OW}}(1^\lambda)$.
+From column 4 to column 3, we inlined the code of $g^f_{\text{app-zer}}(x)$ twice and we replaced $y$ by its value. Now, the proof concludes by observing that column 2 and column 3 essentially contain the same code. We only need to observe the following: Checking $f(x')=f(x)$ (column 2) is the same as performing the same checks with $\lambda$ zeroes appended to it---note that at this point, both, $\abs{x}$ and  $\abs{x'}$ are equal to $\lambda$. In column 3, if we additionally rename variable $y$ to $y'$, we yield the same code.
+
+\paragraph{Appending ones} We now proved half of Theorem~\ref{thm:owf-app-zer}, namely, we proved the statement about $g^f_{\text{app-zer}}$.
+We only sketch the proof for $g^f_{\text{app-one}}$, since it is analogous to the proof for $g^f_{\text{app-zer}}$. We first assume towards contradiction that $g^f_{\text{app-one}}$ is not a one-way function. This implies that there exists a PPT $\adv_g$ against $g^f_{\text{app-one}}$ such that the probability $\prob{1={\mathsf{Exp}}_{g^f_{\text{app-one}},\adv_g}^{\mathsf{OW}}(1^\lambda)}$ is non-negligible.
+We then need to prove the analogous claim to Claim~\ref{claim:owfsimple}, namely:
+\begin{claim}\label{claim:owfsimple1}
+For each PPT adversary $\adv_g$ against the one-wayness of $g^f_{\text{app-one}}$, there exists a PPT adversary $\adv^f_{\text{app-one}}$ against the one-wayness of $f$ such that the following equation holds.
+\begin{equation}\label{eq:reductionowfones}
+\prob{1={\mathsf{Exp}}_{f,\adv^f_{\text{app-one}}}^{\mathsf{OW}}(1^\lambda)}=\prob{1={\mathsf{Exp}}_{g^f_{\text{app-one}},\adv_g}^{\mathsf{OW}}(1^\lambda)}
+\end{equation}
+\end{claim}
+Once we prove Claim~\ref{claim:owfsimple1}, we can conclude the existence of a PPT adversary against $f$ with non-negligible inverting probability and thus reach a contradiction. The proof of Claim~\ref{claim:owfsimple1} is analogous to the proof of Claim~\ref{claim:owfsimple}. We construct $\adv^f_{\text{app-one}}$ in the the left-most column of Fig.~\ref{fig:owfreductions}. The analysis of its runtime is analogous to the analysis of $\adv^f_{\text{app-zer}}$. Namely, $\adv^f_{\text{app-zer}}$ mostly runs $\adv_g$ which is polynomial-time and then
+appends $\lambda$ many ones which is a linear-time operation. The probability analysis for $\adv^f_{\text{app-one}}$ is analogous to
+the probability analysis of $\adv^f_{\text{app-one}}$, just replace zeroes by ones at all positions. We include it here for completeness:
+\begin{center}
+\begin{pchstack}
+	  \procedure{${\mathsf{Exp}}_{f,\adv^f_{\text{app-one}}}^{\mathsf{OW}}(1^\lambda)$}{
+		x\sample\bin^\lambda\\
+		y\gets f(x)\\
+		x'\sample\adv^f_{\text{app-one}}(1^\lambda,y)\\
+		\\
+		\pcassert \abs{x'}=\lambda\\
+		\pcif f(x')=y:\\
+		\\
+		\pcind \pcreturn 1\\
+		\pcreturn 0}
+		    \pchspace
+	  \procedure{${\mathsf{Exp}}_{f,\adv^f_{\text{app-one}}}^{\mathsf{OW}}(1^\lambda)$}{
+		x\sample\bin^\lambda\\
+		y\gets f(x)\\
+		\gamechange{$y'\gets y||1^\lambda$}\\		
+		\gamechange{$x'\sample\adv_g(1^\lambda,y')$}\\
+		\pcassert \abs{x'}=\lambda\\
+		\pcif f(x')=\gamechange{$f(x)$}:\\
+		\\
+		\pcind \pcreturn 1\\
+		\pcreturn 0}
+		\pchspace
+			  \procedure{${\mathsf{Exp}}_{g^f_{\text{app-one}},\adv_g}^{\mathsf{OW}}(1^\lambda)$}{
+		x\sample\bin^\lambda\\
+		\gamechange{$y\gets f(x)||1^{\abs{x}}$}\\
+		\\
+		x'\sample\adv_g(1^\lambda,y)\\
+		\pcassert \abs{x'}=\lambda\\
+		\pcif \gamechange{$f(x')||1^{\abs{x'}}$}\\
+		\pcind\pcind\gamechange{$=f(x)||1^{\abs{x}}$}:\\
+		\pcind \pcreturn 1\\
+		\pcreturn 0}
+				\pchspace
+			  \procedure{${\mathsf{Exp}}_{g^f_{\text{app-one}},\adv_g}^{\mathsf{OW}}(1^\lambda)$}{
+		x\sample\bin^\lambda\\
+		y\gets g^f_{\text{app-one}}(x)\\
+		\\
+		x'\sample\adv_g(1^\lambda,y)\\
+		\pcassert \abs{x'}=\lambda\\
+		\pcif g^f_{\text{app-one}}(x')=y:\\
+		\\
+		\pcind \pcreturn 1\\
+		\pcreturn 0}
+\end{pchstack}
+\end{center}
+
+Column 4 contains the description of ${\mathsf{Exp}}_{g^f_{\text{app-one}},\adv_g}^{\mathsf{OW}}(1^\lambda)$.
+From column 4 to column 3, we inline the code of $g^f_{\text{app-one}}(x)$ twice and we replace the variable $y$ by the value it carries at that moment. Now, the proof concludes by observing that column 2 and column 3 essentially contain the same code. We only need to observe the following: Checking $f(x')=f(x)$ (column 2) is the same as performing the same checks with $\lambda$ zeroes appended to it---note that at this point, both, $\abs{x}$ and  $\abs{x'}$ are equal to $\lambda$. In column 3, after we additionally rename variable $y$ to $y'$, we yield the same code.
+
+\begin{figure}
+\begin{codebox}
+	\begin{center}
+		\begin{pchstack}
+  		\begin{pcvstack}
+				  \procedure{$\adv^f_{\text{app-zer}}(1^\lambda,y)$}{
+					y'\gets y||0^{\abs{x}}\\
+					x'\sample \adv_g(1^\lambda,y')\\
+					\pcreturn x'}			
+					\pcvspace
+				  \procedure{$\adv^f_{\text{app-one}}(1^\lambda,y)$}{
+					y'\gets y||0^{\abs{x}}\\
+					x'\sample \adv_g(1^\lambda,y')\\
+					\pcreturn x'}
+  		\end{pcvstack}
+					\pchspace
+				  \procedure{$\adv^f_{\text{leak-l}}(1^\lambda,y)$}{
+					b\sample\bin\\
+          m\gets \lambda-b\\
+					x_\ell\sample\bin^m\\
+					y'\gets x_\ell||y\\
+					\lambda'\gets \lambda+m\\
+					x'\sample \adv_g(1^{\lambda'},y')\\
+					x^{\prime\prime}\gets x'_{m+1..\abs{x'}}\\
+					\pcreturn x^{\prime\prime}
+					}
+					\pchspace
+				  \procedure{$\adv^f_{\text{leak-r}}(1^\lambda,y)$}{
+					b\sample\bin\\
+          m\gets \lambda\\
+					x_r\sample\bin^{\lambda+b}\\
+					y'\gets y||x_r\\
+  				\lambda'\gets \lambda+b+m\\
+					x'\sample \adv_g(1^{\lambda'},y')\\
+					x^{\prime\prime}\gets x'_{1..m}\\
+					\pcreturn x^{\prime\prime}
+					}
+					\pchspace
+					\begin{pcvstack}
+				  \procedure{$\adv^f_{\text{ign-l}}(1^\lambda,y)$}{
+					m\gets \left\lfloor{\tfrac{\abs{x}}{2}}\right\rfloor\\
+					x_r\gets x_{m+1..\abs{x}}\\					
+					y\gets f(x_r)\\
+					\pcreturn y}
+					\pcvspace
+				  \procedure{$\adv^f_{\text{ign-r}}(1^\lambda,y)$}{
+					m\gets \left\lfloor{\tfrac{\abs{x}}{2}}\right\rfloor\\
+					x_\ell\gets x_{1..m}\\				
+					y\gets f(x_\ell)\\
+					\pcreturn y}
+			\end{pcvstack}
+		\end{pchstack}
+	\end{center}
+	\end{codebox}
+	\caption{Constructions of adversaries against the underlying OWF $f$ assuming an adversary against the construction $g$.\label{fig:owfreductions}}
+	\end{figure}
+
+
+
+
+\section{Further Reading}
+\paragraph{Need-to-know Background} The \emph{Crypto Companion}\footnote{\url{https://github.com/cryptocompanion/cryptocompanion}}
+ covers the background which is directly needed in the course. We rely on notions of computation and probabilities, sometimes use mathematical notation such as quantifiers, and we do proofs. If any of these concepts feel unfamiliar to you, having a look at the Crypto Companion should help you out. You can also refer to the Crypto Companion on a as-needed basis, e.g., when you get stuck trying to understand something in the exercises.
+
+\paragraph{Cryptography} The first teaching period loosely follows the textbooks \emph{Foundations of Cryptography I} and \emph{Foundations of Cryptography II} by Oded Goldreich (We skip many of the proofs, and, at times, use different (yet equivalent) definitions, but our teaching rationale is very much inspired by the teaching rationale of Oded Goldreich.). The books are available in the library (several copies of the first book), legal drafts of both books are available on Goldreich's webpage\footnote{\url{http://www.wisdom.weizmann.ac.il/~oded/foc-vol1.html}}, and  they are a great resource to understand definitional choices, as the books discuss them in a very detailed way. They are particularly suitable for those who are used to mathematical notation. 
+
+\medskip
+For those with a strong programming background, it might be more useful to study \emph{The Joy of Cryptography} by Mike Rosulek, see~\url{http://web.engr.oregonstate.edu/~rosulekm/crypto/}. It is less rigorous, but contains many of the main ideas. Another very good book on cryptography is \emph{Introduction to Modern Cryptography} by Jonathan Katz and Yehuda Lindell. The book's teaching rationale is less related to the teaching rationale of this course, but it has its own, sound teaching principles. You can also watch Dan Boneh's cryptography course on coursera at~\url{https://www.coursera.org/learn/crypto}.
+
+\paragraph{Complexity Theory} Some are interested in cryptography mostly from a perspective of computational hardness, i.e., which things can be hard to break? An excellent introduction to computational complexity is \emph{Computational Complexity: A Conceptual Perspective} by Oded Goldreich with rich discussions of conceptual questions. A complementary exposition by Sanjeev Arora and Boaz Bara is \emph{Computational Complexity: A Modern Approach}.
+
+\clearpage
+\section{Some (optional) discussion of related concepts}
+For those with a background in complexity theory or mathematics, it might sometimes be confusing how I speak about certain concepts. The following subsections are meant to clarify how the concepts in this course relate to concepts in mathematics or complexity theory which carry the same name. Apply your own judgement whether to read these sections or not. I.e., if you have not studied complexity theory, then these sections might not be relevant for you, and understanding them is not necessary to follow this course. However, if you haven't studied complexity theory, we recommend reading Chapter 1 and Chapter 2 of the Crypto Companion.
+
+\medskip
+A short summary of each of the subsequent sections: Section~\ref{subsec:probabilities} covers how probabilities can be interpreted as quantifiers, i.e., essentially by thinking of probabilities as Venn diagrams. Section~\ref{subsec:Turing} is a (very short) recap of Turing machines. Section~\ref{subsec:complexityclasses} is a (very short) recap of the complexity classes $\textbf{P}$ \& $\textbf{NP}$.
+
+
+\subsection{Probabilities and quantifiers}\label{subsec:probabilities}
+Quantified statements are often hard to read, in particular, when there is more than one quantifier. In particular, the order of quantifiers is very important. For example, consider a predicate $P(s,r)$ for dormitory allocation at a university that is true if student $s$ is assigned to room $r$. And consider the difference between the following two statements:
+\[(1)\;\exists r\forall s\;P(s,r)\;\;\;\;\;\;(2)\;\forall s \exists r\;P(s,r)\]
+The first statement means that there exist a room $r$ such that all students are assigned to this room (which might be really crowded), whereas the second statement just means that for each student $s$, there is a room $r$ such that the student was assigned to the room. If you want to recap quantifiers, we recommend \url{https://math.berkeley.edu/~hutching/teach/proofs.pdf}.
+In the lecture and in the lecture notes, we aim to use strictly \emph{prefix} notation. That is, we write quantifiers \emph{before} a statement $P$, because this clarifies the order of quantifiers. In Goldreich's textbook, when a lemma or a definition contains the statement ``Let x be ...'', then this usually corresponds to a universal quantifier. Post-fixed quantified statements can read, e.g.:
+\[(3)\;\exists r\;P(s,r)\;\text{for each students s.}\]
+While common sense suggests that this statement probably means (2), it is highly ambiguous and could mean either (1) or (2). Note that Goldreich sometimes uses such post-quantified notation. Do contact your teaching assistant if you are unsure about a quantifier.
+
+While probabilities are usually not considered as quantifiers, we find it helpful to think of them as quantifiers. For instance, a \emph{forall} quantifiers allows us to state that all strings in $\bin^\lambda$ have some property $P$, the \emph{exist} quantifier allows us to state that there exists (at least a single) string in $\bin^\lambda$ has some property $P$. Finally, a probability statement $\probsub{x\sample\bin^\lambda}{P(x)}=\tfrac12$, e.g., allows us to state that \emph{half} of the strings have the property $P$. For some property $P$ that depends on some algorithm $\adv$ and some string $x$, we will often encounter statements of the form $\forall \adv \probsub{x\sample\bin^\lambda}{P(\adv,x)}\leq\tfrac{1}{1000}$. That is, for each algorithm $\adv$, the probability (over $x$) that $P(\adv,x)$ happens is tiny. However, that does imply $\probsub{x\sample\bin^\lambda}{\forall \adv\; P(\adv,x)}\leq\tfrac{1}{1000}$. Different quantifiers ($\exists$, $\forall$, $\prob{}$) do not commute.
+
+Here, $x\sample\bin^\lambda$ refers to the uniform distribution over $\bin^\lambda$. Goldreich's textbook also uses $U_\lambda$ for the uniform distribution over $\bin^\lambda$ and writes $\prob{P(U_\lambda)}$ for $x\sample\bin^\lambda$. Note that throughout the course, we use the terms distribution and random variable interchangeably. Note moreover that we only consider (discrete) random variables over \emph{finite} sets.
+
+\subsection{Turing Machines}\label{subsec:Turing}
+A Turing machine performs computations on a tape. It starts its computation in the left-most cell of the tape. The tape is unbounded to the right. In the following, $\Sigma$ refers to an alphabet which we specify as $\{0,1,\bot\}$, where $\bot$ refers to the empty symbol. A Turing machine consists of a set of states $Q$ that contains a special starting state $q_\text{start}$ and a halting state $q_\text{halt}$ as well as a transition function $\Gamma:\Sigma\times Q\mapsto Q\times\Sigma\times\{-1,0,+1\}$. A single computation step of a Turing machine consists of reading its current symbol (from $\Sigma$) and its current state (from $Q$) and to write a new symbol onto its current cell (from $\Sigma$) and move to a new state (from $Q$) and to move one cell to the left (-1), to the right (+1) or to remain in its current position (0).
+
+We consider the \emph{input} of a Turing machine as a bitstring written in the left-most cells of the tape. We define the \emph{output} of a Turing machine as the bit written in the left-most cells of the tape. Note that in computability and complexity theory, instead of defining inputs and outputs of machines, one often specifies specific acceptance and rejection states. We refrain from doing so since in cryptography, algorithms compute functions with multiple-bit outputs rather than only accept/reject outputs. Of course, one can encode accept/reject by returning $0$ and $1$.
+
+For a discussion of computational models, see e.g., \url{http://www.wisdom.weizmann.ac.il/~oded/CC/r1.pdf}, page 27 (52 in terms of pdf numbers)
+
+\subsection{Complexity classes}\label{subsec:complexityclasses}
+\begin{definition}[Deterministic polynomial-time]
+A language $\mathcal{L}$ is \emph{recognizable} in (deterministic) \emph{polynomial-time} if there exists a deterministic Turing machine $M$ and a polynomial $p(.)$ such that
+\begin{itemize}
+\item On input string $x$, machine $M$ halts after at most $p(|x|)$ steps, and
+\item $M(x)=1$ if and only if $x\in\mathcal{L}$.
+\end{itemize}
+\end{definition}
+If $\mathcal{L}$ is recognizable in polynomial-time, we write that $\mathcal{L}\in\textbf{P}$.
+\begin{definition}
+A language $\mathcal{L}$ is in \textbf{NP} if there exists a boolean relation $R_{\mathcal{L}}\subseteq\bin^*\times\bin^*$ and a polynomial $p(.)$ such that $R_{\mathcal{L}}$ can be recognized in polynomial-time, and for all $x\in\bin^*$, it holds that
+\[x\in\mathcal{L}\text{ if and only if } \exists y\in\bin^*\text{ such that }\abs{y}\leq p(\abs{x})\text{ and }(x,y)\in R_{\mathcal{L}}.\]
+\end{definition}
+\begin{definition}
+A language $\mathcal{L}$ is in \textbf{NP}-complete if it is in \textbf{NP} and every language in \textbf{NP} is polynomially reducible to it. A language $\mathcal{L'}$ is polynomially reducible to a language $\mathcal{L}$, if there exists a polynomial-time-computable function $f$ such that for all $x\in\bin^*$, we have that $x\in\mathcal{L'}$ if and only if $f(x)\in\mathcal{L}$.
+\end{definition}
+
+\subsection{Conceptual Discussion on the \textbf{NP} vs. \textbf{P} question and OWFs}
+We warmly recommend to read Russell Impagliazzo's personal view on average-case complexity, see \url{https://www.karlin.mff.cuni.cz/~krajicek/ri5svetu.pdf} and Russell Impagliazzo's and Michael Luby's discussion on why one-way functions are essential for cryptograhy \url{http://www.icsi.berkeley.edu/pubs/techreports/tr-89-31}. In short, what Impagliazzo and Luby show is that if there are no one-way functions, then none of the cryptographic primitives that our modern internet communication relies on would exist. Therefore, the existence of one-way functions is essential for modern cryptography. Given the importance of one-way functions, perhaps, we might retreat to the mountains for a few years to prove that one-way functions exist. Alas, this would require us to prove that \textbf{NP} is not equal to \textbf{P} along the way (which is one of the millenium problems and thus seems infeasible at the moment and maybe even for the next 200 years or so).
+
+But well, no one believes that \textbf{NP} is equal to \textbf{P}. So, assuming that \textbf{NP} is not equal to \textbf{P}, can we prove that one-way functions exist? Unfortunately, this is not known either, since cryptography requires \emph{average-case hard problems}, i.e., a distribution over hard problems. And even this is not enough: cryptography requires that we are able to generate hard problems \emph{together with their solution}. Impagliazzo illustrates this example in his essay on his personal view on average-case complexity. You might think of Sudokus as a very nice \textbf{NP}-complete problem while reading the essay. You can also watch a talk by myself which is inspired by Impagliazzo's essay here~\url{https://www.youtube.com/watch?v=3MFVnbw6zYo}.
+\end{document}

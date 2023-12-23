@@ -1,0 +1,375 @@
+\documentclass[a4paper,table,dvipsnames]{article}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{latexsym}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{mathpartir}
+\usepackage{amsthm}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage[probability,adversary,sets,operators,primitives]{cryptocode}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{wrapfig}
+%\usepackage[table]{xcolor}
+%\usepackage[margin=2.5in]{geometry}
+
+\pagestyle{fancy}
+\usetikzlibrary{shapes,arrows,positioning}
+\tikzstyle{vertex} = [draw, circle]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{claim}{Claim}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{construction}{Construction}
+\newtheorem{theorem}{Theorem}
+\newtheorem{example}{Example}
+\newtheorem{hint}{Hint}
+\setlength{\parindent}{0ex}
+
+\rhead[Lecture Notes 5]{Lecture Notes 5}
+\lhead[CS-E4340 Cryptography, Chris Brzuska]{CS-E4340 Cryptography, Chris Brzuska}
+
+\newcommand{\M}[1]{\ensuremath{\text{\texttt{#1}}}}
+\renewcommand{\O}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\pcvar}[1]{\ensuremath{\mathit{#1}}}
+%\newcommand{\pcassert}{\ensuremath{\mathbf{assert}\;}} cb: already defined in the new version of cryptocode
+\newcommand{\pckw}[1]{\highlightkeyword{#1}}
+\newcommand{\pctype}[1]{\mathsf{#1}}
+\newcommand{\ininterface}[1]{[#1\rightarrow]} %{I^{in}_{#1}}
+\newcommand{\outinterface}[1]{[\rightarrow#1]} %{I^{out}_{#1}}
+\newcommand{\m}{\pcvar{m}} %{I^{out}_{#1}}
+\newcommand{\ver}{\O{ver}} %{I^{out}_{#1}}
+\newcommand{\se}{\O{se}} %{I^{out}_{#1}}
+
+\renewcommand{\enc}{\O{enc}} %{I^{out}_{#1}}
+\renewcommand{\dec}{\O{dec}} %{I^{out}_{#1}}
+
+\renewcommand{\mac}{\O{mac}}
+\renewcommand{\circ}{\rightarrow}
+
+\newcommand\defeq{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily
+def}}}{=}}}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) --
+(.25,.15) -- cycle;}
+
+\title{Lecture 5: Symmetric Encryption}
+\author{Chris Brzuska}
+\date{\today}
+
+\begin{document}
+\paragraph{Remark} Lecture Video 5 partly covered the proof of \emph{PRF $\Rightarrow$ UNF-CMA-secure MAC}. The notes
+for this proof are contained in Lecture Notes 4. The current lecture notes cover part II of Lecture Video 5 which
+defines symmetric-key encryption schemes. We provide additional theorems and proofs in the current lecture notes which
+were not contained in the Lecture Video 5. Concretely,
+the current lecture notes contain
+\begin{itemize}
+\item the syntax of symmetric-key encryption schemes
+\item confidentiality of symmetric-key encryption schemes, captured by a security notion which we call \emph{indistinguishability under chosen plaintext attacks (IND-CPA)}
+\item confidentiality and integrity of symmetric-key encryption schemes, captured by the security notion of \emph{authenticated encryption} (AE).
+\item Theorems (informal):
+\begin{itemize}
+\item A PRF in counter-mode (CTR-mode) yields IND-CPA-secure symmetric encryption.
+\item A pseudorandom permutation (PRP) in CBC-mode yields IND-CPA-secure symmetric encryption.
+\item AE-secure symmetric encryption schemes are also IND-CPA-secure. 
+\item If the encryption algorithm of a symmetric encryption scheme is deterministic, then it is not IND-CPA-secure. 
+\end{itemize}
+\end{itemize}
+
+
+\section{Syntax of symmetric-key encryption schemes}
+A symmetric encryption scheme consists of two algorithms, an \emph{encryption algorithm}
+and a \emph{decryption algorithm}. The encryption algorithm of a symmetric-key encryption
+scheme takes a key $k$ and a message $m$, and encrypts them into a ciphertext $c$. The
+encryption process is \emph{randomized}. This is crucial for security, as we will
+see in Theorem~\ref{thm:deterministic}.
+\begin{definition}[Syntax of symmetric encryption schemes]
+  A \emph{symmetric encryption scheme} $\se$ consists of two probabilistic polynomial-time (PPT) algorithms
+  \begin{align*}
+	c \sample&\se.\enc(k,m) \\
+	m\gets&\se.\dec(k,c)
+  \end{align*} 
+  which have to satisfy the correctness criterion
+  \[\forall m\in\bin^* \probsub{k\sample\bin^n}{\se.\dec(k,\se.\enc(k,m))=m}=1\]
+  i.e. when a ciphertext is created using the encryption algorithm, the decryption algorithm always returns the original message.
+\end{definition}
+
+\section{IND-CPA-security for symmetric-key encryption schemes}
+Symmetric-encryption schemes should provide confidentiality. How do we define confidentiality?
+A first thought might be that \emph{one-wayness} might be a good way to capture confidentiality.
+However, as we saw in the first lecture, one-wayness is a very weak security notion, and our
+symmetric encryption scheme might leak as much as half of the message if we use one-wayness as
+ a security notion. Thus, one-wayness would be a terrible way to capture confidentiality.
+
+Instead, what we will capture is the property that encryption should really not leak any information
+except for the length of the message---it has to leak the length of the message, since information-theoretically,
+longer messages have to be encrypted into longer ciphertexts. Now, if we cannot distinguish whether
+the message $m$ was encrypted or the message $0^{\abs{m}}$, then the ciphertext carries no information
+about $m$ (except for the length of $m$).
+
+We have already stated what we want, namely, that encryptions of $m$ look like encryptions of $0^{\abs{m}}$.
+But how do we choose $m$? We could define a game which chooses $m$ uniformly at random from all bitstrings
+of some length. But this does not model real-life distributions very well. We could also parametrize our
+system with a distribution over messages, but this is a cumbersome definition.
+
+To resolve this issue, we will apply a trick which we already used in the context of message authentication
+codes: We allow the \emph{adversary} to choose the message! This simplifies our model and additionally gives
+us stronger properties (which we need if we recall the BEAST attack): Even if the adversary happens to be
+able to influence the content of the message, security of the system does not break down.
+
+It might be a little counter-intuitive to model confidentiality by an adversary who already knows the
+message---but in fact, this only makes our property even stronger: Even though the adversary knows what
+$m$ might be, it cannot distinguish between an encryption of $m$ and an encryption of $0^{\abs{m}}$.
+
+\begin{definition}[IND-CPA]
+	A symmetric encryption scheme $\se$ is IND-CPA-secure if the real game $\M{Gind\text{-}cpa}^0$ and the ideal game $\M{Gind\text{-}cpa}^1$ are computationally indistinguishable, that is, for all PPT adversaries $\adv$, the advantage
+	\begin{align*}
+	&\mathbf{Adv}_{\adv}^{
+		\M{Gind\text{-}cpa}^0
+		,\M{Gind\text{-}cpa}^1}
+		(\lambda)\\
+		&:=\abs{\prob{1=\adv\circ \M{Gind\text{-}cpa}^0}-\prob{1=\adv\circ \M{Gind\text{-}cpa}^1}}
+	\end{align*}
+	is negligible in $\lambda$.
+  \begin{center}
+		\begin{pchstack}
+		  \begin{pcvstack}
+					\underline{\underline{$\M{Gind\text{-}cpa}^0_\se$}}\\
+				  \procedure{Parameters}{
+					\lambda\text{:} \< \quad \text{sec. parameter}\\
+					%b\text{:} \< \quad \text{ideal. bit}\; b=0\\
+					%in\text{:} \< \quad \text{input length}\;\lambda\;\text{or}\;*\\
+					%				out\text{:} \< \quad \text{output length}\,\lambda\,\text{or}\,*\\
+				  \se\text{:} \< \quad \text{sym. enc. sch.} 
+							  }
+											\pcvspace
+														  \procedure{Package State}{
+				   k\text{:} \< \quad \text{key} \\
+							  }
+											\pcvspace
+			  \procedure{$\O{ENC}(x)$}{
+					\pcif k=\bot:\\
+					\pcind k\sample\bin^\lambda\\
+				\\
+				 c\sample \se.\enc(k,x)\\
+				\pcreturn c}
+			\end{pcvstack}
+				 \pchspace
+		  \begin{pcvstack}		
+					\underline{\underline{$\M{Gind\text{-}cpa}^1_\se$}}\\
+				  \procedure{Parameters}{
+					\lambda\text{:} \< \quad \text{sec. parameter}\\
+					%b\text{:} \< \quad \text{ideal. bit}\; b=1\\
+					%in\text{:} \< \quad \text{input length}\;\lambda\;\text{or}\;*\\
+					%				out\text{:} \< \quad \text{output length}\,\lambda\,\text{or}\,*\\
+				  \se\text{:} \< \quad \text{sym. enc. sch.} 
+							  }
+											\pcvspace
+														  \procedure{Package State}{
+				   k\text{:} \< \quad \text{key} \\
+							  }
+											\pcvspace
+			  \procedure{$\O{ENC}(x)$}{
+				  \pcif k=\bot:\\
+					\pcind k\sample\bin^\lambda\\
+					x'\gets 0^{\abs{x}}\\
+				 c\sample \se.\enc(k,x')\\
+				\pcreturn c}
+			\end{pcvstack}
+		\end{pchstack}
+	\end{center}
+\end{definition}
+
+
+\section{AE-Security}
+\emph{Authenticated encryption} security, in addition to confidentiality, also captures integrity and authenticity.
+Namely, the adversary is also allowed to make \emph{decryption} queries and can also be successful merely by
+\emph{forging} a ciphertext. This is encoded by having the ideal decryption oracle return $0$ for all fresh
+ciphertexts, i.e., for all ciphertexts which did not come from the encryption oracle.
+
+
+\begin{definition}[AE-security]
+	A symmetric encryption scheme is AE-secure if the real game $\M{Gae}^0_\se$ and the ideal game $\M{Gae}^1_\se$ are computationally indistinguishable, that is, for all PPT adversaries $\adv$, the advantage
+	\[\mathbf{Adv}_{\adv}^{\M{Gae}^0_\se,\M{Gae}^1_\se}(\lambda):=\abs{\prob{1=\adv\circ \M{Gae}^0_\se}-\prob{1=\adv\circ \M{Gae}^1_\se}}\]
+	is negligible in $\lambda$.
+		\begin{center}
+			\begin{pchstack}
+			  \begin{pcvstack}
+						\underline{\underline{$\M{Gae}^0_\se$}}\\
+					  \procedure{Parameters}{
+						\lambda\text{:} \< \quad \text{sec. parameter}\\
+						%b\text{:} \< \quad \text{ideal. bit}\; b=0\\
+						%in\text{:} \< \quad \text{input length}\;\lambda\;\text{or}\;*\\
+						%				out\text{:} \< \quad \text{output length}\,\lambda\,\text{or}\,*\\
+					  \se\text{:} \< \quad \text{sym. enc. sch.} 
+								  }
+												\pcvspace
+															  \procedure{Package State}{
+					   k\text{:} \< \quad \text{key} \\
+								  }
+												\pcvspace
+				  \procedure{$\O{ENC}(x)$}{
+						\pcif k=\bot:\\
+						\pcind k\sample\bin^\lambda\\
+					\\
+					 c\sample \se.\enc(k,x)\\
+					\\
+					\pcreturn c}
+																\pcvspace
+				  \procedure{$\O{DEC}(c)$}{
+						\pcif k=\bot:\\
+						\pcind k\sample\bin^\lambda\\
+					  x\gets \se.\dec(k,c)\\
+					\pcreturn x}
+				\end{pcvstack}
+					 \pchspace
+			  \begin{pcvstack}
+						\underline{\underline{$\M{Gae}^1_\se$}}\\
+					  \procedure{Parameters}{
+						\lambda\text{:} \< \quad \text{sec. parameter}\\
+						%b\text{:} \< \quad \text{ideal. bit}\; b=1\\
+						%in\text{:} \< \quad \text{input length}\;\lambda\;\text{or}\;*\\
+						%				out\text{:} \< \quad \text{output length}\,\lambda\,\text{or}\,*\\
+					  \se\text{:} \< \quad \text{sym. enc. sch.} 
+								  }
+												\pcvspace
+															  \procedure{Package State}{
+						k\text{:} \< \quad \text{key} \\
+						T\text{:} \< \quad \text{table} 
+								  }
+												\pcvspace
+				  \procedure{$\O{ENC}(x)$}{
+						\pcif k=\bot:\\
+						\pcind k\sample\bin^\lambda\\
+						x'\gets 0^{\abs{x}}\\
+					  c\sample \se.\enc(k,x')\\
+					T[c]\gets x\\
+					\pcreturn c}
+					\pcvspace
+				  \procedure{$\O{DEC}(c)$}{
+					   x\gets T[c]\\
+					\pcreturn x}
+				\end{pcvstack}
+			\end{pchstack}
+		\end{center}
+\end{definition}	
+
+
+\section{Theorems}
+
+We describe how to build secure symmetric encryption schemes. We start with IND-CPA security
+and then turn to AE-security. Since PRFs and PRPs tend to operate on blocks, we will often
+need an \emph{encoding} scheme which encodes messages into a multiple of the block length.
+\begin{definition}[Encoding scheme]
+We call two functions $\O{encode}_\lambda:\bin^*\rightarrow\bin^*$ and $\O{decode}_\lambda:\bin^*\rightarrow\bin^*$
+an \emph{encoding scheme} if
+\begin{itemize}
+\item $\O{encode}_\lambda$ and $\O{decode}_\lambda$ are computable in time polynomial in $\lambda$ and the length of the input.
+\item $\O{decode}_\lambda$ is the inverse of $\O{encode}_\lambda$, i.e., for all $x\in\bin^*$, $\O{decode}_\lambda$ can
+recover $x$ from $\O{encode}_\lambda(x)$, that is, we have
+      $\O{decode}_\lambda(\O{encode}_\lambda(x))=x$. In particular, $\O{encode}_\lambda$ is \emph{injective}, i.e., if $x\neq x'$, then $\O{encode}_\lambda(x)\neq\O{encode}_\lambda(x')$.
+\item the length $\O{encode}_\lambda$ only depends on the length of the input, i.e., if $\abs{x}=\abs{x'}$, then 
+$\abs{\O{encode}_\lambda(x)}=\abs{\O{encode}_\lambda(x')}$.
+\item for all $x\in\bin^*$, $\abs{\O{encode}_\lambda(x)}$ is divisible by $\lambda$.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[PRP in CBC is IND-CPA]
+Let $(\O{encode}_\lambda,\O{decode}_\lambda)$ be an encoding scheme and let $f$ be a secure $(\lambda,\lambda)$-secure pseudorandom permutation. Then, the
+following encryption scheme $\se_{\text{CBC-f}}$ is IND-CPA-secure.
+\begin{center}
+  \begin{pchstack}
+  \procedure{$\se_{\text{CBC-f}}.\O{enc}(k,m)$}{
+    \lambda\gets\abs{k}\\
+    m'\gets\O{encode}_{\lambda}(m)\\
+    \pcvar{nonce}\sample\bin^\lambda\\
+    \pcvar{c}_0\gets\pcvar{nonce}\\
+    \ell\gets \frac{\abs{m'}}{\lambda}\\
+    \pcfor i=1..\ell\\
+    \pcind x_i\gets m'_{(i-1)\lambda+1..i\lambda}\\
+    \pcind \pcvar{c}_i\gets f(k,x_i\oplus c_{i-1})\\
+    c\gets (c_0,..,c_\ell)\\
+    \pcreturn c
+  }
+  \pchspace
+  \procedure{$\se_{\text{CBC-f}}.\O{dec}(k,c)$}{
+    \lambda\gets\abs{k}\\
+    \ell\gets \frac{\abs{c}}{\lambda}-1\\
+    \text{Parse }c_0,..,c_\ell\gets c\\
+    \pcfor i=1..\ell\\
+    \pcind x_i\gets c_{i-1}\oplus f_{\text{inv}}(k,c_i)\\
+    m'\gets x_1||..||x_\ell\\
+    m\gets \O{decode}_{\abs{k}}(m')\\
+    \pcreturn m
+  }
+  \end{pchstack}
+\end{center}
+\end{theorem}
+
+\begin{theorem}[PRF in CTR is IND-CPA]
+Let $(\O{encode}_\lambda,\O{decode}_\lambda)$ be an encoding scheme and let $f$ be a secure $(\lambda,\lambda)$-secure pseudorandom function. Then, the encryption scheme $\se_{\text{CTR-f}}$ is IND-CPA-secure.
+\begin{center}
+\begin{pchstack}
+\procedure{$\se_{\text{CTR-f}}.\O{enc}(k,m)$}{
+\lambda\gets\abs{k}\\
+\pcvar{nonce}\sample\bin^\lambda\\
+m'\gets\O{encode}_\lambda(m)\\
+\ell\gets  \frac{\abs{m'}}{\lambda}\\
+\pcfor i=1..\ell\\
+\pcind \pcvar{pad}_i\gets f(k,\pcvar{nonce}+i)\\
+\pcvar{pad}'\gets\pcvar{pad}_1||..||\pcvar{pad}_\ell\\
+\pcvar{pad}\gets\pcvar{pad}_{1..\abs{m}}\\
+c\gets m \oplus \pcvar{pad}\\
+\pcreturn (\pcvar{nonce},c)}
+\pchspace
+\procedure{$\se_{\text{CTR-f}}.\O{dec}(k,(\pcvar{nonce},c))$}{
+\lambda\gets\abs{k}\\
+\ell\gets \frac{\abs{c}}{\lambda}\\
+\pcfor i=1..\ell\\
+\pcind \pcvar{pad}_i\gets f(k,\pcvar{nonce}+i)\\
+\pcvar{pad}'\gets\pcvar{pad}_1||..||\pcvar{pad}_\ell\\
+\pcvar{pad}\gets\pcvar{pad}_{1..\abs{c}}\\
+m'\gets c \oplus \pcvar{pad}\\
+m\gets\O{decode}_\lambda(m')\\
+\pcreturn m}
+\end{pchstack}
+\end{center}
+\end{theorem}
+
+\begin{theorem}[... is AE]
+Will be added after Monday, October 10, 2022. %(to avoid harming the joy of researching the question).
+\end{theorem}
+
+\paragraph{Generic transformations on symmetric encryption schemes}
+\begin{theorem}
+If $\se$ is an IND-CPA secure encryption scheme, then $\se_1$ is an IND-CPA secure encryption scheme.
+
+\begin{center}
+\begin{pchstack}
+        \procedure{$\se_1.\enc(k,m)$}{
+          c'\sample\se.\enc(k,m)\\
+          c \gets c'||1 \\
+          \pcreturn c
+        }
+        \pcvspace
+        \procedure{$\se_1.\dec(k,c)$}{
+          c'\gets c[1..\abs{c}-1]\\
+          m\gets\se.\dec(k,c')\\
+          \pcreturn m
+        }
+\end{pchstack}
+\end{center}
+\end{theorem}
+
+\begin{theorem}\label{thm:deterministic}
+Let $\se$ be a symmetric encryption scheme such that $\se.\enc$ is deterministic.
+Then $\se$ is not IND-CPA-secure.
+\end{theorem}
+
+
+\end{document}

@@ -1,0 +1,518 @@
+\documentclass[10pt,twoside]{article}
+\setlength{\oddsidemargin}{0 in}
+\setlength{\evensidemargin}{0 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+\newif\ifsolution
+% \solutiontrue
+\solutionfalse
+\newcommand{\inputsol}[1]{\ifsolution\begin{tcolorbox}[breakable]\input{sol/#1}\end{tcolorbox}\fi}
+
+\usepackage{amsmath,amsfonts,graphicx,amssymb,amsthm}
+\usepackage[
+	lambda,
+	operators,
+	advantage,
+	sets,
+	adversary,
+	landau,
+	probability,
+	notions,
+	logic,
+	ff,
+	mm,
+	primitives,
+	events,
+	complexity,
+	asymptotics,
+	keys]{cryptocode}
+\usepackage[style=alphabetic]{biblatex}
+\usepackage{url}
+\usepackage[bookmarksdepth=2]{hyperref}
+\usepackage[capitalize]{cleveref}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+\usepackage{xifthen}
+\usepackage[inline]{enumitem}
+\usepackage[breakable]{tcolorbox}
+
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+
+\newcommand{\coursecode}{CS-E4340}
+\newcommand{\coursename}{Cryptography}
+\newcommand{\courseterm}{I-II 2022/2023}
+\newcommand{\lecturer}{Russell W.F. Lai}
+
+\newcommand{\lecture}[3]{
+	\pagestyle{myheadings}
+	\thispagestyle{plain}
+	\newpage
+	\setcounter{lecnum}{#1}
+	\setcounter{page}{1}
+	\noindent
+	\begin{center}
+		\framebox{
+			\vbox{\vspace{2mm}
+				\hbox to 6.28in { {\bf \coursecode: \coursename \hfill \courseterm} }
+				\vspace{4mm}
+				\hbox to 6.28in { {\Large \hfill Lecture #1: #2  \hfill} }
+				\vspace{2mm}
+				\hbox to 1in { {\it Lecturer: #3} }
+				\vspace{2mm}}
+		}
+	\end{center}
+	\markboth{\coursecode (\courseterm) Lecture #1: #2}{\coursecode (\courseterm) Lecture #1: #2}
+	\vspace*{4mm}
+}
+
+\newcommand{\tutorial}[3]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      \hbox to 6.28in { {\bf \coursecode: \coursename \hfill \courseterm} }
+      \vspace{4mm}
+      \hbox to 6.28in { {\Large \hfill Tutorial #1: #2  \hfill} }
+      \vspace{2mm}
+      \hbox to 1in { {\it Tutor: #3} }
+      \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{\coursecode (\courseterm) Tutorial #1: #2}{\coursecode (\courseterm) Tutorial #1: #2}
+   \vspace*{4mm}
+}
+
+\newcommand{\assignment}[3]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      \hbox to 6.28in { {\bf \coursecode: \coursename \hfill \courseterm} }
+      \vspace{4mm}
+      \hbox to 6.28in { {\Large \hfill Assignment #1: #2  \hfill} }
+      \vspace{2mm}
+      \hbox to 1in { {\it Deadline: #3} }
+      \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{\coursecode (\courseterm) Assignment #1: #2}{\coursecode (\courseterm) Assignment #1: #2}
+   \vspace*{4mm}
+}
+
+\newcommand{\exercise}[3]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      \hbox to 6.28in { {\bf \coursecode: \coursename \hfill \courseterm} }
+      \vspace{4mm}
+      \hbox to 6.28in { {\Large \hfill Exercise #1: #2  \hfill} }
+      \vspace{2mm}
+      \hbox to 1in { {\it Deadline: #3} }
+      \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{\coursecode (\courseterm) Exercise #1: #2}{\coursecode (\courseterm) Exercise #1: #2}
+   \vspace*{4mm}
+}
+
+\def\beginrefs{\begin{list}%
+        {[\arabic{equation}]}{\usecounter{equation}
+         \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+         \setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+%Use this command for a figure; it puts a figure in wherever you want it.
+%usage: \fig{NUMBER}{SPACE-IN-INCHES}{CAPTION}
+\newcommand{\fig}[3]{
+			\vspace{#2}
+			\begin{center}
+			Figure \thelecnum.#1:~#3
+			\end{center}
+	}
+% Use these for theorems, lemmas, proofs, etc.
+\newtheoremstyle{sltheorem}
+{}                % Space above
+{}                % Space below
+{}        % Theorem body font % (default is "\upshape")
+{}                % Indent amount
+{\bfseries}       % Theorem head font % (default is \mdseries)
+{.}               % Punctuation after theorem head % default: no punctuation
+{ }               % Space after theorem head
+{}                % Theorem head spec
+\theoremstyle{sltheorem}
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem*{definition*}{Definition}
+\newtheorem*{construction*}{Construction}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{question}{Question}
+% \newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+\newcommand{\msg}{\mathsf{msg}}
+\newcommand{\ctxt}{\mathsf{ctxt}}
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\bits}[1][]{\{0,1\}^{#1}}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\inner}[2]{\langle #1, #2 \rangle}
+\newcommand{\transpose}{\mathtt{T}}
+\newcommand{\round}[1]{\lfloor #1 \rceil}
+\newcommand{\SIS}{\mathsf{SIS}}
+\newcommand{\LWE}{\mathsf{LWE}}
+\newcommand{\ring}{\mathcal{R}}
+\newcommand{\Hyb}{\mathsf{Hyb}}
+\newcommand{\pubparam}{\mathsf{pp}}
+
+\begin{document}
+%\lecture{**LECTURE-NUMBER**}{**TOPIC**}{**LECTURER**}
+%\tutorial{**TUTORIAL-NUMBER**}{**TOPIC**}{**TUTOR**}
+%\assignment{**ASSIGNMENT-NUMBER**}{**TOPIC**}{**DEADLINE**}
+%\exercise{**EXERCISE-NUMBER**}{**TOPIC**}{**DEADLINE**}
+\exercise{8}{Fully Homomorphic Encryption}{11:30 on November 14, 2022 via MyCourses as a single pdf file}
+
+
+\begin{abstract}
+    This exercise is designed to help students to ...
+    \begin{itemize}
+        \item understand noise growth in fully homomorphic encryption constructions, and
+        \item get a feeling of how fully homomorphic encryption can be applied in different scenarios.
+    \end{itemize} 
+\end{abstract}
+
+\textbf{For this exercise sheet, it suffices to provide asymptotic bounds, e.g. in Big-O notation.}
+
+\begin{question}[Noise Growth] 
+    In this question, we study the noise growth of ciphertexts in the FHE construction of Gentry, Sahai, and Waters (GSW), and the effect of choosing different circuit representations of a function during homomorphic evaluation. First, we recall the GSW construction for $n,q \in \NN$, $m = n \cdot (\floor{\log q} + 1)$, and $\chi$ being the uniform distribution over $\ZZ_\beta$ for some $\beta \in \NN$. 
+
+    \begin{pchstack}[center,boxed]
+        
+        \procedure[]{$\kgen(\secparam)$}
+        {
+            \overline{\mat{A}} \sample \ZZ_q^{(n-1) \times m} \\
+            \vec{s} \sample \ZZ_q^{n-1} \\
+            \vec{e} \sample \chi^m \\
+            \vec{b}^\transpose \coloneqq \vec{s}^\transpose \cdot \overline{\mat{A}} + \vec{e}^\transpose \bmod q \\
+            \mat{A} \coloneqq
+            \protect{\begin{pmatrix}
+                \overline{\mat{A}} \pclb
+                \vec{b}^\transpose
+            \end{pmatrix}} \in \ZZ_q^{n \times m} \\
+            (\pk, \sk) \coloneqq (\mat{A}, \vec{s}) \\
+            \pcreturn (\pk, \sk)
+        }
+
+        \pchspace
+
+        \begin{pcvstack}
+        
+            \procedure[]{$\enc(\pk, x \in \bits)$}
+            {
+                \mat{R} \sample \chi^{m \times m} \\
+                \ctxt \coloneqq \mat{C} \coloneqq \mat{A} \cdot \mat{R} + x \cdot \mat{G} \bmod q \\
+                \pcreturn \ctxt
+            }
+
+            \pcvspace
+
+            \procedure[]{$\dec(\sk, \ctxt)$}
+            {
+                \overline{\vec{x}}^\transpose \coloneqq (-\vec{s}^\transpose, 1) \cdot \mat{C} \bmod q \\
+                \bar{x} \coloneqq \text{last entry of}~\overline{\vec{x}} \\
+                \pcif |\bar{x}| < q/4 \pcthen \\
+                \pcind \pcreturn 0 \\
+                \pcelse \\
+                \pcind \pcreturn 1
+            }
+
+        \end{pcvstack}
+
+        \pchspace
+
+        \begin{pcvstack}
+        
+            \procedure[]{$\eval(\pk, +, \ctxt_0, \ctxt_1)$}
+            {
+                \ctxt \coloneqq \mat{C} \coloneqq \mat{C}_0 + \mat{C}_1 \bmod q \\
+                \pcreturn \ctxt
+            }
+
+            \pcvspace
+
+            \procedure[]{$\eval(\pk, \times, \ctxt_0, \ctxt_1)$}
+            {
+                \ctxt \coloneqq \mat{C} \coloneqq \mat{C}_0 \cdot \mat{G}^{-1}(\mat{C}_1) \bmod q \\
+                \pcreturn \ctxt
+            }
+
+        \end{pcvstack}
+
+    \end{pchstack}
+
+    As explained in the lecture notes, homomorphic evaluation maintains the invariant that a ciphertext $\mat{C}_x$ encrypting a value $x$ is of the form $\mat{C}_x = \mat{A} \cdot \mat{R}_x + x \cdot \mat{G} \bmod q$. In the following, consider the setting where $\ell = 2^k$ is a power of 2, $x_i \in \bits$, and $\mat{C}_{x_i} \in \enc(\pk, x_i)$, for each $i \in [\ell]$. The noise level of $\mat{C}_x$ is defined as the maximum of the absolute values of the entries of $\mat{R}_x$ which, with a slight abuse of notation, could be denoted by $\norm{\mat{R}_x}$. Given a circuit $\Gamma$, we denote by $\mat{C}_{\Gamma(x_1,\ldots,x_\ell)}$ the ciphertext obtained by homomorphically evaluating $\Gamma$ over $(\mat{C}_{x_1}, \ldots, \mat{C}_{x_\ell})$. 
+
+    \begin{enumerate}[label=(\alph*)]
+        \item Write down the norm of the noise term $\mat{R}_{x_1 \cdot x_2}$, i.e. $\norm{\mat{R}_{x_1 \cdot x_2}}$, obtained when homomorphically computing $x_1 \cdot x_2$, in terms of $\norm{\mat{R}_{x_1}}$ and $\norm{\mat{R}_{x_2}}$. How does $\norm{\mat{R}_{x_1 \cdot x_2}}$ scale with $\norm{\mat{R}_{x_1}}$ and $\norm{\mat{R}_{x_2}}$? For example, does it depend more on $\mat{R}_{x_1}$ (or $\mat{R}_{x_2}$) and by how much, or equally on $\mat{R}_{x_1}$ and $\mat{R}_{x_2}$?
+        
+        \item Consider the function $f(x_1,\ldots,x_\ell) = \prod_{i=1}^\ell x_i$ where the multiplication is done over $\ZZ$. To compute $f$, conventional wisdom suggests to perform multiplications in a tree-like fashion, i.e. first compute $x_1 \cdot x_2, x_3 \cdot x_4, \ldots, x_{\ell-1} \cdot x_\ell$, then compute $\prod_{i=1}^4 x_i, \prod_{i=5}^8 x_i, \ldots, \prod_{i=\ell-3}^\ell x_i$, and so on, until obtaining $\prod_{i=1}^\ell x_i$. Let $\Gamma_\mathtt{tree}$ denote such a circuit. 
+
+        Write down a tight upper bound of the noise level of $\mat{C}_{\Gamma_\mathtt{tree}(x_1,\ldots,x_\ell)}$ in terms of $(\ell,n,q,\beta)$. 
+        \item (Optional) Design a circuit $\Gamma$ for $f(x_1,\ldots,x_\ell) = \prod_{i=1}^\ell x_i$ such that the noise level of $\mat{C}_{\Gamma(x_1,\ldots,x_\ell)}$ is linear in $\ell$. Write down a tight upper bound of the noise level of $\mat{C}_{\Gamma(x_1,\ldots,x_\ell)}$ in terms of $(\ell,n,q,\beta)$. 
+
+        % \begin{enumerate*}[label=(\roman*)]
+        %     \item ..
+        % \end{enumerate*}     
+    \end{enumerate}
+\end{question}
+
+\inputsol{gsw_noise_growth}
+
+\begin{question}[Private Information Retrieval from FHE] 
+    In this question, we study a classic application of FHE to construct private information retrieval (PIR) schemes. 
+
+    First, we introduce the notion of PIR. In the setting of (single-server) PIR there is one client and one server. 
+    The server holds a large database $D = (d_i)_{i=1}^N \in \bits[N]$ of size $N$ (imagine $N$ to be around $2^{30}$ to $2^{50}$) and the client is interested to learn the value of $d_i$ for some secret position $i \in [N]$.
+
+    \begin{definition*}[Private Information Retrieval (PIR)]
+        A PIR scheme consists of a tuple of PPT algorithms $\mathsf{PIR}.(\mathsf{Query}, \mathsf{Eval}, \mathsf{Recover})$ with the following syntax:
+        \begin{itemize}
+            \item $(\mathsf{qry}, \mathsf{rec}) \gets \mathsf{PIR}.\mathsf{Query}(\secparam, i \in [N])$: On input a position $i \in [N]$ generate a query $\mathsf{qry}$ and some recovery information $\mathsf{rec}$.
+            \item $\mathsf{rsp} \gets \mathsf{PIR}.\mathsf{Eval}(D, \mathsf{qry})$: On input a database $D \in \bits[N]$ and a query $\mathsf{qry}$ return a response $\mathsf{rsp}$.
+            \item $d \gets \mathsf{PIR}.\mathsf{Recover}(\mathsf{rec}, \mathsf{rsp})$: From some recovery information $\mathsf{rec}$ and a response $\mathsf{rsp}$, recover a database entry $d \in \bits$.
+        \end{itemize}
+
+        A PIR scheme is correct if for any $\secpar, N \in \NN$, any database $D \in \bits[N]$, any position $i \in [N]$, any query and recovery information $(\mathsf{qry}, \mathsf{rec}) \in \mathsf{PIR}.\mathsf{Query}(\secparam, i)$, and any response $\mathsf{rsp} \in \mathsf{PIR}.\mathsf{Eval}(D, \mathsf{qry})$, it holds that $\mathsf{PIR}.\mathsf{Recover}(\mathsf{rec}, \mathsf{rsp}) = d_i$.
+
+        A PIR scheme $\mathsf{PIR}$ is secure if for any (two-stage) PPT adversary $\adv$ and any $N = \poly$ it holds that
+        \[
+            \abs{\prob{\mathsf{PIRSecurity}_{\mathsf{PIR},\adv}^0(\secparam, 1^N) = 1} - \prob{\mathsf{PIRSecurity}_{\mathsf{PIR},\adv}^1(\secparam, 1^N) = 1}} \leq \negl
+        \]
+        where the experiment $\mathsf{PIRSecurity}_{\mathsf{PIR},\adv}^b$ for $b \in \bits$ is defined as follows:
+        \begin{pchstack}[boxed,center]
+            \procedure{$\mathsf{PIRSecurity}_{\mathsf{PIR},\adv}^b(\secparam, 1^N)$}
+            {
+                (i_0, i_1) \gets \adv(\secparam, 1^N) \\
+                (\mathsf{qry}^*, \mathsf{rec}^*) \gets \mathsf{PIR}.\mathsf{Query}(\secparam, i_b) \\
+                b' \gets \adv(\mathsf{qry}^*) \\
+                \pcreturn b'
+            }
+        \end{pchstack}
+    \end{definition*}
+
+    To construct a PIR scheme $\mathsf{PIR}$ from an FHE scheme $\mathsf{FHE}$ with message space $\cX \subseteq \ZZ$, the idea is as follows.
+
+    \begin{construction*}
+        First, we design an encoding function 
+        \begin{align*}
+            \mathsf{Encode}: [N] &\to \cX^\ell \\
+            i &\mapsto (x_{i,1}, \ldots, x_{i,\ell})
+        \end{align*}
+        which encodes $i \in [N]$ as a tuple of $(x_{i,1}, \ldots, x_{i,\ell}) \in \cX^\ell$.
+        Next, for any given database $D \in \bits[N]$, we design an $\ell$-variate polynomial $f_D(X_1,\ldots,X_\ell)$ with coefficients in $\ZZ$ satisfying 
+        \[f_D(\mathsf{Encode}(i)) = f_D(x_{i,1}, \ldots, x_{i,\ell}) = d_i\]
+        for all $i \in [N]$.
+        To query position $i$, the client samples a fresh FHE key pair $(\pk,\sk)$, encrypts $(x_{i,1}, \ldots, x_{i,\ell})$ under the public key $\pk$ to give $(\ctxt_1,\ldots,\ctxt_\ell)$, i.e.
+        \[\ctxt_j \gets \mathsf{FHE}.\enc(\pk, x_{i,j}),\] 
+        and sends $(\pk, \ctxt_1, \ldots, \ctxt_\ell)$ to the server.
+        The server then homomorphically evaluates $f_D$ on the ciphertexts, i.e.
+        \[\ctxt \gets \mathsf{FHE}.\eval(\pk, f_D, \ctxt_1, \ldots, \ctxt_\ell),\]
+        and returns the resulting ciphertext $\ctxt$ to the client.
+        The client then recovers $d_i \gets \mathsf{FHE}.\dec(\sk, \ctxt)$.
+    \end{construction*}
+    
+
+    \begin{enumerate}[label=(\alph*)]
+        \item Write down an unconditionally secure (i.e. without using FHE or any other cryptographic primitives or assumptions) PIR scheme with communication complexity $O(N)$, i.e. $|\mathsf{qry}| + |\mathsf{rsp}| = O(N)$. [Hint: The construction is really simple.]
+        \item Assuming the functionalities of $\mathsf{Encode}$ and $f_D$ as outlined above, show that the above construction of PIR from FHE is
+        \begin{enumerate}[label=(\roman*)]
+            \item correct if the FHE is correct, and
+            \item secure if the FHE is IND-CPA-secure. [Hint: Define $\ell$ hybrid security experiments to swap out the ciphertexts $\ctxt_1, \ldots, \ctxt_\ell$ one by one.]
+        \end{enumerate}
+        \item Suppose that an FHE public key $\pk$ is of size at most $p(\secpar)$, and an FHE ciphertext $\ctxt_x$ of any message $x \in \cX$ is of size at most $p(\secpar) \cdot \log |\cX|$, for some fixed polynomial $p(\secpar) \in \poly$. 
+        What is the asymptotic communication complexity, i.e. $|\mathsf{qry}| + |\mathsf{rsp}|$, in terms of $(N, \secpar)$, of the PIR construction outlined above for the following choices of $\ell$, $\cX$, $\mathsf{Encode}$ and $f_D$?
+        \begin{enumerate}[label=(\roman*)]
+            \item Without loss of generality, assume that $N = n^2$ for some $n \in \NN$. 
+            Pack the entries of $D$ into a square matrix $\mat{M}= (m_{i,j})_{i,j} \in \bits[n \times n]$ so that $m_{h,k} = d_{(h-1) \cdot n + k}$.
+            Let $\ell = 2$ and $\cX = \bits[n]$.
+            Define $\mathsf{Encode}(i) = (\vec{e}_h, \vec{e}_k) \in \cX^2$, i.e. the $h$-th and $k$-th unit vectors, where $i = (h-1) \cdot n + k$ with $h,k \in [n]$.
+            Define the degree-2 polynomial $f_D(\vec{x}, \vec{y}) = \vec{x}^\transpose \cdot \mat{M} \cdot \vec{y}$.
+            \item Without loss of generality, assume that $N = \binom{\ell}{k}$ for some $\ell = \ell(N)$ and constant $k \in \NN$.
+            Let $\cX = \bits$.
+            Let $\vec{s}_i = (s_{i,1},\ldots, s_{i,\ell}) \in \cX^\ell$ be the (lexicographically) $i$-th $\ell$-dimensional binary vector with exactly $k$-many 1's.
+            Define $\mathsf{Encode}(i) = \vec{s}_i$.
+            Define the degree-$k$ polynomial $f_D(X_1,\ldots, X_\ell) = \sum_{i \in [N]} d_i \cdot \prod_{j: s_{i,j} = 1 } X_j$.
+            [Hint: Use Stirling approximation.]
+        \end{enumerate}
+        \item (Optional) Choose $\ell$ and $\cX$ and design an encoding function $\mathsf{Encode}$ and a polynomial $f_D$ with the functionality outlined in the construction above, so that the above construction template yields a PIR scheme with communication complexity $\poly[\secpar, \log N]$.
+    \end{enumerate}
+\end{question}
+
+\inputsol{PIR}
+
+
+\begin{question}[Oblivious Evaluation of FHE Ciphertexts] 
+    In this question, we consider the setting of symmetric-key FHE (i.e. both $\enc$ and $\dec$ take as input the secret key $\sk$, but $\eval$ still takes as input the public key $\pk$), and study an unusual application of FHE where homomorphic evaluations are performed over ciphertexts which are encrypted under potentially ``wrong'' keys.   
+    We want to design a mechanism so that homomorphic evaluation is performed on two ciphertexts only if they are encrypted under the same key (otherwise we risk destroying the content of the ciphertexts).
+
+    To give more context, let $\tilde\Pi.(\kgen,\enc,\dec,\eval)$ be a symmetric-key fully-homomorphic encryption scheme with message space $\cX$.
+    Let $\ctxt^\dagger_x \gets \enc(\sk^\dagger, x)$ be a \emph{fresh} ciphertext of $x$ under a secret key $\sk^\dagger$, and
+    $\ctxt_m$ be a ciphertext such that $\dec(\sk, \ctxt_m) = m$ under a (possibly different) secret key $\sk$.
+    Our goal is to design a conditional evaluation mechanism $\mathsf{CondEval}(\pk, g, \ctxt^\dagger, \ctxt)$ which, on input
+    \begin{center}
+        a public-key $\pk$ (for secret-key) $\sk$, a function $g(X,M)$, a fresh ciphertext $\ctxt^\dagger_x$, and a ciphertext $\ctxt_m$
+    \end{center}
+	computes a ciphertext which decrypts (under $\sk$) to 
+    \begin{center}
+        $g(x,m)$ if $\sk = \sk^\dagger$, and $m$ otherwise,
+    \end{center}
+    all the while without knowing $\pk^\dagger$ (and obviously not $\sk$ nor $\sk^\dagger$). 
+    We can think of $x$ as being some instruction for modifying $m$, which only applies when the keys match, i.e. $\sk = \sk^\dagger$.
+    For the problem to be non-trivial, we need that $\ctxt^\dagger_x$ does not reveal information about $\pk^\dagger$, which we assume to be the case.
+
+    Before describing our construction, we introduce the following 
+    % two auxiliary functions.
+    auxiliary function:
+    % Let $\mathsf{EvalSign}_{\Sigma,f,r}$ be a function which is parametrised by a signature scheme $\Sigma$, a function $f(X_1,\ldots,X_\ell)$, and some random $r$, and which computes 
+    % \[
+    %     (\sk_\Sigma, x_1, \ldots, x_\ell,r) \mapsto \Sigma.\sign(\sk_\Sigma, f(x_1,\ldots,x_\ell); r).
+    % \]
+    Let $\mathsf{VerifyEval}_{\Sigma,\pk_\Sigma,g}$ be a function which is parametrised by a signature scheme $\Sigma$, a public key $\pk_\Sigma$ of $\Sigma$, and a function $g(X,M)$, and which computes 
+    \[
+        (x, \sigma, m) \mapsto 
+        \begin{cases}
+            g(x,m) & \Sigma.\verify(\pk_\Sigma, x, \sigma) = 1 \\
+            m & \Sigma.\verify(\pk_\Sigma, x, \sigma) = 0,
+        \end{cases}
+    \]
+	
+	i.e. if $\Sigma$ accepts the signature $\sigma$ of $x$, then $\mathsf{VerifyEval}_{\Sigma,\pk_\Sigma,g} (x,\sigma,m)$ outputs $g(x,m)$, otherwise it outputs $m$.
+	
+    In~\cref{fig:fhe_condeval}, we construct a symmetric-key FHE $\tilde\Pi.(\kgen, \enc, \dec, \eval)$ equipped with an additional algorithm $\mathsf{CondEval}$, from an underlying symmetric-key FHE $\Pi.(\kgen, \enc, \dec, \eval)$ and a signature scheme $\Sigma.(\kgen, \sign, \verify)$, all with message space $\cX$, using a traditional ``sign-then-encrypt'' approach.
+
+    \begin{figure*}[t]
+    
+        \begin{pcvstack}[center,boxed]
+
+        \begin{pchstack}
+        
+            \procedure[]{$\tilde\Pi.\kgen(\secparam)$}
+            {
+                (\pk_{\Pi}, \sk_{\Pi}) \gets \Pi.\kgen(\secparam) \\
+                (\pk_\Sigma, \sk_\Sigma) \gets \Sigma.\kgen(\secparam) \\
+                % \ctxt_{\sk_\Sigma} \gets \Pi.\enc(\sk_{\Pi}, \sk_\Sigma) \\
+                % \pk \coloneqq (\pk_{\Pi}, \ctxt_{\sk_\Sigma}) \\
+                \pk \coloneqq (\pk_{\Pi}, \pk_\Sigma) \\
+                \sk \coloneqq (\sk_{\Pi}, \sk_\Sigma) \\
+                \pcreturn (\pk, \sk)
+            }
+
+            \pchspace
+
+            \procedure[]{$\tilde\Pi.\enc(\sk, x)$}
+            {
+                \sigma \gets \Sigma.\sign(\sk_\Sigma, x) \\
+                \ctxt_0 \gets \Pi.\enc(\sk_{\Pi}, x) \\
+                \ctxt_1 \gets \Pi.\enc(\sk_{\Pi}, \sigma) \\
+                \ctxt \coloneqq (\ctxt_0, \ctxt_1) \\
+                \pcreturn \ctxt
+            }
+
+            \pchspace
+
+            \procedure[]{$\tilde\Pi.\dec(\sk, \ctxt)$}
+            {
+                x \gets \Pi.\dec(\sk_{\Pi}, \ctxt_0) \\
+                \pcreturn x
+                % \sigma \gets \Pi.\dec(\sk_{\Pi}, \ctxt_1) \\
+                % \pcif \verify(\sk_\Sigma, x, \sigma) = 1 \pcthen \\
+                % \pcind \pcreturn x \\
+                % \pcelse \\
+                % \pcind \pcreturn 0
+            }
+
+        \end{pchstack}
+
+        \pcvspace
+
+        \begin{pchstack}
+        
+            \procedure[]{$\tilde\Pi.\eval(\pk, f, (\ctxt_i)_{i=1}^\ell)$}
+            {
+                % r \sample \bits[\secpar] \\
+                \ctxt_0 \gets \Pi.\eval(\pk_{\Pi}, f, (\ctxt_{1,0}, \ldots, \ctxt_{\ell,0})) \\
+                % \ctxt_1 \gets \Pi.\eval(\pk_{\Pi}, \mathsf{EvalSign}_{\Sigma,f,r}, (\ctxt_{\sk_\Sigma}, \ctxt_{1,0}, \ldots, \ctxt_{\ell,0})) \\
+                \ctxt_1 \coloneqq \bot \\
+                \ctxt \coloneqq (\ctxt_0, \ctxt_1) \\
+                \pcreturn \ctxt
+            }
+
+            \pchspace
+
+            \procedure[]{$\tilde\Pi.\mathsf{CondEval}(\pk, g, \ctxt^\dagger, \ctxt)$}
+            {
+                % r \sample \bits[\secpar] \\
+                \ctxt_0 \gets \Pi.\eval(\pk_{\Pi}, \mathsf{VerifyEval}_{\Sigma,\pk_\Sigma,g}, (\ctxt^\dagger_0, \ctxt^\dagger_1, \ctxt_0)) \\
+                % \ctxt_1 \gets \Pi.\eval(\pk_{\Pi}, \mathsf{EvalSign}_{\Sigma,\mathsf{VerifyEval}_{\Sigma,g},r}, (\ctxt_{\sk_\Sigma}, \ctxt_{\sk_\Sigma}, \ctxt^\dagger_0, \ctxt^\dagger_1, \ctxt_0, \ctxt_1)) \\
+                \ctxt_1 \coloneqq \bot \\
+                \ctxt \coloneqq (\ctxt_0, \ctxt_1) \\
+                \pcreturn \ctxt
+            }
+
+        \end{pchstack}
+
+        \end{pcvstack}
+        \caption{Construction of symmetric-key FHE $\Pi$ with conditional evaluation mechanism.}\label{fig:fhe_condeval}
+    \end{figure*}
+    
+    \begin{enumerate}[label=(\alph*)]
+        \item Assume that the underlying symmetric FHE scheme is perfectly correct (as defined in the lecture notes).
+         Formalise a notion of ``conditional evaluation correctness'' and provide an explanatory text. Points to consider include but are not limited to:
+        \begin{itemize}
+            \item What are the quantifiers for ciphertexts to be considered? For example, is it realistic to consider all possible ciphertexts, or only ``honestly generated'' ones?
+            \item Should the property hold perfectly, statistically, or only against PPT algorithms?
+        \end{itemize} 
+        \item Based on the correctness of the underlying FHE scheme $\Pi$ and the signature scheme $\Sigma$, as well as the unforgeability of $\Sigma$ under chosen message attacks, give a high-level argument for why FHE scheme $\Pi$ constructed in~\cref{fig:fhe_condeval} satisfies your notion of conditional evaluation correctness defined in Part (a). Revisit your answer in Part (a) if your notion turns out too strong to be satisfiable. 
+        \item (Optional). Suggest an application of FHE with a conditional evaluation mechanism.
+    \end{enumerate}
+
+\end{question}
+
+\inputsol{obliv_eval}
+
+
+\end{document}

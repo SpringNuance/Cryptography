@@ -1,0 +1,119 @@
+\documentclass{article}      	% Style of the document                     
+\usepackage{fullpage}
+\usepackage{amsmath}     	   	% Maths                                          
+\usepackage[utf8]{inputenc}	% UTF-8 characters                                               
+\usepackage[T1]{fontenc}    	% Tuki ääkkösille (Finnish names don't cause problems)                                            
+\usepackage{parskip}        		% Linebreak between paragraphs                
+\usepackage{graphicx}       		% Graphics package for adding figures                        
+\usepackage{epstopdf}       		% Possibility to add *.eps figures
+ \usepackage{ dsfont }            % Symbol for real numbers
+\usepackage{ amsfonts }
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{enumitem}        % possibility to label list items by alphabet
+
+\usepackage[probability,adversary,sets,notions,operators,complexity,keys,primitives,asymptotics,advantage]{cryptocode} % for writing cryptography, you need to have the file 'cryptocode.sty' in the same folder as this file
+
+\newcommand{\xor}{\, \texttt{XOR} \,} % shorthand for typing the XOR operator in mathmode
+
+% feel free to add packages you need
+
+\author{Your Name and Student Number Here}
+\title{Exercise Sheet 1}
+
+\begin{document}         
+\maketitle
+
+This is a Latex template that you can use to typeset your exercise solutions. I have provided some examples, for example, how to typeset pseudocode using the Cryptocode package, below.
+
+Replace the examples below by your own solutions.
+
+Useful resources:
+\begin{itemize}
+    \item Website for drawing images: draw.io
+    \item Documentation for the Cryptocode package: https://www.ctan.org/pkg/cryptocode
+    \item Latex Stackexchange, a quality question and answer forum that has answers to most Latex related questions you can come up with: https://tex.stackexchange.com
+\end{itemize}
+
+
+If you have any Latex related questions, please post them on the Latex stream in Zulip.
+
+\section*{Exercise 1} 
+
+Define the function $f$ as
+\begin{align*}
+    f:\, &\bin^* \rightarrow \bin^*\\
+    & x \mapsto x\xor 1^{\abs{x}}
+\end{align*}
+and show that for the following attacker $\adv$, it holds that
+$\prob{\mathsf{Exp}_{f, \adv}^{\mathsf{OW}}(1^\lambda) = 1} = 1$.
+Above $\xor$ means bitwise XOR operation and 
+
+\begin{center}
+    \begin{pchstack}
+    \procedure{ $\adv(y, 1^{\abs{x}})$ }{ 
+        z \leftarrow y \xor 1^{\abs{x}} \\
+        \pcreturn z
+    }
+    \end{pchstack}
+\end{center}
+
+and the experiment is defined as in the lecture:
+\begin{center}
+    \procedure{$\mathsf{Exp}_{f, \adv}^{\mathsf{OW}}(1^\lambda)$}{
+        x\sample\bin^\lambda\\
+        y\gets f(x)\\
+        x'\sample\adv(y, 1^\lambda)\\
+        \pcif f(x') = y \pcthen\\
+        \pcind \pcreturn 1\\ % \pcind indents the line
+        \pcreturn 0
+    }
+\end{center}
+
+\section*{Exercise 2}
+
+\begin{align*}
+    h(b||x) &=
+        \begin{cases}
+            0 || f(x)  & \text{if } b = 0\\
+            1 || x     & \text{if } b = 1.
+        \end{cases}
+\end{align*}
+
+\section*{Exercise 6}
+
+\begin{enumerate}[label = (\alph*)] % label \alph numbers the list items by alphabet (a,b,c)
+    \item The sum of two negligible functions is negligible.
+    \item Multiplying a negligible function by an (arbitrary) polynomial yields a negligible function.
+    \item (Very challenging) There exists a sequence of negligible functions 
+    $\nu_\lambda: \NN \rightarrow[0,1]$ 
+    such that the function
+    $\mu(\lambda) := \sum_{i = 1}^\lambda \nu_i(\lambda)$
+    is the constant $1$ function, i.e., for all $\lambda \in \NN$, it holds that $\mu(\lambda) = 1$. Hint: Use a diagonalization argument.
+\end{enumerate}
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+begin{align*}

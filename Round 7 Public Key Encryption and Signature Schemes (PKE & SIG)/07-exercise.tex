@@ -1,0 +1,673 @@
+\newif\iffull\fullfalse% do not change flags here
+\newif\ifdraft\draftfalse% do not change flags here
+
+\documentclass[envcountsame,runningheads,notitlepage]{../llncs}
+\pagestyle{plain}
+
+\usepackage[letterpaper,hmargin=3.5cm,vmargin=3cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xifthen}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{lscape}
+%\usepackage{amsthm}
+\usepackage{xspace}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{color,soul}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows, calc,fit}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{subcaption}
+\usepackage[probability,adversary,sets,notions,operators,complexity,keys,primitives,asymptotics,advantage]{cryptocode}
+\usepackage{cleveref}
+
+\usepackage{savesym}
+\usepackage{relsize}
+\savesymbol{cb}
+\usepackage{combelow}
+\usepackage[normalem]{ulem}
+\usepackage{wrapfig}
+\newtheorem{crossed}{Esitehtävä}
+\usepackage{enumitem}
+
+\let\proof\relax
+\let\endproof\relax
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{graded}[crossed]{Exercise}
+\newtheorem{challenge}[crossed]{Challenge exercise}
+
+\tikzstyle{package} = [draw,rounded corners=2mm,minimum height=.7cm,minimum width=2cm]
+
+% Colors
+\newcommand\maybecolor[1]{\color{#1}}
+\definecolor{lightblue}{rgb}{0.2,0.2,1.0}
+\definecolor{dkred}{rgb}{0.5, 0.0,0.0}
+\definecolor{lightgrey}{rgb}{0.8,0.8,0.8}
+\definecolor{dkblue}{rgb}{0,0.1,0.5}
+\definecolor{dkgreen}{rgb}{0,0.4,0}
+\definecolor{dkred}{rgb}{0.6,0,0}
+\definecolor{linkColor}{rgb}{0,0,0.5}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\ifdraft
+\newcommand{\fullcolor}{\color{blue}}
+\else
+\newcommand{\fullcolor}{\color{black}}
+\fi
+\newcommand{\blk}{\color{black}}
+\newcommand{\dkg}{\color{dkgreen}}
+
+% Variable and procedures names
+\renewcommand{\O}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\V}[1]{\ensuremath{\mathit{#1}}}
+\newcommand{\M}[1]{\ensuremath{\text{\tt#1}}}
+\def \G {\mathcal{G}}
+\newcommand{\hLen}{n}
+
+
+
+
+%\newcommand{\markulf}[1]{{\color{orange}{MK: #1}}}
+\newcommand{\mk}[1]{{\color{orange}{mk: #1}}}
+
+
+% WIDEBAR
+
+\makeatletter
+\let\save@mathaccent\mathaccent
+\newcommand*\if@single[3]{%
+  \setbox0\hbox{${\mathaccent"0362{#1}}^H$}%
+  \setbox2\hbox{${\mathaccent"0362{\kern0pt#1}}^H$}%
+  \ifdim\ht0=\ht2 #3\else #2\fi
+  }
+%The bar will be moved to the right by a half of \macc@kerna, which is computed by amsmath:
+\newcommand*\rel@kern[1]{\kern#1\dimexpr\macc@kerna}
+%If there's a superscript following the bar, then no negative kern may follow the bar;
+%an additional {} makes sure that the superscript is high enough in this case:
+\newcommand*\widebar[1]{\@ifnextchar^{{\wide@bar{#1}{0}}}{\wide@bar{#1}{1}}}
+%Use a separate algorithm for single symbols:
+\newcommand*\wide@bar[2]{\if@single{#1}{\wide@bar@{#1}{#2}{1}}{\wide@bar@{#1}{#2}{2}}}
+\newcommand*\wide@bar@[3]{%
+  \begingroup
+  \def\mathaccent##1##2{%
+%Enable nesting of accents:
+    \let\mathaccent\save@mathaccent
+%If there's more than a single symbol, use the first character instead (see below):
+    \if#32 \let\macc@nucleus\first@char \fi
+%Determine the italic correction:
+    \setbox\z@\hbox{$\macc@style{\macc@nucleus}_{}$}%
+    \setbox\tw@\hbox{$\macc@style{\macc@nucleus}{}_{}$}%
+    \dimen@\wd\tw@
+    \advance\dimen@-\wd\z@
+%Now \dimen@ is the italic correction of the symbol.
+    \divide\dimen@ 3
+    \@tempdima\wd\tw@
+    \advance\@tempdima-\scriptspace
+%Now \@tempdima is the width of the symbol.
+    \divide\@tempdima 10
+    \advance\dimen@-\@tempdima
+%Now \dimen@ = (italic correction / 3) - (Breite / 10)
+    \ifdim\dimen@>\z@ \dimen@0pt\fi
+%The bar will be shortened in the case \dimen@<0 !
+    \rel@kern{0.6}\kern-\dimen@
+    \if#31
+      \overline{\rel@kern{-0.6}\kern\dimen@\macc@nucleus\rel@kern{0.4}\kern\dimen@}%
+      \advance\dimen@0.4\dimexpr\macc@kerna
+%Place the combined final kern (-\dimen@) if it is >0 or if a superscript follows:
+      \let\final@kern#2%
+      \ifdim\dimen@<\z@ \let\final@kern1\fi
+      \if\final@kern1 \kern-\dimen@\fi
+    \else
+      \overline{\rel@kern{-0.6}\kern\dimen@#1}%
+    \fi
+  }%
+  \macc@depth\@ne
+  \let\math@bgroup\@empty \let\math@egroup\macc@set@skewchar
+  \mathsurround\z@ \frozen@everymath{\mathgroup\macc@group\relax}%
+  \macc@set@skewchar\relax
+  \let\mathaccentV\macc@nested@a
+%The following initialises \macc@kerna and calls \mathaccent:
+  \if#31
+    \macc@nested@a\relax111{#1}%
+  \else
+%If the argument consists of more than one symbol, and if the first token is
+%a letter, use that letter for the computations:
+    \def\gobble@till@marker##1\endmarker{}%
+    \futurelet\first@char\gobble@till@marker#1\endmarker
+    \ifcat\noexpand\first@char A\else
+      \def\first@char{}%
+    \fi
+    \macc@nested@a\relax111{\first@char}%
+  \fi
+  \endgroup
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     FONTS AND EDITING
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\highlight}[1]{\colorbox{red!20}{$\displaystyle#1$}}
+\definecolor{purple}{RGB}{139,0,139}
+\newcommand{\ben}[1]{{\color{purple}{BD: #1}}}
+\definecolor{darkgreen}{RGB}{0,128,0}
+\newcommand{\chris}[1]{{\color{darkgreen}{CB: #1}}}
+\definecolor{orange}{RGB}{210,105,30}
+\newcommand{\geoffroy}[1]{{\color{orange}{GC: #1}}}
+\newcommand{\todo}[1]{{\color{red}{TODO: #1}}}
+
+\definecolor{darkblue}{RGB}{0,0,128}
+\definecolor{midnightblue}{RGB}{0,0,210}
+\definecolor{darkred}{RGB}{128,0,0}
+\definecolor{figred}{RGB}{230,0,26}
+\definecolor{figgreen}{RGB}{153,192,0}
+\definecolor{figorange}{RGB}{245,163,0}
+\definecolor{figblue}{RGB}{0,104,157}
+\definecolor{figpurple}{RGB}{149,17,105}
+
+
+
+
+%\theoremstyle{plain}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{proposition}{Proposition}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem*{corollary}{Corollary}
+
+%\newtheorem{definition}{Definition}
+%\newtheorem{conjecture}{Conjecture}
+%\newtheorem{algorithm}{Algorithm}
+\newtheorem{construction}{Construction}
+%\newtheorem{claim}{Claim}
+
+%\theoremstyle{remark}
+%\newtheorem*{remark}{Remark}
+%\newtheorem*{note}{Note}
+%\newtheorem{case}{Case}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%         STYLES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\R}{\mathbb{R}} \newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}} \newcommand{\Q}{\mathbb{Q}}
+\newcommand{\card}[1]{\abs{#1}}
+%\theoremstyle{definition} \newtheorem*{definition}{Definition}
+%\newtheorem*{remark}{Remark} \newtheorem*{lemma}{Lemma}
+%\newtheorem*{conjecture}{Conjecture} \newtheorem*{hint}{Hint}
+%\newtheorem{claim}{Claim}
+\newcommand{\cnt}{\textsf{ctr}}
+\renewcommand{\H}{\textsf{H}}
+\newcommand{\RO}{\textsf{RO}}
+\newcommand{\mactag}{t}
+\newcommand{\macinput}{x}
+\newcommand{\RPO}{\textsf{RPO}}
+\renewcommand{\O}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\E}{\textsf{E}}
+\newcommand{\ininterface}[1]{{\mathsf{in}(#1)}} %{I^{in}_{#1}}
+\newcommand{\outinterface}[1]{{\mathsf{out}(#1)}} %{I^{out}_{#1}}
+\newcommand{\StyleModel}[1]{\V{{#1}}}
+
+\newcommand{\kgen}{\StyleModel{kgen}}
+\newcommand{\m}{\StyleModel{m}}
+\newcommand{\se}{\StyleModel{se}}
+\newcommand{\pke}{\StyleModel{pke}}
+\renewcommand{\enc}{\StyleModel{enc}}
+\renewcommand{\dec}{\StyleModel{dec}}
+\renewcommand{\sig}{\StyleModel{sig}}
+%\newcommand{\prp}{\StyleModel{prp}}
+\newcommand{\nonce}{\StyleModel{nonce}}
+\newcommand{\ac}{\StyleModel{ac}}
+\newcommand{\ch}{\StyleModel{ch}}
+\renewcommand{\mac}{\StyleModel{mac}}
+\newcommand{\ver}{\StyleModel{ver}}
+\renewcommand{\verify}{\StyleModel{ver}}
+\newcommand{\receive}{\StyleModel{receive}}
+\newcommand{\send}{\StyleModel{send}}
+\newcommand{\unfcma}{\M{UNF-CMA}}
+\newcommand{\unfcmaac}{\M{UNF-CMA-AC}}
+\newcommand{\flunfcma}{\M{FL-UNF-CMA}}
+\newcommand{\s}{\mathsf{s}}
+%\newcommand{\pcassert}{\mathbf{assert}\;}
+%\specialcomment{solution}{\textbf{Solution:}\;}{}
+\newboolean{ifsolution}
+\setboolean{ifsolution}{true}
+
+\usepackage[breakable]{tcolorbox}
+
+% if exercises only:
+\newcommand{\sol}[1]{}
+
+% if solution included:
+%\newcommand{\sol}[1]{\begin{tcolorbox}[breakable]\solution{#1}\end{tcolorbox}}
+
+\title{CS-E4340 Cryptography: Exercise Sheet 6\\%[0.5\baselineskip]
+\large ---Public-key Encryption %Key Exchange 
+\& Signature Schemes---}
+\author{}\institute{}%Submission deadline: September 12, 2022, 11:30, via MyCourses}\institute{}
+%\author{Christopher Brzuska, Pihla Karanko}
+%\institute{
+%			 Aalto University, Finland
+%}
+%\date{\today}
+\date{}
+
+\begin{document}
+\maketitle
+
+\medskip
+\textbf{Submission deadline: October 31, 2022, 11:30, via MyCourses}
+
+\medskip
+\noindent
+Each exercise can give up to two participation points, 2 for a mostly correct solution and 1 point for a good attempt. Overall, the exercise sheet gives at most 4 participation points. We encourage to \textbf{choose} exercises which seem \textbf{interesting} and/or adequately challenging to you. %In particular, you can skip some exercises, if you like. Your teaching assistant will carefully study your ideas and provide helpful suggestions. 
+
+
+\medskip
+\noindent
+Exercise Sheet 6 is intended to help...
+\begin{itemize}
+\item[(a)] ...understand the \emph{definition} of IND-CPA security of public-key encryption (Ex. 1 $\&$ Ex.2).
+\item[(b)] ...understand the \emph{definition} of UNF-CMA security for digital signature schemes (Ex. 3 $\&$ 4).
+\item[(c)] ...familiarize yourself with textbook RSA and its limitations (Ex. 2 $\&$ Ex.3).
+\item[(d)] ...reflect on the relation between signature schemes and public-key encryption (Ex. 3).
+\item[(e)] ...reflect on the relation between signature schemes and one-way functions (Ex. 4).
+%\item[(e)] ...develop intuition for security and attacks on key exchange protocols (Ex. 3).
+\end{itemize}
+
+%\begin{description}
+%\item[Exercise 1] helps to understand IND-CPA security.
+%\item[Exercise 2] helps understand the notion of one-wayness and is the \underline{\textbf{most important}} exercise on this sheet. We %warmly encourage it.
+%\item[Exercise 3] gives an opportunity to practice writing \emph{inverters}\footnote{For OWFs, the term \emph{adversary} and \emph{inverter} are synonymous, because an adversary against a OWF tries to invert.} for some easy-to-invert functions, i.e. bad one-way function candidates.
+%\item[Ex. 4 \& Ex. 5] are advanced exercises, where you are asked to provide an attack on a generic one-way function counterexample and analyze the probability of the attack.
+%\end{description}
+
+
+%\begin{abstract}
+%The goal of this exercise sheet is to familiarize yourself with the security of public-key encryption schemes
+%(Exercise 1 and Exercise 2). Then, there is an exercise about \emph{hybrid} public-key encryption which is
+%the way in which public-key encryption is used in practice: Namely, we first use a public-key encryption scheme
+%to encrypt a symmetric-key and then encrypt the message using the symmetric-key and the symmetric-key encryption
+%scheme. This is more efficient, since public-key encryption is slow and symmetric-key encryption is fast. So, if
+%the message is long, we gain efficiency. The proof might be a little involved, so we marked this exercise as
+% advanced (Exercise 4). If you are curious to look a bit more into RSA, you can have a look at Exercise 5. And if you 
+%are curious about oracle separations, then have a look at Exercise 3. If oracle separations or RSA are not your
+%cup of tea, the rest of the course will not use these. It's more for context and breadth that we include this.
+%\end{abstract}
+
+\begin{graded}[Deterministic PKE is insecure]
+On Ex. Sheet 5, we showed that symmetric-key encryption is not IND-CPA-secure and described
+an attack using \emph{two} $\O{ENC}$ queries. Let $\pke_{\text{weak}}$ be a candidate
+PKE which satisfies the syntax of PKE and where $\pke_{\text{weak}}.\enc$ is deterministic.\\
+
+\noindent
+\textbf{Task:} Describe a PPT adversary $\adv$ in pseudocode which breaks the IND-CPA security of
+$\pke_{\text{weak}}$ and only makes a $\O{GETPK}$ and a
+ \emph{a single} $\O{ENC}$ query. Analyze the
+success probability of your adversary and show that it is non-negligible.\\
+
+%\noindent
+%\textbf{Hint:} Can you think of an adversary which has advantage is $1$?
+\end{graded}
+
+		\begin{figure}
+		\centering
+			\begin{pchstack}
+			\begin{pcvstack}
+				\procedure{$\pke_\text{RSA}.\kgen()$}
+				{
+				\text{sample two big random primes }p,q\\
+				N \gets pq\\
+				\lambda \gets \text{lcm}(p-1,q-1)\\
+				\text{choose $e > 1$ that is coprime with }\lambda\\
+				d \gets e^{-1} \mod \lambda\\
+				sk \gets (d,N);\,
+				pk \gets (e,N)\\
+				\pcreturn pk
+				}
+				\pcvspace
+					\procedure{$s_\text{RSA}.\kgen()$}
+				{
+				[\text{same as }\pke_\text{RSA}.\kgen]
+				}
+			\end{pcvstack}
+\pchspace
+			\begin{pcvstack}
+				\procedure{$\pke_\text{RSA}.\enc(pk,m)$}
+				{
+					(e,N) \gets pk\\[0.16\baselineskip]
+					c \gets m^e \mod N\\
+					\pcreturn c\\\\
+				}
+				\pcvspace
+				\procedure{$s_\text{RSA}.\sig(sk,m)$}
+				{
+					(d,N) \gets sk\\
+					\sigma \gets m^d \mod N\\
+					\pcreturn \sigma
+				}
+			\end{pcvstack}
+\pchspace
+			\begin{pcvstack}
+				\procedure{$\pke_\text{RSA}.\dec(sk,c)$}
+				{(d,N) \gets sk\\
+				m \gets c^{d}\mod N\\
+					\pcreturn m\\\\
+				}
+				\pcvspace
+				\procedure{$s_\text{RSA}.\ver(pk,m,\sigma)$}
+				{(e,N) \gets pk\\
+				m' \gets \sigma^e\mod N\\
+					\pcreturn m = m'
+				}
+			\end{pcvstack}
+			\end{pchstack}
+\caption{Textbook RSA (insecure)\label{fig:textbookrsa}}
+\end{figure}
+
+
+\begin{graded}[RSA: Public-Key encryption]
+Fig.~\ref{fig:textbookrsa} describes the RSA encryption scheme $\pke_\text{RSA}$ and RSA signature scheme $s_\text{RSA}$ as some textbooks, discrete mathematics courses and the RSA Wikipedia article\footnote{\url{https://en.wikipedia.org/wiki/RSA_(cryptosystem)}} (see Section 3) do. $\pke_\text{RSA}$ and $s_\text{RSA}$ are thus called \emph{textbook RSA}. This exercise explores
+why textbook RSA should not be used \emph{as is} in practice and other confusions/misconceptions emerging from textbook RSA
+in popular literature.
+
+\medskip
+\noindent
+\textbf{Task 1:}
+Compute $\pke_\text{RSA}.\dec(\sk,c)$ for ciphertext $c=61$ and secret-key $\sk=(119,37)$.
+(The public-key here is $\pk=(119,13)$, but it is used for encryption only, not decryption.)
+
+\medskip
+\noindent
+\textbf{Task 2:}
+Prove that $\pke_\text{RSA}$ is not IND-CPA-secure by giving a PPT adversary $\adv$ against
+the IND-CPA security of $\pke_\text{RSA}$ in pseudo-code. (You can omit the probability analysis.)
+\end{graded}
+
+
+
+\begin{graded}[RSA: Signing vs. Public-Key encryption]
+As in the previous exercise, see Fig.~\ref{fig:textbookrsa} for the textbook RSA encryption scheme $\pke_\text{RSA}$ and textbook RSA signature scheme $s_\text{RSA}$.
+
+\textbf{Task 1:}
+Prove that $\sig_\text{RSA}$ is not UNF-CMA-secure by giving a PPT adversary $\adv$ against
+the UNF-CMA security of $\sig_\text{RSA}$ in pseudo-code. (You can omit the probability analysis.)
+
+\medskip
+\noindent
+\textbf{Task 2:} Some sources describe signature schemes as the ``opposite'' or ``inverse'' of
+		encryption. The underlying idea is that textbook RSA encryption $\pke_\text{RSA}.\enc$ encrypts using the public-key, and the
+		textbook RSA signature schemes $s_\text{RSA}.\sig$
+		%(the insecure variant, which just signs the plain message without pre-processing)
+		%which should
+		%absolutely hash the message before feeding it into the RSA function, because else, they are
+		%insecure, too) 
+		signs using the secret-key.
+		
+		Reflect whether this intuition generalizes. Can every signature scheme
+		be transformed into a public-key encryption scheme? Justify your belief.
+	\end{graded}
+		
+
+\begin{graded}[OWFs $\Rightarrow$ SIG]
+Show that if $f$ is an injective one-way function, then Lamport's signature scheme $s_f$
+is one-time UNF-CMA-secure (1-UNF-CMA) for messages of length $\lambda$. See Fig.~\ref{fig:lamport}
+for $s_f$ and see below for the definition of 1-UNF-CMA.
+\end{graded}
+
+		\begin{figure}
+		\centering
+			\begin{pchstack}
+			\begin{pcvstack}
+					\procedure{$s_\text{f}.\kgen(1^\lambda)$}
+				{
+				\pcfor i=1..\lambda\\
+				\pcind x_0^i\sample\bin^\lambda\\
+				\pcind x_1^i\sample\bin^\lambda\\
+				\pcind y_0^i\gets f(x_0^i)\\
+				\pcind y_0^i\gets f(x_1^i)\\
+				\sk\gets\begin{minipage}{0.05\linewidth}$\left(\begin{minipage}{10\linewidth}
+					$x_0^1,..,x_0^\lambda$\\
+					$x_1^1,..,x_1^\lambda$\end{minipage}\right)$\end{minipage}\\
+				\pk\gets \begin{minipage}{0.05\linewidth}$\left(\begin{minipage}{10\linewidth} $y_0^1,..,y_0^\lambda$\\$y_1^1,..,y_1^\lambda$\end{minipage}\right)$\end{minipage}
+				}\\
+				\pcreturn (\sk,\pk)
+			\end{pcvstack}
+\pchspace
+			\begin{pcvstack}
+				\procedure{$s_f.\sig(\sk,m)$}
+				{
+					\mathsf{parse}\,\sk\text{ as}\\
+				\begin{minipage}{0.041\linewidth}$\left(\begin{minipage}{10\linewidth}
+					$x_0^1,..,x_0^\lambda$\\
+					$x_1^1,..,x_1^\lambda$\end{minipage}\right)$\end{minipage}\\
+				\pcfor i=1..\lambda\\
+				\pcind z^i\gets x^i_{m[i]}\\
+				\pccomment{m[i]\text{ is }i\text{th bit of }m}\\
+				\sigma\gets (z^1,..,z^\lambda)\\
+				\pcreturn \sigma
+				}
+			\end{pcvstack}
+\pchspace
+			\begin{pcvstack}
+				\procedure{$s_f.\ver(\pk,m,\sigma)$}
+				{					\mathsf{parse}\,\pk\text{ as}\\
+				\begin{minipage}{0.041\linewidth}$\left(\begin{minipage}{10\linewidth}
+					$y_0^1,..,y_0^\lambda$\\
+					$y_1^1,..,y_1^\lambda$\end{minipage}\right)$\end{minipage}\\
+					(z^1,..,z^\lambda)\gets \sigma\\
+			\pcfor i=1..\lambda\\
+				\pcind \pcif f(z^i)\neq x^i_{m[i]}:\\
+				\pcind\pcind\pcreturn 0\\
+				\pcreturn 1
+				}
+			\end{pcvstack}
+			\end{pchstack}
+\caption{Lamport's one-time signature scheme for messages of length $\lambda$.\label{fig:lamport}}
+\end{figure}
+
+\clearpage
+
+\hspace{-4cm}
+\scalebox{0.8}{
+\begin{minipage}{1.8\textwidth}
+	\begin{minipage}{0.32\textwidth}
+    \begin{align*} 
+      \textbf{Public-key encryption scheme } \pke:\,(\pk,\sk)\sample&\pke.\kgen(1^\lambda) \\
+      c\sample&\pke.\enc(\pk,x) \\
+      x\sample &\pke.\dec(\sk,c)
+    \end{align*}
+    \textbf{Correctness:} $\forall (\pk,\sk)\sample\pke.\kgen(1^\lambda)$, $\forall x\in\bin^*:$
+		$\forall c\sample\pke.\enc(\pk,x)$,  $\pke.\dec(\sk,c)=x$.
+
+\medskip
+\noindent
+\textbf{IND-CPA Security}: $\forall$ PPT $\adv$
+\begin{align*}
+|&\prob{1=\adv\rightarrow \M{Gind\text{-}cpa}^0_\pke}\\
+-&\prob{1=\adv\rightarrow \M{Gind\text{-}cpa}^1_\pke}| \text{ is negligible in }\lambda.
+\end{align*}
+
+\medskip
+\medskip\medskip\medskip\medskip\medskip\medskip\medskip\medskip\medskip
+
+\begin{minipage}{0.4\textwidth}
+  \begin{pchstack}
+        \begin{pcvstack}
+          \underline{\underline{$\M{Gind\text{-}cpa}_\pke^0$}}\\
+                          \\
+    \procedure{$\O{GETPK}()$}{
+		    \pcif \pk=\bot:\\
+				\pcind  (\pk,\sk)\sample\pke.\kgen(1^\lambda)\\
+      \pcreturn \pk}
+										\pcvspace
+		  \procedure{$\O{ENC}(x)$}{
+			  \pcif \pk=\bot:\\
+				\pcind (\pk,\sk)\sample \pke.\kgen(1^\lambda)\\
+				\\
+			 c\sample \pke.\enc(\pk,x)\\
+			\pcreturn c}
+		\end{pcvstack}
+              \pchspace
+  \begin{pcvstack}
+          \underline{\underline{$\M{Gind\text{-}cpa}_\pke^1$}}\\
+                                \\
+    \procedure{$\O{GETPK}()$}{
+		    \pcif \pk=\bot:\\
+				\pcind  (\pk,\sk)\sample\pke.\kgen(1^\lambda)\\
+      \pcreturn \pk}
+										\pcvspace
+		  \procedure{$\O{ENC}(x)$}{
+			  \pcif \pk=\bot:\\
+				\pcind (\pk,\sk)\sample \pke.\kgen(1^\lambda)\\
+				x'\gets 0^{\abs{x}}\\
+			 c\sample \pke.\enc(\pk,x')\\
+			\pcreturn c\\\\\\\\\\\\\\\\}
+  \end{pcvstack}
+  \end{pchstack}
+  \end{minipage}
+	\end{minipage}
+\hspace{0.5cm}
+	\begin{minipage}{0.32\textwidth}
+    \begin{align*} 
+      \textbf{Signature scheme }\s:\;\;\;\,(\pk,\sk)\sample&\s.\kgen(1^\lambda) \\
+      \sigma\sample&\s.\sig(\sk,x) \\
+      0/1\sample &\s.\ver(\pk,x,\sigma)
+    \end{align*}
+    \textbf{Correctness:} $\forall (\pk,\sk)\sample\s.\kgen(1^\lambda)$, $\forall x\in\bin^*:$
+		$\forall\sigma\sample\s.\sig(\sk,x)$,  $\s.\ver(\pk,x,\sigma)=1$.
+
+\medskip
+\noindent
+\textbf{UNF-CMA Security}: $\forall$ PPT $\adv$
+\begin{align*}
+|&\prob{1=\adv\rightarrow \M{Gunf\text{-}cma}^0_\s}\\
+-&\prob{1=\adv\rightarrow \M{Gunf\text{-}cma}^1_\s}| \text{ is negligible in }\lambda.
+\end{align*}
+
+\medskip
+\noindent
+\textbf{1-UNF-CMA Security for Lamport}: $\forall$ PPT $\adv$
+\begin{align*}
+|&\prob{1=\adv\rightarrow \M{1-Gunf\text{-}cma}^0_\s}\\
+-&\prob{1=\adv\rightarrow \M{1-Gunf\text{-}cma}^1_\s}| \text{ is negligible in }\lambda.
+\end{align*}
+
+
+
+\begin{minipage}{0.4\textwidth}
+  \begin{pchstack}
+        \begin{pcvstack}
+          \underline{\underline{$\M{Gunf\text{-}cma}_\s^0$}}\\
+                          \\
+    \procedure{$\O{GETPK}()$}{
+		    \pcif \pk=\bot:\\
+				\pcind  (\pk,\sk)\sample\s.\kgen(1^\lambda)\\
+      \pcreturn \pk}
+										\pcvspace
+    \procedure{$\O{SIG}(x)$}{
+		  \\%\gamechange{$\pcassert \sigma=\bot$}\\ 
+		  \\%\gamechange{$\pcassert \abs{x}=\lambda$}\\ 
+		  \pcif \pk=\bot:\\
+			\pcind (\pk,\sk)\sample\s.\kgen(1^\lambda)\\
+      \sigma\sample \s.\sig(\sk,x)\\
+      \\
+      \pcreturn \sigma}
+   \pcvspace
+		\procedure{$\O{VERIFY}(x,\sigma)$}{
+		    \pcif \pk=\bot:\\
+				\pcind  (\pk,\sk)\sample\s.\kgen(1^\lambda)\\
+      d\gets \s.\ver(\pk,x,\sigma)\\
+      \pcreturn d}
+  \end{pcvstack}
+              \pchspace
+  \begin{pcvstack}
+          \underline{\underline{$\M{Gunf\text{-}cma}_\s^1$}}\\
+                                \\
+    \procedure{$\O{GETPK}()$}{
+		    \pcif \pk=\bot:\\
+				\pcind  (\pk,\sk)\sample\s.\kgen(1^\lambda)\\
+      \pcreturn \pk}
+          \pcvspace
+    \procedure{$\O{SIG}(x)$}{
+		 \\% \gamechange{$\pcassert \sigma=\bot$}\\ 
+		  \\% \gamechange{$\pcassert \abs{x}=\lambda$}\\ 
+		    \pcif \pk=\bot:\\
+				\pcind  (\pk,\sk)\sample\s.\kgen(1^\lambda)\\
+      \sigma\sample \s.\sig(\sk,x)\\
+      \mathcal{L}\gets\mathcal{L}\cup\{(x,\sigma)\}\\
+      \pcreturn \sigma}
+          \pcvspace
+    \procedure{$\O{VERIFY}(x,\sigma)$}{
+          \pcif (x,\sigma)\in\mathcal{L}:\\
+          \pcind \pcreturn 1\\
+          \\
+          \pcreturn 0}
+  \end{pcvstack}
+\pchspace
+        \begin{pcvstack}
+          \underline{\underline{$\M{1-Gunf\text{-}cma}_\s^0$}}\\
+                          \\
+    \procedure{$\O{GETPK}()$}{
+		    \pcif \pk=\bot:\\
+				\pcind  (\pk,\sk)\sample\s.\kgen(1^\lambda)\\
+      \pcreturn \pk}
+										\pcvspace
+    \procedure{$\O{SIG}(x)$}{
+		  \gamechange{$\pcassert \sigma=\bot$}\\ 
+		  \gamechange{$\pcassert \abs{x}=\lambda$}\\ 
+		  \pcif \pk=\bot:\\
+			\pcind (\pk,\sk)\sample\s.\kgen(1^\lambda)\\
+      \sigma\sample \s.\sig(\sk,x)\\
+      \\
+      \pcreturn \sigma}
+   \pcvspace
+		\procedure{$\O{VERIFY}(x,\sigma)$}{
+		    \pcif \pk=\bot:\\
+				\pcind  (\pk,\sk)\sample\s.\kgen(1^\lambda)\\
+      d\gets \s.\ver(\pk,x,\sigma)\\
+      \pcreturn d}
+  \end{pcvstack}
+              \pchspace
+  \begin{pcvstack}
+          \underline{\underline{$\M{1-Gunf\text{-}cma}_\s^1$}}\\
+                                \\
+    \procedure{$\O{GETPK}()$}{
+		    \pcif \pk=\bot:\\
+				\pcind  (\pk,\sk)\sample\s.\kgen(1^\lambda)\\
+      \pcreturn \pk}
+          \pcvspace
+    \procedure{$\O{SIG}(x)$}{
+		  \gamechange{$\pcassert \sigma=\bot$}\\ 
+		  \gamechange{$\pcassert \abs{x}=\lambda$}\\ 
+		    \pcif \pk=\bot:\\
+				\pcind  (\pk,\sk)\sample\s.\kgen(1^\lambda)\\
+      \sigma\sample \s.\sig(\sk,x)\\
+      \mathcal{L}\gets\mathcal{L}\cup\{(x,\sigma)\}\\
+      \pcreturn \sigma}
+          \pcvspace
+    \procedure{$\O{VERIFY}(x,\sigma)$}{
+          \pcif (x,\sigma)\in\mathcal{L}:\\
+          \pcind \pcreturn 1\\
+          \\
+          \pcreturn 0}
+  \end{pcvstack}
+  \end{pchstack}
+  \end{minipage}
+	\end{minipage}
+	\end{minipage}
+}
+
+\end{document}

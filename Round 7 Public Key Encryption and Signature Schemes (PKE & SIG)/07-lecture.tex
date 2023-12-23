@@ -1,0 +1,250 @@
+\documentclass[a4paper,table,dvipsnames]{article}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{latexsym}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{mathpartir}
+\usepackage{amsthm}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage[probability,adversary,sets,operators,primitives]{cryptocode}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{wrapfig}
+%\usepackage[table]{xcolor}
+%\usepackage[margin=2.8in]{geometry}
+
+\pagestyle{fancy}
+\usetikzlibrary{shapes,arrows,positioning}
+\tikzstyle{vertex} = [draw, circle]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{claim}{Claim}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{construction}{Construction}
+\newtheorem{theorem}{Theorem}
+\newtheorem{example}{Example}
+\newtheorem{hint}{Hint}
+\setlength{\parindent}{0ex}
+
+\rhead[Lecture Notes 7]{Lecture Notes 7}
+\lhead[CS-E4340 Cryptography, Chris Brzuska]{CS-E4340 Cryptography, Chris Brzuska}
+
+\newcommand{\M}[1]{\ensuremath{\text{\texttt{#1}}}}
+\renewcommand{\O}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\pcvar}[1]{\ensuremath{\mathit{#1}}}
+%\newcommand{\pcassert}{\ensuremath{\mathbf{assert}\;}}
+\newcommand{\pckw}[1]{\highlightkeyword{#1}}
+\newcommand{\pctype}[1]{\mathsf{#1}}
+\newcommand{\ininterface}[1]{[#1\rightarrow]} %{I^{in}_{#1}}
+\newcommand{\outinterface}[1]{[\rightarrow#1]} %{I^{out}_{#1}}
+\newcommand{\m}{\pcvar{m}} %{I^{out}_{#1}}
+\newcommand{\ver}{\O{ver}} %{I^{out}_{#1}}
+\newcommand{\kgen}{\O{kgen}}
+\newcommand{\se}{\O{se}} %{I^{out}_{#1}}
+\newcommand{\s}{\O{s}}
+\newcommand{\pk}{\pcvar{pk}}
+\newcommand{\sk}{\pcvar{sk}}
+
+
+
+\renewcommand{\enc}{\O{enc}} %{I^{out}_{#1}}
+\renewcommand{\dec}{\O{dec}} %{I^{out}_{#1}}
+
+\renewcommand{\mac}{\O{mac}}
+\renewcommand{\circ}{\rightarrow}
+
+\newcommand\defeq{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily
+def}}}{=}}}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) --
+(.25,.15) -- cycle;}
+
+\title{Lecture 7: Public-Key Encryption}
+\author{Chris Brzuska}
+\date{\today}
+
+\begin{document}
+See Pihla's lecture notes for the definition of public-key encryption (PKE) 
+and a discussion of black-box proofs. The present lecture notes contain four section with
+supplementary material.
+
+\begin{description}
+\item[Section~\ref{sec:detpke}] discusses why it's problemantic if a PKE is deterministic---it cannot be IND-CPA-secure then.
+\item[Section~\ref{sec:rsaoaep}] describes why RSA-OAEP was introduced, a concrete (real-world) public-key encryption scheme.
+\item[Section~\ref{sec:rom}] discusses the random oracle model.
+\item[Section~\ref{sec:nonbb}] contains reading material for non-black-box constructions/proofs (cf. Pihla's discussion). 
+\item[Section~\ref{sec:bb}] contains pointers to studies of black-box constructions/proofs (cf. Pihla's discussion). 
+\item[Section~\ref{sec:pq}] briefly discusses post-quantum cryptography.
+\end{description}
+
+\section{Deterministic PKE}\label{sec:detpke}
+If a public-key encryption (PKE) is deterministic, then the situation is
+even worse than in the symmetric-key encryption case. In the symmetric-key
+encryption case, the leakage of deterministic encryption means that an
+observer can spot repetitions. However, in deterministic \emph{public-key} encryption,
+an attacker can always check their guess for the content of a message against
+the actual message. That's a much stronger capability, Therefore, randomness
+is even more important than in the symmetric-key encryption case.
+\paragraph{Textbook RSA} Textbook RSA usually describes a deterministic
+function, also knows as a \emph{trapdoor function}. Namely, we have a
+key generation algorithm $\O{tf}.\kgen$ which outputs a pair $(\pk,\sk)$
+and then $f(\pk,x)$ is a one-way function, i.e., for all PPT adversaries
+$\adv$, the probability that the following experiment returns $1$ should be negligible:
+
+\begin{center}
+\begin{pcvstack}
+\procedure{$\O{Exp}_{\O{TDF}}(1^\lambda)$}{
+(\pk,\sk)\sample\kgen(1^\lambda)\\
+x\sample\bin^\lambda\\
+y\gets f(\pk,x)\\
+x'\sample\adv(\pk,x,1^\lambda)\\
+\pcif f(\pk,x')=y:\\
+\pcind\pcreturn 1\\
+\pcreturn 0}
+\end{pcvstack}
+\end{center}
+
+
+In RSA, the public-key $\pk$ consists of a modulus $N$ and an exponent $e$,
+and the secret-key $\sk$ consists also of the modulus $N$ as well as 
+another exponent $d$. In practice, for $e$, the value 65537 is popular due
+to its binary representation since it contains only two ones, so that
+calculating exponentiation is quite easy. Note that $e=3$ can be a bad
+choice due to the Coppersmith attack~\url{https://en.wikipedia.org/wiki/Coppersmith%27s_attack#H%C3%A5stad%27s_broadcast_attack}
+
+\paragraph{Trapdoor function} In cryptography, the RSA function is referred
+to as a \emph{trapdoor function} or a \emph{trapdoor permutation} (since it
+is bijective). Outside of cryptography, the RSA function is also referred to
+as ``encryption function''. This can be quite misleading terminology, as RSA
+on its own is not a full encryption scheme whereas the name seems to suggest
+that RSA alone is good encryption...
+
+\section{Encrypting with RSA}\label{sec:rsaoaep}
+Encrypting with RSA is not an easy task. Firstly, one needs to add randomness
+in some way (to be discussed in more detail shortly), and secondly, we need
+to cope with the issue that one-wayness is an extremely weak assumption,
+as we have seen in the first lecture of the course. Therefore, proving IND-CPA security merely based on a one-wayness definition seems
+already quite challenging conceptually. One could go through hardcore bits~\url{http://www.wisdom.weizmann.ac.il/~oded/X/acgs.pdf},
+but this seems to yield a quite inefficient encryption system.
+
+We now first describe RSA-OAEP and then discuss the different approaches towards
+proving RSA-OAEP. Before turning to RSA-OAEP, just a quick discussion about a
+previous approach to randomizing RSA which failed quite strongly.
+
+\paragraph{Padding Oracle attacks on RSAES-PKCS1-v$1_5$}
+The Bleichenbacher attack on RSAES-PKCS1-v1$\_$5~\url{https://en.wikipedia.org/wiki/PKCS_1}
+is a variant of the padding oracle attack which we have seen in the \emph{before the
+lecture} part of lecture 4. Namely, the nice algebraic properties of RSA lend themselves
+as the basis for attacks, if the
+padding is not carefully done. For RSAES-PKCS1-v1$\_$5, it was shown that a partial decryption oracle (i.e., an oracle which
+tells whether the padding is correct or not) can be used to recover a message encrypted 
+using RSAES-PKCS1-v1$\_$5 bit by bit.
+
+\paragraph{RSA-OAEP}
+See~\url{https://en.wikipedia.org/wiki/Optimal_asymmetric_encryption_padding} for
+the description of the RSA-OAEP padding scheme.
+
+
+
+\section{Random Oracle Proofs}\label{sec:rom}
+Bellare and Rogaway who proposed the OAEP~\url{https://cseweb.ucsd.edu/~mihir/papers/oaep.html} originally
+carried out their proof in the \emph{random oracle model}, i.e., they assumed that the functions $H$ and $G$
+are implemented by oracles which behave as public, truly random functions, so-called \emph{random oracles} (RO). While it is clear that a (deterministic,
+public) hash-function
+ cannot behave like a true random function and cannot be indistinguishable from
+a truly random function (since, unlike a PRF, a hash-function does not have a secret key),
+modeling hash-functions as random oracles is popular in the research community, since it
+simplifies proofs. Namely, instead of a (very weak) one-wayness assumption (as the one we
+previously described for trapdoor functions), in the proof, one can use the much stronger
+assumption that $\mathsf{RO}(x)$ is uniformly random and secret as long as the attacker does not know $x$. Bellare and Rogaway
+deem random oracles a solid methodology for practical analysis~\url{https://cseweb.ucsd.edu/~mihir/papers/ro.pdf},
+whereas other researchers collect the flaws and problems of the methodology. Canetti, Goldreich and Halevi (CGH) were the
+first to demonstrate technical and conceptual flaws in the random oracle model methodology~\url{https://eprint.iacr.org/1998/011.pdf}.
+The article essentially shows that there are cryptographic schemes which can be proven
+secure in the random oracle model, but are insecure whenever we replace the random oracle
+by a concrete function. I.e., CGH show that \emph{there is no concrete hash-function that
+makes the scheme secure}. Thereby, CGH establish that the random oracle methodology might
+make us believe that certain schemes are secure, while they are blatantly insecure. The CGH
+paper is a good example of how controversial the random oracle methodology is discussed in
+the field: Each author wrote their own conclusion, since each of the three interpreted the
+facts brought forward in the paper differently. CGH was then later criticized for providing
+only contrived counterexamples, whereas, so the critics' opinion, ``natural'' cryptographic
+schemes would not show such strange behaviour as the ones presented in CGH. For more recent works on understanding random
+oracles, see, e.g.,~\url{https://eprint.iacr.org/2013/424} and~\url{https://eprint.iacr.org/2014/867}.
+
+\paragraph{(Un)instantiability proofs for RSA-OAEP}
+It was sought to establish that security of RSA-OAEP can \emph{only} be proven in the random oracle,
+perhaps pointing out another weakness of the random oracle model. See, e.g.,~\url{https://link.springer.com/chapter/10.1007/978-3-642-01001-9_23}
+for an uninstantiability result (i.e., a result showing that the random oracle might not be instantiable
+by any concrete hash-function) by Kiltz and Pietrzak. However, a little later, Kiltz, O’Neill, and Smith
+showed~\url{https://link.springer.com/content/pdf/10.1007/978-3-642-14623-7_16.pdf} that the hash-functions in RSA-OAEP can be securely instantiated
+when making stronger assumptions on the RSA function than merely assuming that it is a one-way function.
+
+
+
+\section{Non-black-box constructions and reductions}\label{sec:nonbb}
+\paragraph{Example 1: Zero-Knowledge} In 2008, in a celebrated breakthrough result, Barak showed that treating the adversary in
+a \emph{non-black-box} way might sometimes allow us to prove statements which were impossible
+to prove in a black-box way~\cite{https://www.boazbarak.org/Papers/nonbb.pdf}. His idea emerged
+in the context of certain zero-knowledge proofs and the difficulty of showing security against a malicious
+verifier (who wants to break the zero-knowledge property). On the very high-level, the idea, here (described on page 23 of 
+the article), is that if knowing the code of the verifier allows to compute a \emph{commitment} to
+the code of the verifier, which later allows to show that the verifier, indeed, behaved correctly.
+The details of the proof are beyond the scope of this course---but if you are curious about this
+paper, then this article would be a fantastic choice for a presentation in the context of the course
+MS-E1687 Advanced Topics in Cryptography~\url{https://mycourses.aalto.fi/course/view.php?id=32919}.
+
+\paragraph{Example 2: Obfuscation} Barak's technique did not lead to a broad use of non-black-box use
+of an adversary. However, non-black-box use of a cryptographic \emph{primitive} became a very popular
+technique after 2013 in cryptography. Namely, in 2013, a breakthrough candidate construction by 
+Garg, Gentry, Halevi, Raykova, Sahai and Waters (GGHRSW~\url{https://eprint.iacr.org/2013/451
+}) convinced the cryptographic community that
+\emph{obfuscation} of arbitrary circuits might be possible, after all. This was a big surprise
+due to an impossibility result from 2001 by Barak, Goldreich, Impagliazzo, Rudich, Sahai, Vadhan, and 
+Yang (BGIRSVY~\url{https://www.wisdom.weizmann.ac.il/~oded/p_obfuscate.html}) which showed that so-called
+\emph{virtual black-box} obfuscation for general circuits is impossible. BGIRSVY also propose a very
+weak notion of obfuscation known as \emph{indistinguishability obfuscation} and believed to be rather
+useless, see, e.g.,~\url{https://www.wisdom.weizmann.ac.il/~oded/MC/136.html}. However, Sahai and
+Waters~\url{https://eprint.iacr.org/2013/454} showed that indistinguishability obfuscation is actually 
+a very useful primitive, and with the GGHRSW candidate construction together, the cryptographic
+community started on fruitful and lively research on (a) applications of indistinguishability obfuscation
+and (b) constructions based on reasoneable assumptions. Only this year, indistinguishability obfuscation
+has been based on quite well-founded assumptions~\url{https://eprint.iacr.org/2021/1334}. You can ask
+Kirthi, Estuardo or Chris if you are interested in more background on the topic of obfuscation. 
+
+But what is the connection between obfuscation and non-black-box techniques? Obfuscation takes a circuit/program
+and turns it into an non-intellegible version of that circuit/program---but it maintains the input-output
+behaviour. In order to use obfuscation, we need to describe our cryptographic primitive concretely as a circuit/program.
+Therefore, when relying on obfuscation, the underlying cryptographic primitives cannot be treated in a
+black-box way.
+
+\section{Black-box proofs}\label{sec:bb}
+The first authors to study the power of \emph{black-box proofs} in cryptography
+were Impagliazzo and Rudich who showed that one cannot build public-key encryption
+from one-way permutations in black-box way~\url{https://link.springer.com/content/pdf/10.1007}.
+Later, Reingold, Trevisan and Vadhan sought to cleanly characterize which techiques are captured
+by black-box impossibility results \`a la Impagliazzo-Rudich and thus defined a classification
+of notions of reducibility between cryptographic primitives~\url{https://omereingold.files.wordpress.com/2014/10/blackbox.pdf}.
+This work was later refined by Baecher, Brzuska and Fischlin~\url{https://eprint.iacr.org/2013/101}.
+Nowadays, I also think that a good definition of \emph{black-box} is to say that everything
+which can be proven via this \emph{package methodology} (which Osama briefly presented) is
+a black-box proof, see the Crypto Companion or  \url{https://eprint.iacr.org/2018/306}.
+
+\section{Post-Quantum Cryptography}\label{sec:pq}
+The National Institute of Standards and Technology (NIST) started a competition for
+post-quantum secure public-key encryption schemes. In fact, the actual competition
+concerns post-quantum secure \emph{key encapsulation mechanisms} (KEM). These are public-key
+encryption schemes which only encrypt \emph{random} messages (i.e., \emph{keys}) instead
+of chosen messages. Once two parties share a secret random message, they can use this random
+message as a key for a symmetric encryption scheme---this is known as the KEM-DEM approach,
+see, e.g., Section 4 in \url{https://eprint.iacr.org/2018/306}. I did not say much about
+the NIST competition in the lecture, but if you are
+interested in the current state-of-the-art of post-quantum secure
+public-key encryption, then this might be a good starting point:
+https://www.nist.gov/news-events/news/2020/07/nists-postquantum-cryptography-program-enters-selection-round
+\end{document}

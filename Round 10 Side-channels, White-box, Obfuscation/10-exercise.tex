@@ -1,0 +1,615 @@
+\newif\iffull\fullfalse% do not change flags here
+\newif\ifdraft\draftfalse% do not change flags here
+
+\documentclass[envcountsame,runningheads,notitlepage]{../llncs}
+\pagestyle{plain}
+
+\usepackage[letterpaper,hmargin=3.5cm,vmargin=3cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xifthen}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{lscape}
+%\usepackage{amsthm}
+\usepackage{xspace}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{color,soul}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows, calc,fit}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{subcaption}
+\usepackage[probability,adversary,sets,notions,operators,complexity,keys,primitives,asymptotics,advantage]{cryptocode}
+\usepackage{cleveref}
+
+\newcommand{\ldv}{\mathsf{leak}}
+\newcommand{\leakage}{\mathit{lk}}
+\newcommand{\Enc}{\mathtt{Enc}}
+
+\usepackage{savesym}
+\usepackage{relsize}
+\savesymbol{cb}
+\usepackage{combelow}
+\usepackage[normalem]{ulem}
+\usepackage{wrapfig}
+\newtheorem{crossed}{Esitehtävä}
+\usepackage{enumitem}
+%\newtheorem*{theorem*}{Definition}
+
+\let\proof\relax
+\let\endproof\relax
+\usepackage{amsthm}
+
+\usepackage{upgreek}
+
+\theoremstyle{definition}
+\newtheorem{graded}[crossed]{Exercise}
+\newtheorem{challenge}[crossed]{Challenge exercise}
+
+\tikzstyle{package} = [draw,rounded corners=2mm,minimum height=.7cm,minimum width=2cm]
+
+% Colors
+\newcommand\maybecolor[1]{\color{#1}}
+\definecolor{lightblue}{rgb}{0.2,0.2,1.0}
+\definecolor{dkred}{rgb}{0.5, 0.0,0.0}
+\definecolor{lightgrey}{rgb}{0.8,0.8,0.8}
+\definecolor{dkblue}{rgb}{0,0.1,0.5}
+\definecolor{dkgreen}{rgb}{0,0.4,0}
+\definecolor{dkred}{rgb}{0.6,0,0}
+\definecolor{linkColor}{rgb}{0,0,0.5}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\ifdraft
+\newcommand{\fullcolor}{\color{blue}}
+\else
+\newcommand{\fullcolor}{\color{black}}
+\fi
+\newcommand{\blk}{\color{black}}
+\newcommand{\dkg}{\color{dkgreen}}
+
+% Variable and procedures names
+\renewcommand{\O}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\V}[1]{\ensuremath{\mathit{#1}}}
+\newcommand{\M}[1]{\ensuremath{\text{\tt#1}}}
+\def \G {\mathcal{G}}
+\newcommand{\hLen}{n}
+\newcommand{\fhe}{\O{fhe}}
+\newcommand{\pcvar}[1]{\ensuremath{\mathit{#1}}}
+
+
+
+
+%\newcommand{\markulf}[1]{{\color{orange}{MK: #1}}}
+\newcommand{\mk}[1]{{\color{orange}{mk: #1}}}
+
+
+% WIDEBAR
+
+\makeatletter
+\let\save@mathaccent\mathaccent
+\newcommand*\if@single[3]{%
+	\setbox0\hbox{${\mathaccent"0362{#1}}^H$}%
+	\setbox2\hbox{${\mathaccent"0362{\kern0pt#1}}^H$}%
+	\ifdim\ht0=\ht2 #3\else #2\fi
+}
+%The bar will be moved to the right by a half of \macc@kerna, which is computed by amsmath:
+\newcommand*\rel@kern[1]{\kern#1\dimexpr\macc@kerna}
+%If there's a superscript following the bar, then no negative kern may follow the bar;
+%an additional {} makes sure that the superscript is high enough in this case:
+\newcommand*\widebar[1]{\@ifnextchar^{{\wide@bar{#1}{0}}}{\wide@bar{#1}{1}}}
+%Use a separate algorithm for single symbols:
+\newcommand*\wide@bar[2]{\if@single{#1}{\wide@bar@{#1}{#2}{1}}{\wide@bar@{#1}{#2}{2}}}
+\newcommand*\wide@bar@[3]{%
+	\begingroup
+	\def\mathaccent##1##2{%
+		%Enable nesting of accents:
+		\let\mathaccent\save@mathaccent
+		%If there's more than a single symbol, use the first character instead (see below):
+		\if#32 \let\macc@nucleus\first@char \fi
+		%Determine the italic correction:
+		\setbox\z@\hbox{$\macc@style{\macc@nucleus}_{}$}%
+		\setbox\tw@\hbox{$\macc@style{\macc@nucleus}{}_{}$}%
+		\dimen@\wd\tw@
+		\advance\dimen@-\wd\z@
+		%Now \dimen@ is the italic correction of the symbol.
+		\divide\dimen@ 3
+		\@tempdima\wd\tw@
+		\advance\@tempdima-\scriptspace
+		%Now \@tempdima is the width of the symbol.
+		\divide\@tempdima 10
+		\advance\dimen@-\@tempdima
+		%Now \dimen@ = (italic correction / 3) - (Breite / 10)
+		\ifdim\dimen@>\z@ \dimen@0pt\fi
+		%The bar will be shortened in the case \dimen@<0 !
+		\rel@kern{0.6}\kern-\dimen@
+		\if#31
+		\overline{\rel@kern{-0.6}\kern\dimen@\macc@nucleus\rel@kern{0.4}\kern\dimen@}%
+		\advance\dimen@0.4\dimexpr\macc@kerna
+		%Place the combined final kern (-\dimen@) if it is >0 or if a superscript follows:
+		\let\final@kern#2%
+		\ifdim\dimen@<\z@ \let\final@kern1\fi
+		\if\final@kern1 \kern-\dimen@\fi
+		\else
+		\overline{\rel@kern{-0.6}\kern\dimen@#1}%
+		\fi
+	}%
+	\macc@depth\@ne
+	\let\math@bgroup\@empty \let\math@egroup\macc@set@skewchar
+	\mathsurround\z@ \frozen@everymath{\mathgroup\macc@group\relax}%
+	\macc@set@skewchar\relax
+	\let\mathaccentV\macc@nested@a
+	%The following initialises \macc@kerna and calls \mathaccent:
+	\if#31
+	\macc@nested@a\relax111{#1}%
+	\else
+	%If the argument consists of more than one symbol, and if the first token is
+	%a letter, use that letter for the computations:
+	\def\gobble@till@marker##1\endmarker{}%
+	\futurelet\first@char\gobble@till@marker#1\endmarker
+	\ifcat\noexpand\first@char A\else
+	\def\first@char{}%
+	\fi
+	\macc@nested@a\relax111{\first@char}%
+	\fi
+	\endgroup
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     FONTS AND EDITING
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\highlight}[1]{\colorbox{red!20}{$\displaystyle#1$}}
+\definecolor{purple}{RGB}{139,0,139}
+\newcommand{\ben}[1]{{\color{purple}{BD: #1}}}
+\definecolor{darkgreen}{RGB}{0,128,0}
+\newcommand{\chris}[1]{{\color{darkgreen}{CB: #1}}}
+\definecolor{orange}{RGB}{210,105,30}
+\newcommand{\geoffroy}[1]{{\color{orange}{GC: #1}}}
+\newcommand{\todo}[1]{{\color{red}{TODO: #1}}}
+
+\definecolor{darkblue}{RGB}{0,0,128}
+\definecolor{midnightblue}{RGB}{0,0,210}
+\definecolor{darkred}{RGB}{128,0,0}
+\definecolor{figred}{RGB}{230,0,26}
+\definecolor{figgreen}{RGB}{153,192,0}
+\definecolor{figorange}{RGB}{245,163,0}
+\definecolor{figblue}{RGB}{0,104,157}
+\definecolor{figpurple}{RGB}{149,17,105}
+
+
+
+
+%\theoremstyle{plain}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{proposition}{Proposition}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem*{corollary}{Corollary}
+
+\newtheorem*{definition*}{Definition}
+%\newtheorem{conjecture}{Conjecture}
+%\newtheorem{algorithm}{Algorithm}
+\newtheorem{construction}{Construction}
+%\newtheorem{claim}{Claim}
+
+%\theoremstyle{remark}
+%\newtheorem*{remark}{Remark}
+%\newtheorem*{note}{Note}
+%\newtheorem{case}{Case}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%         STYLES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\R}{\mathbb{R}} \newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}} \newcommand{\Q}{\mathbb{Q}}
+\newcommand{\card}[1]{\abs{#1}}
+%\theoremstyle{definition} \newtheorem*{definition}{Definition}
+%\newtheorem*{remark}{Remark} \newtheorem*{lemma}{Lemma}
+%\newtheorem*{conjecture}{Conjecture} \newtheorem*{hint}{Hint}
+%\newtheorem{claim}{Claim}
+\newcommand{\cnt}{\textsf{ctr}}
+\renewcommand{\H}{\textsf{H}}
+\newcommand{\RO}{\textsf{RO}}
+\newcommand{\mactag}{t}
+\newcommand{\macinput}{x}
+\newcommand{\RPO}{\textsf{RPO}}
+\renewcommand{\O}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\E}{\textsf{E}}
+\newcommand{\ininterface}[1]{{\mathsf{in}(#1)}} %{I^{in}_{#1}}
+\newcommand{\outinterface}[1]{{\mathsf{out}(#1)}} %{I^{out}_{#1}}
+\newcommand{\StyleModel}[1]{\O{{#1}}}
+\newcommand{\WB}{\textsf{WB}}
+\newcommand{\Comp}{\textsf{Comp}}
+\newcommand{\comp}{\textsf{Comp}}
+\newcommand{\keyse}{k_\textsf{SE}}
+\newcommand{\keygen}{\textsf{Kgen}}
+\newcommand{\circuit}{\textsf{C}}
+\newcommand{\parse}{\texttt{PARSE}}
+\newcommand{\Prf}{\texttt{PRF}}
+\newcommand{\WBKDF}{\ensuremath{\mathtt{WKDF}}}
+\newcommand{\context}{\ensuremath{e}}
+\newcommand{\SCHWBKDF}{\ensuremath{\mathsf{WBHW}}}
+\newcommand{\KDF}{\textsf{KDF}}
+
+\newcommand{\SCHKDF}{\ensuremath{\mathsf{KDF}}}
+\newcommand{\WKDF}{\HWBKDF}
+\newcommand{\kkdf}{\ensuremath{k_{\mathtt{kdf}}}}
+
+\renewcommand{\Check}{\ensuremath{\mathtt{Check}}}
+\newcommand{\HWDel}{\Subkgen_\hw}
+\newcommand{\HWEval}{\Resp_\hw}
+\newcommand{\hw}{\ensuremath{\mathtt{HW}}}\newcommand{\SCHWM}{\ensuremath{\mathsf{HWM}}} 							%scheme
+\newcommand{\Resp}{\ensuremath{\mathtt{Resp}}}
+\newcommand{\sw}{\ensuremath{\mathtt{SW}}}
+\newcommand{\Subkgen}{\ensuremath{\mathtt{SubKgen}}} %\xspace}
+\newcommand{\kmaster}{\ensuremath{k_{\mathtt{HWm}}}}
+\newcommand{\kslave}{\ensuremath{k_{\mathtt{HWs}}}}
+\newcommand{\Label}{\ensuremath{\mathit{label}}}
+
+
+\newcommand{\kgen}{\StyleModel{kgen}}
+\newcommand{\m}{\StyleModel{m}}
+\newcommand{\se}{\StyleModel{se}}
+\newcommand{\pke}{\StyleModel{pke}}
+\renewcommand{\enc}{\StyleModel{enc}}
+\renewcommand{\dec}{\StyleModel{dec}}
+%\newcommand{\prp}{\StyleModel{prp}}
+\newcommand{\nonce}{\StyleModel{nc}}
+\newcommand{\ac}{\StyleModel{ac}}
+\newcommand{\ch}{\StyleModel{ch}}
+\renewcommand{\mac}{\StyleModel{mac}}
+\newcommand{\ver}{\StyleModel{ver}}
+\renewcommand{\verify}{\StyleModel{ver}}
+\newcommand{\receive}{\StyleModel{receive}}
+\newcommand{\send}{\StyleModel{send}}
+\newcommand{\unfcma}{\M{UNF-CMA}}
+\newcommand{\unfcmaac}{\M{UNF-CMA-AC}}
+\newcommand{\flunfcma}{\M{FL-UNF-CMA}}
+%\newcommand{\pcassert}{\mathbf{assert}\;}
+%\specialcomment{solution}{\textbf{Solution:}\;}{}
+\newboolean{ifsolution}
+\setboolean{ifsolution}{false}
+
+\usepackage[breakable]{tcolorbox}
+
+% if exercises only:
+%\newcommand{\sol}[1]{}
+
+% if solution included:
+\newcommand{\sol}[1]{\begin{tcolorbox}[breakable]\solution{#1}\end{tcolorbox}}
+
+\title{CS-E4340 Cryptography: Exercise Sheet 9\\
+\large ---Side-Channel Analysis, White-Box Cryptography---}
+
+ \author{}\institute{}
+%\author{Estuardo Alpirez Bock, Christopher Brzuska and Kirthivaasan Puniamurthy}
+%\institute{
+%  Aalto University, Finland
+%}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+%\noindent
+\textbf{Submission deadline: November 21, 2022, 11:30, via MyCourses}
+
+%\medskip
+%\noindent
+Each exercise can give up to two participation points, 2 for a mostly correct solution and 1 point for a good attempt. Overall, the exercise sheet gives at most 4 participation points. We encourage to \textbf{choose} exercises which seem \textbf{interesting} and/or adequately challenging to you.
+
+\medskip
+\noindent
+Exercise Sheet 9 is intended to help...
+\begin{itemize}
+\item[(a)] ...learn to perform cryptanalysis (Ex. 1).
+\item[(b)] ...think about meaningful security definitions for white-box cryptography (Ex. 2-Ex.6). In  Definition \ref{def:wb_comp}, we provide a general definition for a white-box compiler. This compiler takes as input the secret key of a symmetric encryption scheme, and outputs a white-box encryption program. The white-box encryption program takes as input a message $m$ and a nonce $nc$, and outputs an encryption of $m$. The white-box program is functionally equivalent to $\enc(k,m,nc)$.
+\end{itemize}
+
+\begin{graded}[Side-channel analysis]
+Below we see a description of the Montgomery Ladder using projective coordinates. This algorithm is a popular choice for implementing the scalar multiplication in elliptic curve cryptosystems implemented in hardware. We recall that in such cryptosystems, the scalar $k$ corresponds to the secret key and the multiplication $kP$ is performed, e.g., for generating a signature or performing encryptions. The algorithm goes through an initialization phase (line 1), where 4 registers are set with some initial values.
+The algorithm then enters a loop (lines 2 to 10). The loop is executed once for each bit of the scalar $k$ and depending on the bit value we execute either lines 4 and 5 or lines 7 and 8. Note that in both cases, the loop consists of the same arithmetic operations (multiplication, addition, squaring and overwriting the value of a register).
+
+Figure \ref{fig:pt1} shows two power traces obtained during the execution of the algorithm (these power traces correspond actually to the initialization period and to the first 4 loop iterations of the algorithm). For the power trace above, a scalar $k = \kappa_1$ was used, while for the power trace below, a different scalar $k = \kappa_2$ was used. From observing these power traces, are you able to extract any bits from any of the two scalars?
+
+\includegraphics[scale=0.35]{montgomery_ladder}
+
+\begin{figure}
+\includegraphics[scale=0.35]{PT1}
+\includegraphics[scale=0.35]{PT2}
+\end{figure}\label{fig:pt1}
+
+\paragraph{Hints:}
+\begin{enumerate}
+\item $l$ is the length of the key, e.g. 233 bits. In this context, we say that the first bit of the key ($k_{l-1}$) is always a 1. The loop iterations start when we read the second bit ($k_{l-2}$).
+
+\item $P=(x,y)$ is a point on the elliptic curve, the value of its coordinate $x$ is used in line 1 to initialize some registers (e.g. register $X_1$). $b$ is a coefficient used for defining the elliptic curve.
+
+\item During the first loop iteration, the registers (or variables) $X_1,X_2,Z_1$ and $Z_2$ will be initialized with the values set on line 1.
+
+\item Note that the Montgomery Ladder is expected to provide robustness against simple power analysis attacks. Thus, you are not really expected to  extract \emph{many} bits just from observing these two power traces. Note that most loop iterations look very similar and it is difficult to determine any key dependencies. However the first loop iteration looks different than the rest. Moreover, the first loop iteration for both power traces looks very different.
+
+\item Recall that the power consumption of a device depends on the number of gates being switched during the computation. Thus, power consumption (per clock cycle) is highly dependent on the type of operations we are performing and also on the inputs we are processing. Do you think all multiplications demand equally high power? Or does it depend on the values we are multiplying?
+
+
+
+\end{enumerate}
+
+\end{graded}
+
+
+
+\begin{definition*}[White-box compiler]\label{def:wb_comp}
+An algorithm $\Comp$ is called a white-box compiler for a symmetric encryption scheme $\se=(\se.\enc,\se.\dec)$ if for all key values $k \in\bin^\lambda$, all nonces $\pcvar{nc}\in\bin^\lambda$ and all messages $m\in\bin^*$, we have $\prob{\se.\enc(k,m,\pcvar{nc})=\WB(m,\pcvar{nc})} = 1$,
+where the probability is taken over $\WB \sample \Comp(k)$.
+\end{definition*}
+
+
+
+\begin{graded}[Security against key extraction]
+
+In the lecture we discussed how white-box programs may be susceptible to key-extraction attacks. Achieving security against key extraction is crucial for a white-box program. However as we will see in this exercise, white-box programs need to achieve further properties in order to provide any meaningful security.
+
+Below we provide a definition capturing the property of security against key extraction for white-box programs.\footnote{In the literature, this definition might be referred to as \emph{Unbreakability}. The name Unbreakability derives from the fact that when we manage to extract the key of a cryptographic implementation, we say that we \emph{break} the implementation.} Explain that while this definition captures security against key extraction, it does not really capture useful properties we would want from a white-box (cryptographic) program. Give an example of a program which achieves security against key extraction (i.e. is secure in the model below), yet it does not provide any further meaningful security (e.g. confidentiality of plaintexts). For this, you may design a correct but insecure symmetric-encryption scheme $\O{se}_\text{example}$ (assuming an existing secure symmetric-encryption scheme $\O{se}$) and a compiler $\O{comp}$ for $\O{se}_\text{example}$ such that the compiler for $\O{se}_\text{example}$ outputs a white-box encryption program which is (1) functional equivalent to the encryption of $\O{se}_\text{example}$, (2) is secure against key extraction and (3) does not achieve any meaningful security in the presence of a white-box adversary.
+
+Hint:  Note that the definition below follows a notation style similar to the security definition for one-way functions (see Section 3.1 on the Cryptocompanion (Security definition 1)).
+
+
+\begin{definition*}[Security against key extraction]\label{secdef:KE}
+Let ${\mathsf{Exp}}_{\WB,\adv}^{\mathsf{Kextr}}(1^\lambda)$ be a security experiment defined by
+\begin{center}
+	  \procedure{${\mathsf{Exp}}_{\Comp,\adv}^{\mathsf{Kextr}}(1^\lambda)$}{
+		k \sample \{0,1\}^\lambda \\
+		\WB \sample\Comp(k)		\\
+		k^* \sample \adv(\WB) \\
+		\pcif k^*=k \pcthen\\
+		\pcind \pcreturn 1\\
+		\pcreturn 0}
+\end{center}
+A white-box compiler $\Comp$ for a symmetric encryption scheme $\O{se}$ is secure against key extraction if for all PPT adversaries $\adv$ the winning probability $\mathsf{Win}^{\mathsf{Kextr}}_{\Comp,\adv}(1^\lambda):=\prob{1={\mathsf{Exp}}_{\Comp,\adv}^{\mathsf{Kextr}}(1^\lambda)}$ is negligible in $\lambda$. (See discussion of search games in the Cryptocompanion.)
+\end{definition*}
+\paragraph{Hints:}
+\begin{enumerate}
+\item It may be useful to think of other primitives (besides encryption programs) which we may want to white-box. For instance, suppose you want to white-box a MAC program. As we recall from previous lectures, a good MAC should achieve an unforgeability property. Suppose we white-box a \emph{bad} MAC program which does not achieve the unforgeability property. Suppose however, that the white-box version of this program manages to hide its key such that it is indeed very difficult for an adversary to recover it from the implementation. Would such a MAC program be considered secure in the definition above, even though we know that it is a bad MAC?
+\end{enumerate}
+
+
+\end{graded}
+
+
+\begin{graded}[Leakage resilient cryptography]
+In wake of the evident threat of side-channel attacks, a research area known as \emph{leakage resilient cryptography} was introduced. This area covers definitional studies considering an adversary who obtains some leakage of the secret key used within a cryptographic scheme. Then, the adversary tries to break security of the cryptographic scheme, given the leakage.
+
+\begin{description}
+\item{a)} Provide a definition for IND-CPA security of an encryption scheme under leakage. This definition should look similar to the traditional IND-CPA definition we have seen in previous lectures, with some additional steps where the adversary obtains leakage from the secret key.
+
+\item{b)} What do you think may be practical ways of achieving security under leakage? 
+
+\end{description}
+
+\paragraph{Hints:}
+\begin{enumerate}
+\item In definitions for cryptographic schemes secure under leakage, the adversary usually defines his own leakage function. However for the definition to make sense, the leakage function should have some restrictions. E.g. the leakage function should not be able to provide the adversary with the complete value of the secret key, else the adversary would always trivially win the security games. I.e. there may be some output length restrictions for the leakage functions. Alternatively, there might not be length restrictions for the output of the leakage functions, but the adversary should not be able to trivially derive the value of the secret key from the leakage. How would you capture these properties of the leakage function within the definition? What would be a reasonable output length restriction?
+
+\end{enumerate}
+\end{graded}
+
+
+\begin{graded}[Impossibility]
+AES has been shown to be tremendously difficult to white-box. As we will see via an example in this
+exercise, some symmetric encryption schemes are actually impossible to be securely white-boxed, and they might not even achieve the modest goal of security against key extraction. Let $\se$ be an IND-CPA secure symmetric
+encryption scheme, let $f$ be a pseudorandom function and let $\se'$ be the symmetric encryption scheme as defined below. Let $\O{comp}$ be a (correct) white-box compiler for $\se'$, i.e. $\WB \sample \Comp(k_\se')$.
+
+Give the code of an efficient attacker $\adv$ such that $\mathsf{Win}^{\mathsf{Kextr}}_{\Comp,\adv}(1^\lambda):=\prob{1={\mathsf{Exp}}_{\Comp,\adv}^{\mathsf{Kextr}}(1^\lambda)}$
+is non-negligible. You only need to argue about the success probability informally.
+
+Hint: A black-box program means that an adversary is able to obtain input/output pairs but
+not know the code/internals of the program. What happens when an adversary instead
+interacts with a white-boxed program, i.e.
+it knows the program's code/internals, although it cannot make sense of it?
+\begin{center}
+	\begin{pchstack}
+	\procedure{$\kgen'(1^\lambda)$}{
+			\keyse \sample \bin^\lambda \\
+			k_x \sample \bin^\lambda \\
+			k_{\nonce} \sample \bin^\lambda \\
+			k_{\se'} \leftarrow \keyse||k_x||k_{\nonce} \\
+			\pcreturn k_{\se'}
+		}
+	\pchspace
+		\procedure{$\enc'(k_{\se'},x,nc)$}{
+			\circuit \leftarrow \parse(x) \\
+			\keyse||k_x||k_{\nonce} \leftarrow k_{\se'} \\
+			d \leftarrow 1 \\
+			\mathbf{for}\;i\;\mathbf{ from }\;1\; \mathbf{to}\; \lambda \\
+			\quad x_i \leftarrow \Prf(k_x,\textsf{bin}_\lambda(i)||\nonce) \\
+			\quad \nonce_i \leftarrow \Prf(k_{\nonce},\textsf{bin}_\lambda(i)||\nonce) \\
+			\quad \pcif \circuit(x_i,\nonce_i)=0||\enc(\keyse,x_i,\nonce_i) \\
+			\quad \quad \ d \leftarrow  d \wedge 1 \\
+			\quad \pcelse d \leftarrow d \wedge 0 \\
+			c' \leftarrow \enc(\keyse,x,nc) \\
+			\pcif d=0 \\
+			\quad c \leftarrow 0||c' \\
+			\pcelse \ c \leftarrow 1||c'||k_{\se'} \\
+		    \pcreturn c
+			}
+	\pchspace
+		\procedure{$\dec'(k_{\se'},c,\nonce)$}{
+			d||\widetilde{c} \leftarrow c \\
+			\keyse||k_x||k_{\nonce} \leftarrow k_{\se'} \\
+			\pcif d=0 \\
+ 		\quad x \leftarrow \dec(\keyse,\widetilde{c},\nonce) \\
+			\pcelse \\
+			\quad c'||k' \leftarrow \widetilde{c} \\
+			\quad \pcif k'=k_{\se'} \\
+			\quad \quad x \leftarrow \dec(\keyse,c',\nonce) \\
+			\quad \pcelse x \leftarrow \bot \\
+			\pcreturn x
+		}
+	\end{pchstack}
+\end{center}
+%\fi
+
+
+\end{graded}
+
+
+\begin{graded}[White-box as PKE]
+One possible view on security of white-box cryptography (without hardware-binding)
+is to build public key encryption scheme from a white-box of symmetric encryption scheme  and demand that
+the resulting PKE satisfies IND-CPA security of a PKE. Given a
+white-box symmetric encryption scheme, describe a $\pke$ based on it and argue intuitively why it satisfies IND-CPA of PKE.
+%for later editions of the course let's change the "provide a security definition" into "show that is satisfies IND-CPA of pke"  
+\end{graded}
+
+
+
+\begin{graded}[Hardware-binding]
+In the lecture we discussed the issue that white-box programs might be susceptible to re-distribution attacks (or \emph{code-lifting} attacks). In such attacks, an adversary copies the complete white-box program and simply uses it on a device of its choice.
+One method to mitigate such attacks is to compile the white-box program such that it can only be executed on one specific device. We refer to this property as hardware-binding. One way to implement hardware-binding is by having a program which tries to check on which device it is running before performing a computation. For instance, if the device running the white-box has a secure hardware module (which is not accessible to the white-box adversary), we could use one functionality of that module to check if we are running on the desired hardware.
+
+Consider now a key derivation function (KDF) that we wish to white-box. Here, we consider a simple key derivation function which uses a secret key $\kkdf$ to derive further keys from a context value $e$. The derived keys should be indistinguishable from random and thus, the syntax and security definition of this KDF are equal to those we have defined for PRFs\footnote{We here use the term KDF, because it makes more sense conceptually, but if it is confusing, think PRF each time you read KDF.}.  In this exercise we will study a security definition for a white-box KDF with hardware-binding. Below, we first introduce the syntax for our hardware module. Then we introduce the syntax for the white-box KDF. Finally, we provide a definition for the security of a white-box KDF.
+
+We observe that the white-box KDF works in collaboration from a response coming from the hardware module. Without this response, the white-box KDF cannot compute anything. The security definition has some subtle flaws. Namely, currently, an adversary can win this game. Can you spot the flaws, explain them and correct them?
+
+\begin{definition*}[Hardware Module $\SCHWM$]
+	\label{def:hardware}
+	A \emph{hardware module} $\SCHWM$ consists of four algorithms $(\kgen_\hw,\Subkgen_\hw,\Resp_\hw,\Check_\sw)$, where $\kgen_\hw$ is a PPT algorithm, and the algorithms $\Subkgen_\hw$, $\Resp_\hw$ and $\Check_\sw$ are deterministic algorithms with the following syntax:
+	\begin{align*}
+	\kmaster & \sample  \kgen_\hw(1^n)&&& \kslave & \gets \Subkgen_\hw(\kmaster, \Label)  \\
+	\sigma &\gets  \Resp_\hw(\kmaster, \Label, x) &&& b	&\gets  \Check_\sw(\kslave, x, \sigma),
+	\end{align*}
+	
+	
+	Correctness requires that for all security parameters $\secpar\in\NN$,
+	\[\prob{\Check_\sw(\Subkgen_\hw(\kmaster,\Label),
+		x,\Resp_\hw(\kmaster,\Label,x))=1}=1,\]
+	where the probability is over the sampling of
+	$\kmaster \sample \kgen_\hw(1^n)$.
+\end{definition*}
+
+The purposes of the algorithms are:
+\begin{itemize}
+	\item The algorithm $\kgen_\hw$ is used within the HWM to generate a main key $\kmaster$, which is located in the HWM.
+	\item The algorithm $\Subkgen_\hw$ is used within the HWM to generate a subkey $\kslave$, which is used when compiling the whitebox program (the whitebox program can later use the key $\kslave$ to verify that it is running in the correct hardware.)
+	\item The algorithm $\Resp_\hw$ is run in the HWM. The whitebox program can ask the HWM to give a response on which hardware it is running, that invokes $\Resp_\hw$ algorithm which gives the answer.
+	\item The algorithm $\Check_\sw$ is used within the whitebox program to check that the certificate given by $\Resp_\hw$ was valid. To do this, $\Check_\sw$ uses the subkey $\kslave$.
+\end{itemize}
+
+\begin{definition*}[$\SCHWBKDF$]
+A \emph{white-box key derivation scheme with hardware binding $\SCHWBKDF$} consists of a \emph{hardware module $\SCHWM$},
+a \emph{key derivation function} $\SCHKDF$, and a PPT compiling algorithm $\comp$:
+\[\WBKDF\sample \comp(\kkdf, \kslave).\]
+For all genuine $\kmaster$, for all $\kkdf$, for all $\Label$, for all $\context$, for all $\kslave=\linebreak \Subkgen_\hw(\kmaster,\Label)$ and $\sigma=\Resp_\hw(\kmaster,\Label,\context)$, we have
+$$\prob{\KDF(\kkdf, \context) =\WBKDF(\context,\sigma)}=1$$
+where the probability is taken over compiling $\WBKDF\sample \comp(\kkdf, \kslave)$.
+\end{definition*}
+
+\begin{definition*}
+A hardware-bound white-box key derivation scheme $\SCHWBKDF$ is IND-WKDF-secure if the real and ideal games $\M{Gind\text{-}wkdf}^b_\SCHWBKDF$ are computationallly indistinguishable, that is, for all PPT adversaries $\adv$ the advantage
+\[\mathbf{Adv}_{\adv}^{
+  \M{Gind\text{-}wkdf}^0_\SCHWBKDF,
+  \M{Gind\text{-}wkdf}^1_\SCHWBKDF}
+	(\lambda):=\abs{\prob{1=\adv\circ \M{Gind\text{-}wkdf}^0_\SCHWBKDF}-\prob{1=\adv\circ \M{Gind\text{-}wkdf}^1_\SCHWBKDF}}\]
+\end{definition*}
+is negligible.
+\newpage
+\begin{center}
+	\begin{pchstack}
+	  \begin{pcvstack}
+				\underline{\underline{$\M{Gind\text{-}wkdf}^0_\SCHWBKDF$}}\\
+              \procedure{Parameters}{
+				\lambda\text{:} \< \quad \text{security parameter}\\
+			  \SCHWBKDF\text{:} \< \quad \text{WKDF scheme}
+			              }
+										\pcvspace
+										              \procedure{Package State}{
+				\kkdf{:} \< \quad \text{KDF key}\\
+			  \kmaster\text{:} \< \quad \text{hardware main key}\\
+			  \kslave\text{:} \< \quad \text{hardware sub-key} \\
+			%	Q\text{:} \< \quad \text{context set}
+			              }
+          \pcvspace
+    \procedure{$\O{GETWB}(\Label)$}{
+    						\textbf{assert } \WBKDF \neq \bot \\
+    						\kkdf \sample \{0,1\}^\lambda \\
+    						\kmaster  \sample  \kgen_\hw(1^\lambda) \\
+		    				 \kslave \gets \Subkgen_\hw(\kmaster, \Label)\\
+				\WBKDF\sample \comp(\kkdf, \kslave)\\
+      \pcreturn \WBKDF}
+										\pcvspace
+		  \procedure{$\O{KDF}()$}{
+			  \context \sample \{0,1\}^\lambda \\
+			 % Q\gets Q\cup\{\context\}\\
+			 \hat{k}\leftarrow \KDF(\kkdf,\context)\\
+			\pcreturn (\hat{k},\context)}
+										\pcvspace
+		  \procedure{$\O{Resp}(\context,\Label)$}{
+			  %\textbf{assert } \context \in Q \\
+			   %Q\gets Q\cup\{\context\}\\
+			   \sigma \gets  \Resp_\hw(\kmaster, \Label, \context) \\
+			\pcreturn \sigma}
+		\end{pcvstack}
+			 \pchspace
+			  \pchspace
+			   \pchspace
+	  \begin{pcvstack}
+				\underline{\underline{$\M{Gind\text{-}wkdf}^1_\SCHWBKDF$}}\\
+              \procedure{Parameters}{
+				\lambda\text{:} \< \quad \text{security parameter}\\
+			  \SCHWBKDF\text{:} \< \quad \text{WKDF scheme}
+			              }
+										\pcvspace
+										              \procedure{Package State}{
+				\kkdf{:} \< \quad \text{KDF key}\\
+			  \kmaster\text{:} \< \quad \text{hardware main key}\\
+			  \kslave\text{:} \< \quad \text{hardware sub-key} \\
+				%Q\text{:} \< \quad \text{context set}
+			              }
+          \pcvspace
+    \procedure{$\O{GETWB}(\Label)$}{
+    							\textbf{assert } \WBKDF \neq \bot \\
+        						\kkdf \sample \{0,1\}^\lambda \\
+    						\kmaster  \sample  \kgen_\hw(1^\lambda) \\
+		    				 \kslave \gets \Subkgen_\hw(\kmaster, \Label)\\
+				\WBKDF\sample \comp(\kkdf, \kslave)\\
+      \pcreturn \WBKDF}
+										\pcvspace
+		  \procedure{$\O{KDF}()$}{
+			 \context \sample \{0,1\}^\lambda \\
+			 %Q\gets Q\cup\{\context\}\\
+			 \hat{k} \sample \{0,1\}^\lambda \\
+			\pcreturn (\hat{k},\context)}
+										\pcvspace
+		  \procedure{$\O{Resp}(\context,\Label)$}{
+			  %\textbf{assert } \context \in Q \\
+			   %Q\gets Q\cup\{\context\}\\
+			   \sigma \gets  \Resp_\hw(\kmaster, \Label, \context) \\
+			\pcreturn \sigma}
+		\end{pcvstack}
+	\end{pchstack}
+\end{center}
+
+
+
+
+
+\end{graded}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

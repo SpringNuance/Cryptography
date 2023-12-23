@@ -1,0 +1,1946 @@
+\documentclass[10pt,twoside]{article}
+\setlength{\oddsidemargin}{0 in}
+\setlength{\evensidemargin}{0 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+\usepackage{amsmath,amsfonts,graphicx,amssymb,amsthm}
+\usepackage[
+	lambda,
+	operators,
+	advantage,
+	sets,
+	adversary,
+	landau,
+	probability,
+	notions,
+	logic,
+	ff,
+	mm,
+	primitives,
+	events,
+	complexity,
+	asymptotics,
+	keys]{cryptocode}
+\usepackage[style=alphabetic]{biblatex}
+\usepackage{url}
+\usepackage[bookmarksdepth=2]{hyperref}
+\usepackage[capitalize]{cleveref}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+
+\begin{filecontents*}{08-lecture.bbl}
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{anyt/global//global/global}
+    \entry{STOC:Ajtai96}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=701f8aef13f98671c1c0ad0fbf75afe6}{%
+           family={Ajtai},
+           familyi={A\bibinitperiod},
+           given={Miklós},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {{ACM} Press}%
+      }
+      \strng{namehash}{701f8aef13f98671c1c0ad0fbf75afe6}
+      \strng{fullhash}{701f8aef13f98671c1c0ad0fbf75afe6}
+      \strng{bibnamehash}{701f8aef13f98671c1c0ad0fbf75afe6}
+      \strng{authorbibnamehash}{701f8aef13f98671c1c0ad0fbf75afe6}
+      \strng{authornamehash}{701f8aef13f98671c1c0ad0fbf75afe6}
+      \strng{authorfullhash}{701f8aef13f98671c1c0ad0fbf75afe6}
+      \field{labelalpha}{Ajt96}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{28th ACM STOC}
+      \field{month}{5}
+      \field{title}{Generating Hard Instances of Lattice Problems (Extended Abstract)}
+      \field{year}{1996}
+      \field{pages}{99\bibrangedash 108}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/237814.237838
+      \endverb
+    \endentry
+    \entry{DifHel76}{article}{}
+      \name{author}{2}{}{%
+        {{hash=15409de33b2fa29965e62538bedee6b5}{%
+           family={Diffie},
+           familyi={D\bibinitperiod},
+           given={Whitfield},
+           giveni={W\bibinitperiod}}}%
+        {{hash=a26474253dac6b587d39e5d781d4aa1f}{%
+           family={Hellman},
+           familyi={H\bibinitperiod},
+           given={Martin\bibnamedelima E.},
+           giveni={M\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \strng{namehash}{a73dc549f90eddde87be2be5b6c2778b}
+      \strng{fullhash}{a73dc549f90eddde87be2be5b6c2778b}
+      \strng{bibnamehash}{a73dc549f90eddde87be2be5b6c2778b}
+      \strng{authorbibnamehash}{a73dc549f90eddde87be2be5b6c2778b}
+      \strng{authornamehash}{a73dc549f90eddde87be2be5b6c2778b}
+      \strng{authorfullhash}{a73dc549f90eddde87be2be5b6c2778b}
+      \field{labelalpha}{DH76}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{{IEEE} Transactions on Information Theory}
+      \field{number}{6}
+      \field{title}{New Directions in Cryptography}
+      \field{volume}{22}
+      \field{year}{1976}
+      \field{pages}{644\bibrangedash 654}
+      \range{pages}{11}
+    \endentry
+    \entry{EPRINT:GolGolHal96a}{misc}{}
+      \name{author}{3}{}{%
+        {{hash=66aba379c7d3adb8af5b662a65c4c140}{%
+           family={Goldreich},
+           familyi={G\bibinitperiod},
+           given={Oded},
+           giveni={O\bibinitperiod}}}%
+        {{hash=39e4a0690915f1d991133196a545b37b}{%
+           family={Goldwasser},
+           familyi={G\bibinitperiod},
+           given={Shafi},
+           giveni={S\bibinitperiod}}}%
+        {{hash=7c86404bf6ef06056efb632aff16d2c0}{%
+           family={Halevi},
+           familyi={H\bibinitperiod},
+           given={Shai},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{b3059e1efba7d92a34d8340ad3793967}
+      \strng{fullhash}{b3059e1efba7d92a34d8340ad3793967}
+      \strng{bibnamehash}{b3059e1efba7d92a34d8340ad3793967}
+      \strng{authorbibnamehash}{b3059e1efba7d92a34d8340ad3793967}
+      \strng{authornamehash}{b3059e1efba7d92a34d8340ad3793967}
+      \strng{authorfullhash}{b3059e1efba7d92a34d8340ad3793967}
+      \field{labelalpha}{GGH96}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Cryptology ePrint Archive, Report 1996/009}
+      \field{note}{\url{https://eprint.iacr.org/1996/009}}
+      \field{title}{Collision-Free Hashing from Lattice Problems}
+      \field{year}{1996}
+    \endentry
+    \entry{STOC:GenPeiVai08}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=bd007b2a3d698c39bd758b253f7c2ebf}{%
+           family={Gentry},
+           familyi={G\bibinitperiod},
+           given={Craig},
+           giveni={C\bibinitperiod}}}%
+        {{hash=910b4f34f67502ebf51d7391c9ce096b}{%
+           family={Peikert},
+           familyi={P\bibinitperiod},
+           given={Chris},
+           giveni={C\bibinitperiod}}}%
+        {{hash=bcd43d9385708d5fa3dbc36c49d8e579}{%
+           family={Vaikuntanathan},
+           familyi={V\bibinitperiod},
+           given={Vinod},
+           giveni={V\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=674a228ba575cce95dfc413e9a048e65}{%
+           family={Ladner},
+           familyi={L\bibinitperiod},
+           given={Richard\bibnamedelima E.},
+           giveni={R\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=c6d8866083f4c03af5e37e032df87089}{%
+           family={Dwork},
+           familyi={D\bibinitperiod},
+           given={Cynthia},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {{ACM} Press}%
+      }
+      \strng{namehash}{70cf7dfc90b7a72dfa1ba05570e08a98}
+      \strng{fullhash}{70cf7dfc90b7a72dfa1ba05570e08a98}
+      \strng{bibnamehash}{70cf7dfc90b7a72dfa1ba05570e08a98}
+      \strng{authorbibnamehash}{70cf7dfc90b7a72dfa1ba05570e08a98}
+      \strng{authornamehash}{70cf7dfc90b7a72dfa1ba05570e08a98}
+      \strng{authorfullhash}{70cf7dfc90b7a72dfa1ba05570e08a98}
+      \strng{editorbibnamehash}{1488fbe6fe3ce68eb92ae00af0c24398}
+      \strng{editornamehash}{1488fbe6fe3ce68eb92ae00af0c24398}
+      \strng{editorfullhash}{1488fbe6fe3ce68eb92ae00af0c24398}
+      \field{labelalpha}{GPV08}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{40th ACM STOC}
+      \field{month}{5}
+      \field{title}{Trapdoors for hard lattices and new cryptographic constructions}
+      \field{year}{2008}
+      \field{pages}{197\bibrangedash 206}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/1374376.1374407
+      \endverb
+    \endentry
+    \entry{STOC:ImpLevLub89}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=fecb48e0778d57043f598aa75fabb52e}{%
+           family={Impagliazzo},
+           familyi={I\bibinitperiod},
+           given={Russell},
+           giveni={R\bibinitperiod}}}%
+        {{hash=d5e3b7202f03ae0df5cbadb9ad44c9f8}{%
+           family={Levin},
+           familyi={L\bibinitperiod},
+           given={Leonid\bibnamedelima A.},
+           giveni={L\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=e6551d9c62955309f7597c6fc741020a}{%
+           family={Luby},
+           familyi={L\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {{ACM} Press}%
+      }
+      \strng{namehash}{bacd30407b6599939c10974b2a1eea0a}
+      \strng{fullhash}{bacd30407b6599939c10974b2a1eea0a}
+      \strng{bibnamehash}{bacd30407b6599939c10974b2a1eea0a}
+      \strng{authorbibnamehash}{bacd30407b6599939c10974b2a1eea0a}
+      \strng{authornamehash}{bacd30407b6599939c10974b2a1eea0a}
+      \strng{authorfullhash}{bacd30407b6599939c10974b2a1eea0a}
+      \field{labelalpha}{ILL89}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{21st ACM STOC}
+      \field{month}{5}
+      \field{title}{Pseudo-random Generation from one-way functions (Extended Abstracts)}
+      \field{year}{1989}
+      \field{pages}{12\bibrangedash 24}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1145/73007.73009
+      \endverb
+    \endentry
+    \entry{Imp95}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=3ea89603cd068784b23a6b0af806f42d}{%
+           family={Impagliazzo},
+           familyi={I\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{3ea89603cd068784b23a6b0af806f42d}
+      \strng{fullhash}{3ea89603cd068784b23a6b0af806f42d}
+      \strng{bibnamehash}{3ea89603cd068784b23a6b0af806f42d}
+      \strng{authorbibnamehash}{3ea89603cd068784b23a6b0af806f42d}
+      \strng{authornamehash}{3ea89603cd068784b23a6b0af806f42d}
+      \strng{authorfullhash}{3ea89603cd068784b23a6b0af806f42d}
+      \field{labelalpha}{Imp95}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of Structure in Complexity Theory. Tenth Annual IEEE Conference}
+      \field{title}{A personal view of average-case complexity}
+      \field{year}{1995}
+      \field{pages}{134\bibrangedash 147}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1109/SCT.1995.514853
+      \endverb
+    \endentry
+    \entry{STOC:Regev05}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=f945cb644f60f5c1d47ef6bce1233586}{%
+           family={Regev},
+           familyi={R\bibinitperiod},
+           given={Oded},
+           giveni={O\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=e4b8e86ad817fe889b7e8969f83da863}{%
+           family={Gabow},
+           familyi={G\bibinitperiod},
+           given={Harold\bibnamedelima N.},
+           giveni={H\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+        {{hash=ac675e1b6c0d303691ca1e438688780e}{%
+           family={Fagin},
+           familyi={F\bibinitperiod},
+           given={Ronald},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {{ACM} Press}%
+      }
+      \strng{namehash}{f945cb644f60f5c1d47ef6bce1233586}
+      \strng{fullhash}{f945cb644f60f5c1d47ef6bce1233586}
+      \strng{bibnamehash}{f945cb644f60f5c1d47ef6bce1233586}
+      \strng{authorbibnamehash}{f945cb644f60f5c1d47ef6bce1233586}
+      \strng{authornamehash}{f945cb644f60f5c1d47ef6bce1233586}
+      \strng{authorfullhash}{f945cb644f60f5c1d47ef6bce1233586}
+      \strng{editorbibnamehash}{3ae4df76b27d7a0d5156ed2ff6ce09ed}
+      \strng{editornamehash}{3ae4df76b27d7a0d5156ed2ff6ce09ed}
+      \strng{editorfullhash}{3ae4df76b27d7a0d5156ed2ff6ce09ed}
+      \field{labelalpha}{Reg05}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{37th ACM STOC}
+      \field{month}{5}
+      \field{title}{On lattices, learning with errors, random linear codes, and cryptography}
+      \field{year}{2005}
+      \field{pages}{84\bibrangedash 93}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/1060590.1060603
+      \endverb
+    \endentry
+    \entry{RivShaAdl78}{article}{}
+      \name{author}{3}{}{%
+        {{hash=3a964821f97ee17f8bb285bc61c52899}{%
+           family={Rivest},
+           familyi={R\bibinitperiod},
+           given={Ronald\bibnamedelima L.},
+           giveni={R\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=71b77dd8ab33fe646ef25cded49e9881}{%
+           family={Shamir},
+           familyi={S\bibinitperiod},
+           given={Adi},
+           giveni={A\bibinitperiod}}}%
+        {{hash=d8aa55dee22e6ca3bca2ccb6a2a6e056}{%
+           family={Adleman},
+           familyi={A\bibinitperiod},
+           given={Leonard\bibnamedelima M.},
+           giveni={L\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \strng{namehash}{3d2958630e7a6838415b82e965af14e7}
+      \strng{fullhash}{3d2958630e7a6838415b82e965af14e7}
+      \strng{bibnamehash}{3d2958630e7a6838415b82e965af14e7}
+      \strng{authorbibnamehash}{3d2958630e7a6838415b82e965af14e7}
+      \strng{authornamehash}{3d2958630e7a6838415b82e965af14e7}
+      \strng{authorfullhash}{3d2958630e7a6838415b82e965af14e7}
+      \field{labelalpha}{RSA78}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Communications of the Association for Computing Machinery}
+      \field{number}{2}
+      \field{title}{A Method for Obtaining Digital Signatures and Public-Key Cryptosystems}
+      \field{volume}{21}
+      \field{year}{1978}
+      \field{pages}{120\bibrangedash 126}
+      \range{pages}{7}
+    \endentry
+    \entry{Sho97}{article}{}
+      \name{author}{1}{}{%
+        {{hash=7082a9c99d5d51479d4cfba6bbac2d30}{%
+           family={Shor},
+           familyi={S\bibinitperiod},
+           given={Peter\bibnamedelima W.},
+           giveni={P\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {USA}%
+      }
+      \list{publisher}{2}{%
+        {Society for Industrial}%
+        {Applied Mathematics}%
+      }
+      \strng{namehash}{7082a9c99d5d51479d4cfba6bbac2d30}
+      \strng{fullhash}{7082a9c99d5d51479d4cfba6bbac2d30}
+      \strng{bibnamehash}{7082a9c99d5d51479d4cfba6bbac2d30}
+      \strng{authorbibnamehash}{7082a9c99d5d51479d4cfba6bbac2d30}
+      \strng{authornamehash}{7082a9c99d5d51479d4cfba6bbac2d30}
+      \strng{authorfullhash}{7082a9c99d5d51479d4cfba6bbac2d30}
+      \field{labelalpha}{Sho97}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{A digital computer is generally believed to be an efficient universal computing device; that is, it is believed able to simulate any physical computing device with an increase in computation time by at most a polynomial factor. This may not be true when quantum mechanics is taken into consideration. This paper considers factoring integers and finding discrete logarithms, two problems which are generally thought to be hard on a classical computer and which have been used as the basis of several proposed cryptosystems. Efficient randomized algorithms are given for these two problems on a hypothetical quantum computer. These algorithms take a number of steps polynomial in the input size, e.g., the number of digits of the integer to be factored.}
+      \field{issn}{0097-5397}
+      \field{journaltitle}{SIAM J. Comput.}
+      \field{month}{10}
+      \field{number}{5}
+      \field{title}{Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer}
+      \field{volume}{26}
+      \field{year}{1997}
+      \field{pages}{1484\bibrangedash 1509}
+      \range{pages}{26}
+      \verb{doi}
+      \verb 10.1137/S0097539795293172
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1137/S0097539795293172
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1137/S0097539795293172
+      \endverb
+      \keyw{prime factorization,Church's thesis,algorithmic number theory,Fourier transforms,spin systems,foundations of quantum mechanics,discrete logarithms,quantum computers}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
+
+\end{filecontents*}
+
+\usepackage{xpatch}
+
+%Patch the biblatex input command.
+%replace "testinput-bbl" if you change the name above.
+%disable if you want to run biblatex/biber normally
+\makeatletter
+\patchcmd\blx@bblinput{\blx@blxinit}
+                      {\blx@blxinit
+                       \def\jobname{08-lecture}%new jobname
+                      }{}{\fail}
+\makeatother
+			     
+\begin{filecontents*}{08-lecture.bbl}
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{anyt/global//global/global}
+    \entry{STOC:Ajtai96}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=701f8aef13f98671c1c0ad0fbf75afe6}{%
+           family={Ajtai},
+           familyi={A\bibinitperiod},
+           given={Miklós},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {{ACM} Press}%
+      }
+      \strng{namehash}{701f8aef13f98671c1c0ad0fbf75afe6}
+      \strng{fullhash}{701f8aef13f98671c1c0ad0fbf75afe6}
+      \strng{bibnamehash}{701f8aef13f98671c1c0ad0fbf75afe6}
+      \strng{authorbibnamehash}{701f8aef13f98671c1c0ad0fbf75afe6}
+      \strng{authornamehash}{701f8aef13f98671c1c0ad0fbf75afe6}
+      \strng{authorfullhash}{701f8aef13f98671c1c0ad0fbf75afe6}
+      \field{labelalpha}{Ajt96}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{28th ACM STOC}
+      \field{month}{5}
+      \field{title}{Generating Hard Instances of Lattice Problems (Extended Abstract)}
+      \field{year}{1996}
+      \field{pages}{99\bibrangedash 108}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/237814.237838
+      \endverb
+    \endentry
+    \entry{DifHel76}{article}{}
+      \name{author}{2}{}{%
+        {{hash=15409de33b2fa29965e62538bedee6b5}{%
+           family={Diffie},
+           familyi={D\bibinitperiod},
+           given={Whitfield},
+           giveni={W\bibinitperiod}}}%
+        {{hash=a26474253dac6b587d39e5d781d4aa1f}{%
+           family={Hellman},
+           familyi={H\bibinitperiod},
+           given={Martin\bibnamedelima E.},
+           giveni={M\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \strng{namehash}{a73dc549f90eddde87be2be5b6c2778b}
+      \strng{fullhash}{a73dc549f90eddde87be2be5b6c2778b}
+      \strng{bibnamehash}{a73dc549f90eddde87be2be5b6c2778b}
+      \strng{authorbibnamehash}{a73dc549f90eddde87be2be5b6c2778b}
+      \strng{authornamehash}{a73dc549f90eddde87be2be5b6c2778b}
+      \strng{authorfullhash}{a73dc549f90eddde87be2be5b6c2778b}
+      \field{labelalpha}{DH76}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{{IEEE} Transactions on Information Theory}
+      \field{number}{6}
+      \field{title}{New Directions in Cryptography}
+      \field{volume}{22}
+      \field{year}{1976}
+      \field{pages}{644\bibrangedash 654}
+      \range{pages}{11}
+    \endentry
+    \entry{EPRINT:GolGolHal96a}{misc}{}
+      \name{author}{3}{}{%
+        {{hash=66aba379c7d3adb8af5b662a65c4c140}{%
+           family={Goldreich},
+           familyi={G\bibinitperiod},
+           given={Oded},
+           giveni={O\bibinitperiod}}}%
+        {{hash=39e4a0690915f1d991133196a545b37b}{%
+           family={Goldwasser},
+           familyi={G\bibinitperiod},
+           given={Shafi},
+           giveni={S\bibinitperiod}}}%
+        {{hash=7c86404bf6ef06056efb632aff16d2c0}{%
+           family={Halevi},
+           familyi={H\bibinitperiod},
+           given={Shai},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{b3059e1efba7d92a34d8340ad3793967}
+      \strng{fullhash}{b3059e1efba7d92a34d8340ad3793967}
+      \strng{bibnamehash}{b3059e1efba7d92a34d8340ad3793967}
+      \strng{authorbibnamehash}{b3059e1efba7d92a34d8340ad3793967}
+      \strng{authornamehash}{b3059e1efba7d92a34d8340ad3793967}
+      \strng{authorfullhash}{b3059e1efba7d92a34d8340ad3793967}
+      \field{labelalpha}{GGH96}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Cryptology ePrint Archive, Report 1996/009}
+      \field{note}{\url{https://eprint.iacr.org/1996/009}}
+      \field{title}{Collision-Free Hashing from Lattice Problems}
+      \field{year}{1996}
+    \endentry
+    \entry{STOC:GenPeiVai08}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=bd007b2a3d698c39bd758b253f7c2ebf}{%
+           family={Gentry},
+           familyi={G\bibinitperiod},
+           given={Craig},
+           giveni={C\bibinitperiod}}}%
+        {{hash=910b4f34f67502ebf51d7391c9ce096b}{%
+           family={Peikert},
+           familyi={P\bibinitperiod},
+           given={Chris},
+           giveni={C\bibinitperiod}}}%
+        {{hash=bcd43d9385708d5fa3dbc36c49d8e579}{%
+           family={Vaikuntanathan},
+           familyi={V\bibinitperiod},
+           given={Vinod},
+           giveni={V\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=674a228ba575cce95dfc413e9a048e65}{%
+           family={Ladner},
+           familyi={L\bibinitperiod},
+           given={Richard\bibnamedelima E.},
+           giveni={R\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=c6d8866083f4c03af5e37e032df87089}{%
+           family={Dwork},
+           familyi={D\bibinitperiod},
+           given={Cynthia},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {{ACM} Press}%
+      }
+      \strng{namehash}{70cf7dfc90b7a72dfa1ba05570e08a98}
+      \strng{fullhash}{70cf7dfc90b7a72dfa1ba05570e08a98}
+      \strng{bibnamehash}{70cf7dfc90b7a72dfa1ba05570e08a98}
+      \strng{authorbibnamehash}{70cf7dfc90b7a72dfa1ba05570e08a98}
+      \strng{authornamehash}{70cf7dfc90b7a72dfa1ba05570e08a98}
+      \strng{authorfullhash}{70cf7dfc90b7a72dfa1ba05570e08a98}
+      \strng{editorbibnamehash}{1488fbe6fe3ce68eb92ae00af0c24398}
+      \strng{editornamehash}{1488fbe6fe3ce68eb92ae00af0c24398}
+      \strng{editorfullhash}{1488fbe6fe3ce68eb92ae00af0c24398}
+      \field{labelalpha}{GPV08}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{40th ACM STOC}
+      \field{month}{5}
+      \field{title}{Trapdoors for hard lattices and new cryptographic constructions}
+      \field{year}{2008}
+      \field{pages}{197\bibrangedash 206}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/1374376.1374407
+      \endverb
+    \endentry
+    \entry{STOC:ImpLevLub89}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=fecb48e0778d57043f598aa75fabb52e}{%
+           family={Impagliazzo},
+           familyi={I\bibinitperiod},
+           given={Russell},
+           giveni={R\bibinitperiod}}}%
+        {{hash=d5e3b7202f03ae0df5cbadb9ad44c9f8}{%
+           family={Levin},
+           familyi={L\bibinitperiod},
+           given={Leonid\bibnamedelima A.},
+           giveni={L\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=e6551d9c62955309f7597c6fc741020a}{%
+           family={Luby},
+           familyi={L\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {{ACM} Press}%
+      }
+      \strng{namehash}{bacd30407b6599939c10974b2a1eea0a}
+      \strng{fullhash}{bacd30407b6599939c10974b2a1eea0a}
+      \strng{bibnamehash}{bacd30407b6599939c10974b2a1eea0a}
+      \strng{authorbibnamehash}{bacd30407b6599939c10974b2a1eea0a}
+      \strng{authornamehash}{bacd30407b6599939c10974b2a1eea0a}
+      \strng{authorfullhash}{bacd30407b6599939c10974b2a1eea0a}
+      \field{labelalpha}{ILL89}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{21st ACM STOC}
+      \field{month}{5}
+      \field{title}{Pseudo-random Generation from one-way functions (Extended Abstracts)}
+      \field{year}{1989}
+      \field{pages}{12\bibrangedash 24}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1145/73007.73009
+      \endverb
+    \endentry
+    \entry{Imp95}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=3ea89603cd068784b23a6b0af806f42d}{%
+           family={Impagliazzo},
+           familyi={I\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{3ea89603cd068784b23a6b0af806f42d}
+      \strng{fullhash}{3ea89603cd068784b23a6b0af806f42d}
+      \strng{bibnamehash}{3ea89603cd068784b23a6b0af806f42d}
+      \strng{authorbibnamehash}{3ea89603cd068784b23a6b0af806f42d}
+      \strng{authornamehash}{3ea89603cd068784b23a6b0af806f42d}
+      \strng{authorfullhash}{3ea89603cd068784b23a6b0af806f42d}
+      \field{labelalpha}{Imp95}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of Structure in Complexity Theory. Tenth Annual IEEE Conference}
+      \field{title}{A personal view of average-case complexity}
+      \field{year}{1995}
+      \field{pages}{134\bibrangedash 147}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1109/SCT.1995.514853
+      \endverb
+    \endentry
+    \entry{STOC:Regev05}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=f945cb644f60f5c1d47ef6bce1233586}{%
+           family={Regev},
+           familyi={R\bibinitperiod},
+           given={Oded},
+           giveni={O\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=e4b8e86ad817fe889b7e8969f83da863}{%
+           family={Gabow},
+           familyi={G\bibinitperiod},
+           given={Harold\bibnamedelima N.},
+           giveni={H\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+        {{hash=ac675e1b6c0d303691ca1e438688780e}{%
+           family={Fagin},
+           familyi={F\bibinitperiod},
+           given={Ronald},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {{ACM} Press}%
+      }
+      \strng{namehash}{f945cb644f60f5c1d47ef6bce1233586}
+      \strng{fullhash}{f945cb644f60f5c1d47ef6bce1233586}
+      \strng{bibnamehash}{f945cb644f60f5c1d47ef6bce1233586}
+      \strng{authorbibnamehash}{f945cb644f60f5c1d47ef6bce1233586}
+      \strng{authornamehash}{f945cb644f60f5c1d47ef6bce1233586}
+      \strng{authorfullhash}{f945cb644f60f5c1d47ef6bce1233586}
+      \strng{editorbibnamehash}{3ae4df76b27d7a0d5156ed2ff6ce09ed}
+      \strng{editornamehash}{3ae4df76b27d7a0d5156ed2ff6ce09ed}
+      \strng{editorfullhash}{3ae4df76b27d7a0d5156ed2ff6ce09ed}
+      \field{labelalpha}{Reg05}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{37th ACM STOC}
+      \field{month}{5}
+      \field{title}{On lattices, learning with errors, random linear codes, and cryptography}
+      \field{year}{2005}
+      \field{pages}{84\bibrangedash 93}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/1060590.1060603
+      \endverb
+    \endentry
+    \entry{RivShaAdl78}{article}{}
+      \name{author}{3}{}{%
+        {{hash=3a964821f97ee17f8bb285bc61c52899}{%
+           family={Rivest},
+           familyi={R\bibinitperiod},
+           given={Ronald\bibnamedelima L.},
+           giveni={R\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=71b77dd8ab33fe646ef25cded49e9881}{%
+           family={Shamir},
+           familyi={S\bibinitperiod},
+           given={Adi},
+           giveni={A\bibinitperiod}}}%
+        {{hash=d8aa55dee22e6ca3bca2ccb6a2a6e056}{%
+           family={Adleman},
+           familyi={A\bibinitperiod},
+           given={Leonard\bibnamedelima M.},
+           giveni={L\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \strng{namehash}{3d2958630e7a6838415b82e965af14e7}
+      \strng{fullhash}{3d2958630e7a6838415b82e965af14e7}
+      \strng{bibnamehash}{3d2958630e7a6838415b82e965af14e7}
+      \strng{authorbibnamehash}{3d2958630e7a6838415b82e965af14e7}
+      \strng{authornamehash}{3d2958630e7a6838415b82e965af14e7}
+      \strng{authorfullhash}{3d2958630e7a6838415b82e965af14e7}
+      \field{labelalpha}{RSA78}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Communications of the Association for Computing Machinery}
+      \field{number}{2}
+      \field{title}{A Method for Obtaining Digital Signatures and Public-Key Cryptosystems}
+      \field{volume}{21}
+      \field{year}{1978}
+      \field{pages}{120\bibrangedash 126}
+      \range{pages}{7}
+    \endentry
+    \entry{Sho97}{article}{}
+      \name{author}{1}{}{%
+        {{hash=7082a9c99d5d51479d4cfba6bbac2d30}{%
+           family={Shor},
+           familyi={S\bibinitperiod},
+           given={Peter\bibnamedelima W.},
+           giveni={P\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {USA}%
+      }
+      \list{publisher}{2}{%
+        {Society for Industrial}%
+        {Applied Mathematics}%
+      }
+      \strng{namehash}{7082a9c99d5d51479d4cfba6bbac2d30}
+      \strng{fullhash}{7082a9c99d5d51479d4cfba6bbac2d30}
+      \strng{bibnamehash}{7082a9c99d5d51479d4cfba6bbac2d30}
+      \strng{authorbibnamehash}{7082a9c99d5d51479d4cfba6bbac2d30}
+      \strng{authornamehash}{7082a9c99d5d51479d4cfba6bbac2d30}
+      \strng{authorfullhash}{7082a9c99d5d51479d4cfba6bbac2d30}
+      \field{labelalpha}{Sho97}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{A digital computer is generally believed to be an efficient universal computing device; that is, it is believed able to simulate any physical computing device with an increase in computation time by at most a polynomial factor. This may not be true when quantum mechanics is taken into consideration. This paper considers factoring integers and finding discrete logarithms, two problems which are generally thought to be hard on a classical computer and which have been used as the basis of several proposed cryptosystems. Efficient randomized algorithms are given for these two problems on a hypothetical quantum computer. These algorithms take a number of steps polynomial in the input size, e.g., the number of digits of the integer to be factored.}
+      \field{issn}{0097-5397}
+      \field{journaltitle}{SIAM J. Comput.}
+      \field{month}{10}
+      \field{number}{5}
+      \field{title}{Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer}
+      \field{volume}{26}
+      \field{year}{1997}
+      \field{pages}{1484\bibrangedash 1509}
+      \range{pages}{26}
+      \verb{doi}
+      \verb 10.1137/S0097539795293172
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1137/S0097539795293172
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1137/S0097539795293172
+      \endverb
+      \keyw{prime factorization,Church's thesis,algorithmic number theory,Fourier transforms,spin systems,foundations of quantum mechanics,discrete logarithms,quantum computers}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
+
+\end{filecontents*}
+
+\usepackage{xpatch}
+
+%Patch the biblatex input command.
+%replace "testinput-bbl" if you change the name above.
+%disable if you want to run biblatex/biber normally
+\makeatletter
+\patchcmd\blx@bblinput{\blx@blxinit}
+                      {\blx@blxinit
+                       \def\jobname{08-lecture}%new jobname
+                      }{}{\fail}
+\makeatother
+			     
+\begin{filecontents*}{08-lecture.bbl}
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{anyt/global//global/global}
+    \entry{STOC:Ajtai96}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=701f8aef13f98671c1c0ad0fbf75afe6}{%
+           family={Ajtai},
+           familyi={A\bibinitperiod},
+           given={Miklós},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {{ACM} Press}%
+      }
+      \strng{namehash}{701f8aef13f98671c1c0ad0fbf75afe6}
+      \strng{fullhash}{701f8aef13f98671c1c0ad0fbf75afe6}
+      \strng{bibnamehash}{701f8aef13f98671c1c0ad0fbf75afe6}
+      \strng{authorbibnamehash}{701f8aef13f98671c1c0ad0fbf75afe6}
+      \strng{authornamehash}{701f8aef13f98671c1c0ad0fbf75afe6}
+      \strng{authorfullhash}{701f8aef13f98671c1c0ad0fbf75afe6}
+      \field{labelalpha}{Ajt96}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{28th ACM STOC}
+      \field{month}{5}
+      \field{title}{Generating Hard Instances of Lattice Problems (Extended Abstract)}
+      \field{year}{1996}
+      \field{pages}{99\bibrangedash 108}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/237814.237838
+      \endverb
+    \endentry
+    \entry{DifHel76}{article}{}
+      \name{author}{2}{}{%
+        {{hash=15409de33b2fa29965e62538bedee6b5}{%
+           family={Diffie},
+           familyi={D\bibinitperiod},
+           given={Whitfield},
+           giveni={W\bibinitperiod}}}%
+        {{hash=a26474253dac6b587d39e5d781d4aa1f}{%
+           family={Hellman},
+           familyi={H\bibinitperiod},
+           given={Martin\bibnamedelima E.},
+           giveni={M\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \strng{namehash}{a73dc549f90eddde87be2be5b6c2778b}
+      \strng{fullhash}{a73dc549f90eddde87be2be5b6c2778b}
+      \strng{bibnamehash}{a73dc549f90eddde87be2be5b6c2778b}
+      \strng{authorbibnamehash}{a73dc549f90eddde87be2be5b6c2778b}
+      \strng{authornamehash}{a73dc549f90eddde87be2be5b6c2778b}
+      \strng{authorfullhash}{a73dc549f90eddde87be2be5b6c2778b}
+      \field{labelalpha}{DH76}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{{IEEE} Transactions on Information Theory}
+      \field{number}{6}
+      \field{title}{New Directions in Cryptography}
+      \field{volume}{22}
+      \field{year}{1976}
+      \field{pages}{644\bibrangedash 654}
+      \range{pages}{11}
+    \endentry
+    \entry{EPRINT:GolGolHal96a}{misc}{}
+      \name{author}{3}{}{%
+        {{hash=66aba379c7d3adb8af5b662a65c4c140}{%
+           family={Goldreich},
+           familyi={G\bibinitperiod},
+           given={Oded},
+           giveni={O\bibinitperiod}}}%
+        {{hash=39e4a0690915f1d991133196a545b37b}{%
+           family={Goldwasser},
+           familyi={G\bibinitperiod},
+           given={Shafi},
+           giveni={S\bibinitperiod}}}%
+        {{hash=7c86404bf6ef06056efb632aff16d2c0}{%
+           family={Halevi},
+           familyi={H\bibinitperiod},
+           given={Shai},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{b3059e1efba7d92a34d8340ad3793967}
+      \strng{fullhash}{b3059e1efba7d92a34d8340ad3793967}
+      \strng{bibnamehash}{b3059e1efba7d92a34d8340ad3793967}
+      \strng{authorbibnamehash}{b3059e1efba7d92a34d8340ad3793967}
+      \strng{authornamehash}{b3059e1efba7d92a34d8340ad3793967}
+      \strng{authorfullhash}{b3059e1efba7d92a34d8340ad3793967}
+      \field{labelalpha}{GGH96}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Cryptology ePrint Archive, Report 1996/009}
+      \field{note}{\url{https://eprint.iacr.org/1996/009}}
+      \field{title}{Collision-Free Hashing from Lattice Problems}
+      \field{year}{1996}
+    \endentry
+    \entry{STOC:GenPeiVai08}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=bd007b2a3d698c39bd758b253f7c2ebf}{%
+           family={Gentry},
+           familyi={G\bibinitperiod},
+           given={Craig},
+           giveni={C\bibinitperiod}}}%
+        {{hash=910b4f34f67502ebf51d7391c9ce096b}{%
+           family={Peikert},
+           familyi={P\bibinitperiod},
+           given={Chris},
+           giveni={C\bibinitperiod}}}%
+        {{hash=bcd43d9385708d5fa3dbc36c49d8e579}{%
+           family={Vaikuntanathan},
+           familyi={V\bibinitperiod},
+           given={Vinod},
+           giveni={V\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=674a228ba575cce95dfc413e9a048e65}{%
+           family={Ladner},
+           familyi={L\bibinitperiod},
+           given={Richard\bibnamedelima E.},
+           giveni={R\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=c6d8866083f4c03af5e37e032df87089}{%
+           family={Dwork},
+           familyi={D\bibinitperiod},
+           given={Cynthia},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {{ACM} Press}%
+      }
+      \strng{namehash}{70cf7dfc90b7a72dfa1ba05570e08a98}
+      \strng{fullhash}{70cf7dfc90b7a72dfa1ba05570e08a98}
+      \strng{bibnamehash}{70cf7dfc90b7a72dfa1ba05570e08a98}
+      \strng{authorbibnamehash}{70cf7dfc90b7a72dfa1ba05570e08a98}
+      \strng{authornamehash}{70cf7dfc90b7a72dfa1ba05570e08a98}
+      \strng{authorfullhash}{70cf7dfc90b7a72dfa1ba05570e08a98}
+      \strng{editorbibnamehash}{1488fbe6fe3ce68eb92ae00af0c24398}
+      \strng{editornamehash}{1488fbe6fe3ce68eb92ae00af0c24398}
+      \strng{editorfullhash}{1488fbe6fe3ce68eb92ae00af0c24398}
+      \field{labelalpha}{GPV08}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{40th ACM STOC}
+      \field{month}{5}
+      \field{title}{Trapdoors for hard lattices and new cryptographic constructions}
+      \field{year}{2008}
+      \field{pages}{197\bibrangedash 206}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/1374376.1374407
+      \endverb
+    \endentry
+    \entry{STOC:ImpLevLub89}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=fecb48e0778d57043f598aa75fabb52e}{%
+           family={Impagliazzo},
+           familyi={I\bibinitperiod},
+           given={Russell},
+           giveni={R\bibinitperiod}}}%
+        {{hash=d5e3b7202f03ae0df5cbadb9ad44c9f8}{%
+           family={Levin},
+           familyi={L\bibinitperiod},
+           given={Leonid\bibnamedelima A.},
+           giveni={L\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=e6551d9c62955309f7597c6fc741020a}{%
+           family={Luby},
+           familyi={L\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {{ACM} Press}%
+      }
+      \strng{namehash}{bacd30407b6599939c10974b2a1eea0a}
+      \strng{fullhash}{bacd30407b6599939c10974b2a1eea0a}
+      \strng{bibnamehash}{bacd30407b6599939c10974b2a1eea0a}
+      \strng{authorbibnamehash}{bacd30407b6599939c10974b2a1eea0a}
+      \strng{authornamehash}{bacd30407b6599939c10974b2a1eea0a}
+      \strng{authorfullhash}{bacd30407b6599939c10974b2a1eea0a}
+      \field{labelalpha}{ILL89}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{21st ACM STOC}
+      \field{month}{5}
+      \field{title}{Pseudo-random Generation from one-way functions (Extended Abstracts)}
+      \field{year}{1989}
+      \field{pages}{12\bibrangedash 24}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1145/73007.73009
+      \endverb
+    \endentry
+    \entry{Imp95}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=3ea89603cd068784b23a6b0af806f42d}{%
+           family={Impagliazzo},
+           familyi={I\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{3ea89603cd068784b23a6b0af806f42d}
+      \strng{fullhash}{3ea89603cd068784b23a6b0af806f42d}
+      \strng{bibnamehash}{3ea89603cd068784b23a6b0af806f42d}
+      \strng{authorbibnamehash}{3ea89603cd068784b23a6b0af806f42d}
+      \strng{authornamehash}{3ea89603cd068784b23a6b0af806f42d}
+      \strng{authorfullhash}{3ea89603cd068784b23a6b0af806f42d}
+      \field{labelalpha}{Imp95}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of Structure in Complexity Theory. Tenth Annual IEEE Conference}
+      \field{title}{A personal view of average-case complexity}
+      \field{year}{1995}
+      \field{pages}{134\bibrangedash 147}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1109/SCT.1995.514853
+      \endverb
+    \endentry
+    \entry{STOC:Regev05}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=f945cb644f60f5c1d47ef6bce1233586}{%
+           family={Regev},
+           familyi={R\bibinitperiod},
+           given={Oded},
+           giveni={O\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=e4b8e86ad817fe889b7e8969f83da863}{%
+           family={Gabow},
+           familyi={G\bibinitperiod},
+           given={Harold\bibnamedelima N.},
+           giveni={H\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+        {{hash=ac675e1b6c0d303691ca1e438688780e}{%
+           family={Fagin},
+           familyi={F\bibinitperiod},
+           given={Ronald},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {{ACM} Press}%
+      }
+      \strng{namehash}{f945cb644f60f5c1d47ef6bce1233586}
+      \strng{fullhash}{f945cb644f60f5c1d47ef6bce1233586}
+      \strng{bibnamehash}{f945cb644f60f5c1d47ef6bce1233586}
+      \strng{authorbibnamehash}{f945cb644f60f5c1d47ef6bce1233586}
+      \strng{authornamehash}{f945cb644f60f5c1d47ef6bce1233586}
+      \strng{authorfullhash}{f945cb644f60f5c1d47ef6bce1233586}
+      \strng{editorbibnamehash}{3ae4df76b27d7a0d5156ed2ff6ce09ed}
+      \strng{editornamehash}{3ae4df76b27d7a0d5156ed2ff6ce09ed}
+      \strng{editorfullhash}{3ae4df76b27d7a0d5156ed2ff6ce09ed}
+      \field{labelalpha}{Reg05}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{37th ACM STOC}
+      \field{month}{5}
+      \field{title}{On lattices, learning with errors, random linear codes, and cryptography}
+      \field{year}{2005}
+      \field{pages}{84\bibrangedash 93}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/1060590.1060603
+      \endverb
+    \endentry
+    \entry{RivShaAdl78}{article}{}
+      \name{author}{3}{}{%
+        {{hash=3a964821f97ee17f8bb285bc61c52899}{%
+           family={Rivest},
+           familyi={R\bibinitperiod},
+           given={Ronald\bibnamedelima L.},
+           giveni={R\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=71b77dd8ab33fe646ef25cded49e9881}{%
+           family={Shamir},
+           familyi={S\bibinitperiod},
+           given={Adi},
+           giveni={A\bibinitperiod}}}%
+        {{hash=d8aa55dee22e6ca3bca2ccb6a2a6e056}{%
+           family={Adleman},
+           familyi={A\bibinitperiod},
+           given={Leonard\bibnamedelima M.},
+           giveni={L\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \strng{namehash}{3d2958630e7a6838415b82e965af14e7}
+      \strng{fullhash}{3d2958630e7a6838415b82e965af14e7}
+      \strng{bibnamehash}{3d2958630e7a6838415b82e965af14e7}
+      \strng{authorbibnamehash}{3d2958630e7a6838415b82e965af14e7}
+      \strng{authornamehash}{3d2958630e7a6838415b82e965af14e7}
+      \strng{authorfullhash}{3d2958630e7a6838415b82e965af14e7}
+      \field{labelalpha}{RSA78}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Communications of the Association for Computing Machinery}
+      \field{number}{2}
+      \field{title}{A Method for Obtaining Digital Signatures and Public-Key Cryptosystems}
+      \field{volume}{21}
+      \field{year}{1978}
+      \field{pages}{120\bibrangedash 126}
+      \range{pages}{7}
+    \endentry
+    \entry{Sho97}{article}{}
+      \name{author}{1}{}{%
+        {{hash=7082a9c99d5d51479d4cfba6bbac2d30}{%
+           family={Shor},
+           familyi={S\bibinitperiod},
+           given={Peter\bibnamedelima W.},
+           giveni={P\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {USA}%
+      }
+      \list{publisher}{2}{%
+        {Society for Industrial}%
+        {Applied Mathematics}%
+      }
+      \strng{namehash}{7082a9c99d5d51479d4cfba6bbac2d30}
+      \strng{fullhash}{7082a9c99d5d51479d4cfba6bbac2d30}
+      \strng{bibnamehash}{7082a9c99d5d51479d4cfba6bbac2d30}
+      \strng{authorbibnamehash}{7082a9c99d5d51479d4cfba6bbac2d30}
+      \strng{authornamehash}{7082a9c99d5d51479d4cfba6bbac2d30}
+      \strng{authorfullhash}{7082a9c99d5d51479d4cfba6bbac2d30}
+      \field{labelalpha}{Sho97}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{A digital computer is generally believed to be an efficient universal computing device; that is, it is believed able to simulate any physical computing device with an increase in computation time by at most a polynomial factor. This may not be true when quantum mechanics is taken into consideration. This paper considers factoring integers and finding discrete logarithms, two problems which are generally thought to be hard on a classical computer and which have been used as the basis of several proposed cryptosystems. Efficient randomized algorithms are given for these two problems on a hypothetical quantum computer. These algorithms take a number of steps polynomial in the input size, e.g., the number of digits of the integer to be factored.}
+      \field{issn}{0097-5397}
+      \field{journaltitle}{SIAM J. Comput.}
+      \field{month}{10}
+      \field{number}{5}
+      \field{title}{Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer}
+      \field{volume}{26}
+      \field{year}{1997}
+      \field{pages}{1484\bibrangedash 1509}
+      \range{pages}{26}
+      \verb{doi}
+      \verb 10.1137/S0097539795293172
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1137/S0097539795293172
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1137/S0097539795293172
+      \endverb
+      \keyw{prime factorization,Church's thesis,algorithmic number theory,Fourier transforms,spin systems,foundations of quantum mechanics,discrete logarithms,quantum computers}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
+
+\end{filecontents*}
+
+\usepackage{xpatch}
+
+%Patch the biblatex input command.
+%replace "testinput-bbl" if you change the name above.
+%disable if you want to run biblatex/biber normally
+\makeatletter
+\patchcmd\blx@bblinput{\blx@blxinit}
+                      {\blx@blxinit
+                       \def\jobname{08-lecture}%new jobname
+                      }{}{\fail}
+\makeatother
+			     
+
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+
+\newcommand{\coursecode}{CS-E4340}
+\newcommand{\coursename}{Cryptography}
+\newcommand{\courseterm}{I-II 2022/2023}
+\newcommand{\lecturer}{Russell W.F. Lai}
+
+\newcommand{\lecture}[3]{
+	\pagestyle{myheadings}
+	\thispagestyle{plain}
+	\newpage
+	\setcounter{lecnum}{#1}
+	\setcounter{page}{1}
+	\noindent
+	\begin{center}
+		\framebox{
+			\vbox{\vspace{2mm}
+				\hbox to 6.28in { {\bf \coursecode: \coursename \hfill \courseterm} }
+				\vspace{4mm}
+				\hbox to 6.28in { {\Large \hfill Lecture #1: #2  \hfill} }
+				\vspace{2mm}
+				\hbox to 1in { {\it Lecturer: #3} }
+				\vspace{2mm}}
+		}
+	\end{center}
+	\markboth{\coursecode (\courseterm) Lecture #1: #2}{\coursecode (\courseterm) Lecture #1: #2}
+	\vspace*{4mm}
+}
+
+\newcommand{\tutorial}[3]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      \hbox to 6.28in { {\bf \coursecode: \coursename \hfill \courseterm} }
+      \vspace{4mm}
+      \hbox to 6.28in { {\Large \hfill Tutorial #1: #2  \hfill} }
+      \vspace{2mm}
+      \hbox to 1in { {\it Tutor: #3} }
+      \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{\coursecode (\courseterm) Tutorial #1: #2}{\coursecode (\courseterm) Tutorial #1: #2}
+   \vspace*{4mm}
+}
+
+\newcommand{\assignment}[3]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      \hbox to 6.28in { {\bf \coursecode: \coursename \hfill \courseterm} }
+      \vspace{4mm}
+      \hbox to 6.28in { {\Large \hfill Assignment #1: #2  \hfill} }
+      \vspace{2mm}
+      \hbox to 1in { {\it Deadline: #3} }
+      \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{\coursecode (\courseterm) Assignment #1: #2}{\coursecode (\courseterm) Assignment #1: #2}
+   \vspace*{4mm}
+}
+
+\def\beginrefs{\begin{list}{[\arabic{equation}]}{\usecounter{equation}
+         \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}\setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+\newcommand{\fig}[3]{
+			\vspace{#2}
+			\begin{center}
+			Figure \thelecnum.#1:~#3
+			\end{center}
+	}
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+
+
+\newcommand{\msg}{\mathsf{msg}}
+\newcommand{\ctxt}{\mathsf{ctxt}}
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\bits}[1][]{\{0,1\}^{#1}}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\inner}[2]{\langle #1, #2 \rangle}
+\newcommand{\transpose}{\mathtt{T}}
+\newcommand{\round}[1]{\lfloor #1 \rceil}
+\newcommand{\SIS}{\mathsf{SIS}}
+\newcommand{\LWE}{\mathsf{LWE}}
+\newcommand{\ring}{\mathcal{R}}
+\newcommand{\Hyb}{\mathsf{Hyb}}
+
+\begin{document}
+\lecture{8}{Introduction to Lattice-based Cryptography}{\lecturer}
+
+\begin{abstract}
+    This lecture aims to:
+    \begin{itemize}
+        \item introduce the two main family of assumptions -- short integer solution (SIS) and learning with errors (LWE) -- used in lattice-based cryptography,
+        \item introduce the definition of public-key encryption (PKE),
+        \item explain a construction of collision-resistant hash functions from the SIS assumption, and
+        \item explain two constructions of PKE from the LWE assumption.
+    \end{itemize}
+\end{abstract}
+
+\section{Background}
+
+Lattice-based cryptography is the use of conjectured hard problems over lattices (discrete additive subgroups of $\RR^n$) as the foundation for secure cryptographic systems.
+While lattice algorithms have long been used for cryptanalysis (i.e. attacking cryptographic constructions), the constructive use of lattices in cryptography began in 1996 with the seminal work of Ajtai~\cite{STOC:Ajtai96}.
+In this work, Ajtai introduced the Short Integer Solution (SIS) problem, showed that its average-case hardness can be reduced from the worst-case hardness of lattice problems, and constructed one-way functions based on its conjectured hardness.
+Fast forward to 2005, the Learning with Errors (LWE) problem was introduced by the important work of Regev~\cite{STOC:Regev05}. Syntactically similar to the SIS problem, the LWE problem enjoys similar worst-case-to-average-case hardness reductions.
+However, different from the SIS problem which so-far is only useful for constructing ``minicrypt''~\cite{Imp95} primitives\footnote{Minicrypt = anything that can be constructed from onw-way functions.}, efficient public-key encryption can be efficiently constructed based on the conjectured hardness of the LWE problem.
+The SIS and LWE problems are still heavily used as sources of hardness for constructing secure cryptographic systems today.
+
+A few notable features of lattice-based cryptography are as follows.
+\begin{itemize}
+    \item (Conjectured) Post-Quantum Security: Unlike widely deploy cryptographic systems based on the hardness of the RSA~\cite{RivShaAdl78} or discrete logarithm (e.g.~\cite{DifHel76}) problems, which are efficiently solvable by quantum computers due to Shor's algorithm~\cite{Sho97}, quantum algorithms do not seem to solve lattice problems better than their classical counterparts.
+    \item Security from Worst-case Hardness: The security of a cryptographic system is usually based on an assumption that certain class of computational problems is hard on average. In contrast, as mentioned above, the security of lattice-based cryptographic systems can often be proven assuming that at least one (e.g. the hardest) member of a class of lattice problems is hard.
+    \item Algorithmic Simplicity and Parallelism: Operations in lattice-based cryptographic systems often boil down to modular arithmetic with relatively small moduli, which are highly parallelisable.
+\end{itemize}
+
+\section{Notation}
+
+Throughout this and the next lectures, we will heavily make use of the following notation.
+\begin{itemize}
+    \item $\ZZ$: Ring of rational integers, i.e. $\ZZ \coloneqq \set{\ldots,-1,0,1,\ldots}$
+    \item $[a,b]$: The discrete interval $\set{a,a+1,\ldots,b} \subseteq \ZZ$ for $a, b \in \ZZ$.
+    \item $\ZZ_q \coloneqq \ZZ/q\ZZ$: Ring of rational integers modulo $q \in \NN$, represented by $[-\ceil{q/2}+1, \floor{q/2}]$. We will abuse the notation and not distinguish $\ZZ_q$ and $[-\ceil{q/2}+1, \floor{q/2}]$. In this course, we always assume that $q$ is prime, so that $\ZZ_q$ is a finite field.
+    \item $\mat{A}$, $\vec{x}$: We will use bold capital letters to denote matrices, and bold lowercase letters to denote vectors.
+    \item $x_i$: For a vector $\vec{x} \in \ZZ^n$, we write $x_i$ for the $i$-th entry of $\vec{x}$.
+    \item $\norm{\cdot}$: The infinity norm over $\RR^n$ induced to $\ZZ^n$, i.e. for $\vec{x} \in \ZZ^n$, $\norm{\vec{x}} = \max_i |x_i|$. When taking the norm of a vector in $\ZZ_q^n$, we mean to take the norm of its representation in $\ZZ^n$.
+    \item $\chi$: A distribution over $\ZZ$. Typically $\chi$ is a zero-mean distribution supported by low-norm integers. In this course, we always consider $\chi$ to be the uniform distribution over $\ZZ_\beta$ for some $\beta \in \ZZ$. In the literature, $\chi$ is usually set to be a discrete Gaussian distribution for nicer hardness reductions.
+\end{itemize}
+
+\section{Short Integer Solution (SIS) and Learning with Errors (LWE)}
+
+Suppose we are given a matrix $\mat{A} \in \ZZ_q^{n \times m}$ which is wide (i.e. $m > n$) and full rank (i.e. the rows of $\mat{A}$ are linearly independent).
+There are two basic computational problems associated to $\mat{A}$:
+\begin{enumerate}
+    \item Preimage problem: Given an image vector $\vec{v} \in \ZZ_q^n$, express $\vec{v}$ as a linear combination of the columns of $\mat{A}$, i.e. find a preimage $\vec{u} \in \ZZ^m$ such that $\mat{A} \cdot \vec{u} = \vec{v} \bmod q$.
+    \item Decoding problem: Given a codeword vector $\vec{b}$ spanned by the rows of $\mat{A}$ recover the linear combination, i.e. given $\vec{b}^\transpose = \vec{s}^\transpose \cdot \mat{A} \bmod q$ for some $\vec{s} \in \ZZ_q^n$ recover $\vec{s}$.
+\end{enumerate}
+Since $\ZZ_q$ is a field and $\mat{A}$ is full rank, a preimage problem always has a solution and the solution of a decoding problem is always unique.
+Furthermore, both problems can be solved efficiently, e.g. using Gaussian elimination.
+However, if we restrict the solutions of a preimage problem to fall into a small set $S \subseteq \ZZ^m$, or modify a decoding problem so that $\vec{b}^\transpose = \vec{s}^\transpose \cdot \mat{A} + \vec{e}^\transpose \bmod q$ is a noisy linear combination of the rows of $\mat{A}$, then the problems appear to be much harder.
+
+\subsection{Short Integer Solution (SIS)}
+
+The SIS problem~\cite{STOC:Ajtai96} is the preimage problem with a random matrix $\mat{A} \sample \ZZ_q^{n \times m}$ and a bounded-norm constraint.
+
+\begin{definition}[Short Integer Solution (SIS) Problem]
+    Let $n,m,q,\beta \in \NN$ with $n \leq m$ and $\beta \leq q$, and $\vec{v} \in \ZZ_q^n$.
+    The $\SIS_{n,m,q,\beta,\vec{v}}$ problem is the following:
+    Given a uniformly random matrix $\mat{A} \sample \ZZ_q^{n \times m}$, find a vector $\vec{u} \in \ZZ^m$ satisfying
+    \begin{align*}
+        \mat{A} \cdot \vec{u} = \vec{v} \bmod q && \text{and} && \norm{\vec{u}} \leq \beta.
+    \end{align*}
+    Furthermore, if $\vec{v} = \vec{0}$, then $\vec{u} \neq \vec{0}$.
+\end{definition}
+
+\begin{definition}[Short Integer Solution (SIS) Assumption]
+    Let $n, m, \log q, \log \beta \in \poly$ with $n \leq m$ and $\beta \leq q$, and $\vec{v} \in \ZZ_q^n$.
+    The $\SIS_{n,m,q,\beta,\vec{v}}$ assumption states that for any PPT adversary $\adv$ the $\SIS_{n,m,q,\beta,\vec{v}}$ problem is hard.
+    That is, for any PPT adversary $\adv$, it holds that
+    \[
+        \condprob{
+        \begin{aligned}
+            &\mat{A} \cdot \vec{u} = \vec{v} \bmod q \\
+            \land~&0 < \norm{\vec{u}} \leq \beta \\
+        \end{aligned}
+        }
+        {
+            \begin{aligned}
+                &\mat{A} \sample \ZZ_q^{n \times m} \\
+                &\vec{u} \gets \adv(\mat{A},\vec{v}) \\
+            \end{aligned}
+        }
+        \leq \negl.
+    \]
+\end{definition}
+
+\paragraph{Parameters.}
+It is easy to verify that the SIS problem becomes harder as the number of rows $n$ increases (more constraints) and as the norm bound $\beta$ decreases (more restrictive constraint).
+Likewise, the problem becomes easier as the number of columns $m$ increases (higher degree of freedom).
+Typically, we can think of $n$ as the security parameter, $\beta$ as a polynomial in $n$, $q = \Theta(\beta \cdot n \cdot \log n)$, and $m = \Theta(n \cdot \log_\beta q)$.\footnote{Warning: This is not meant to be a recommendation for parameters selection.}
+
+\paragraph{Variants.}
+We mention a few notable variations of the SIS problem.
+\begin{itemize}
+    \item In the literature, the SIS problem usually refers to the special case where $\vec{v} = \vec{0} \in \ZZ_q^n$.
+    In this case, we drop $\vec{v}$ from the subscript and denote the problem by $\SIS_{n,m,q,\beta}$.
+    The case where $\vec{v} \neq \vec{0}$ is usually referred to as the inhomogeneous short integer solution (ISIS) problem.
+    \item The SIS problem can be defined with respect to any norm $\norm{\cdot}$. Most commonly considered ones are the Euclidean norm $\norm{\vec{u}} = \norm{\vec{u}}_2 = \sqrt{\sum_i |u_i|^2}$ and the infinity norm $\norm{\vec{u}} = \norm{\vec{u}}_\infty = \max_i |u_i|$.
+    \item The SIS problem can be defined over any ring $\ring$ equipped with a norm $\norm{\cdot}$, instead of $\ZZ$.
+\end{itemize}
+
+\subsection{Learning with Errors (LWE)}
+
+There are two versions of the LWE problem~\cite{STOC:Regev05} -- search and decision.
+
+\paragraph{Search-LWE.}
+
+The Search-LWE problem is the decoding problem with a random matrix $\mat{A} \sample \ZZ_q^{n \times m}$ and where each entry of the noise vector $\vec{e} \sample \chi^m$ is sampled independently from some noise distribution $\chi$.
+
+\begin{definition}[Search-Learning with Errors (LWE) Problem]
+    Let $n,m,q \in \NN$ and $\chi$ be a distribution over $\ZZ$.
+    The Search-$\LWE_{n,m,q,\chi}$ problem is the following:
+    Let $\mat{A} \sample \ZZ_q^{n \times m}$ and $\vec{s} \sample \ZZ_q^n$ be uniformly random, and $\vec{e} \sample \chi^m$ be consisting of $m$ i.i.d. samples from the distribution $\chi$.
+    Let $\vec{b} \in \ZZ_q^m$ be computed as \[\vec{b}^\transpose \coloneqq \vec{s}^\transpose \cdot \mat{A} + \vec{e}^\transpose \bmod q.\]
+    Given $(\mat{A}, \vec{b})$, recover $\vec{s}$.
+\end{definition}
+
+\begin{definition}[Search-Learning with Errors (LWE) Assumption]
+    Let $n, m, \log q \in \poly$ with $n \leq m$ and $\chi$ be a distribution over $\ZZ$ parametrised by $\secpar$.
+    The Search-$\LWE_{n,m,q,\chi}$ assumption states that for any PPT adversary $\adv$ the Search-$\LWE_{n,m,q,\chi}$ problem is hard.
+    That is, for any PPT adversary $\adv$, it holds that
+    \[
+        \condprob{
+            \vec{s}^* = \vec{s}
+        }
+        {
+            \begin{aligned}
+                &\mat{A} \sample \ZZ_q^{n \times m} \\
+                &\vec{s} \sample \ZZ_q^n,~\vec{e} \sample \chi^m \\
+                &\vec{b}^\transpose \coloneqq \vec{s}^\transpose \cdot \mat{A} + \vec{e}^\transpose \bmod q \\
+                &\vec{s}^* \gets \adv(\mat{A},\vec{b}) \\
+            \end{aligned}
+        }
+        \leq \negl.
+    \]
+\end{definition}
+
+The Search-LWE problem can also be interpreted as learning a secret linear function $\langle \vec{s}, \cdot \rangle \bmod q$ given $m$ noisy samples $\set{(\vec{a}_i, b_i)}_{i=1}^m$. Packing $\set{(\vec{a}_i, b_i)}_{i=1}^m$ into columns gives $(\mat{A}, \vec{b}^\transpose)$.
+
+With a probabilistic argument and an appropriate choice of $\chi$, one could show that Search-$\LWE_{n,m,q,\chi}$ has a unique solution except with probability negligible in $n$.\footnote{Consider $\vec{b}^\transpose = \vec{s}^\transpose \cdot \mat{A} + \vec{e}^\transpose \bmod q = \bar{\vec{s}}^\transpose \cdot \mat{A} + \bar{\vec{e}}^\transpose \bmod q$ which implies $\mat{A}^\transpose \cdot (\vec{s} - \bar{\vec{s}}) = \bar{\vec{e}} - \vec{e} \bmod q$.}
+
+\paragraph{Decision-LWE.}
+
+Next, we introduce the Decision-LWE problem, which asks to distinguish whether the samples $\set{(\vec{a}_i, b_i)}_{i=1}^m$ are uniformly random or are of the form $b_i = \vec{s}^\transpose \cdot \vec{a}_i + e_i \bmod q$.
+
+\begin{definition}[Decision-Learning with Errors (LWE) Problem]
+    Let $n,m,q \in \NN$ and $\chi$ be a distribution over $\ZZ$.
+    The Decision-$\LWE_{n,m,q,\chi}$ problem is the following:
+    Let $\mat{A} \sample \ZZ_q^{n \times m}$ and $\vec{s} \sample \ZZ_q^n$ be uniformly random, and $\vec{e} \sample \chi^m$ be consisting of $m$ i.i.d. samples from the distribution $\chi$.
+    Let $\vec{b} \in \ZZ_q^m$ be either computed as \[\vec{b}^\transpose \coloneqq \vec{s}^\transpose \cdot \mat{A} + \vec{e}^\transpose \bmod q\]
+    or sampled uniformly at random as $\vec{b} \sample \ZZ_q^m$.
+    Given $(\mat{A}, \vec{b})$, distinguish how $\vec{b}$ was generated.
+\end{definition}
+
+\begin{definition}[Decision-Learning with Errors (LWE) Assumption]
+    Let $n, m, \log q \in \poly$ with $n \leq m$ and $\chi$ be a distribution over $\ZZ$ parametrised by $\secpar$.
+    The Decision-$\LWE_{n,m,q,\chi}$ assumption states that for any PPT adversary $\adv$ the Decision-$\LWE_{n,m,q,\chi}$ problem is hard.
+    That is, for any PPT adversary $\adv$, it holds that
+    \[
+        \abs{
+        \condprob{
+            b = 1
+        }
+        {
+            \begin{aligned}
+                &\mat{A} \sample \ZZ_q^{n \times m} \\
+                &\vec{s} \sample \ZZ_q^n,~\vec{e} \sample \chi^m \\
+                &\vec{b}^\transpose \coloneqq \vec{s}^\transpose \cdot \mat{A} + \vec{e}^\transpose \bmod q \\
+                &b \gets \adv(\mat{A},\vec{b}) \\
+            \end{aligned}
+        }
+        -
+        \condprob{
+            b = 1
+        }
+        {
+            \begin{aligned}
+                &\mat{A} \sample \ZZ_q^{n \times m} \\
+                &\vec{b} \sample \ZZ_q^m \\
+                &b \gets \adv(\mat{A},\vec{b}) \\
+            \end{aligned}
+        }}
+        \leq \negl.
+    \]
+\end{definition}
+
+\paragraph{Parameters.}
+It is easy to verify that the LWE problems become harder as the number of rows $n$ increases (longer secret) but easier as the number of columns $m$ increases (more samples).
+Another factor which affects hardness is the ratio between the modulus $q$ and the norm of the noise vector $\vec{e}$.
+The LWE problems become easier as this ratio increases.
+
+\paragraph{Variants.}
+As for SIS, we mention a few notable variations of the LWE problems.
+\begin{itemize}
+    \item The LWE secret $\vec{s}$ can be sampled from a different distribution other than the uniform distribution over $\ZZ_q^n$. A particularly interesting choice is to sample $\vec{s} \sample \chi^n$. This is called the ``normal form'' of LWE.
+\item The LWE problems can be defined over any ring $\ring$ over which a meaningful error distribution $\chi$ can be defined, instead of $\ZZ$.
+\end{itemize}
+
+\paragraph{Relation between Search- and Decision-LWE.}
+It is clear that Decision-LWE is easier than Search-LWE, since there is a trivial decision-to-search reduction: Use the Search-$\LWE_{n,m,q,\chi}$ oracle to find $\vec{s}$. If the oracle succeeds, then the given samples are LWE sampled. Otherwise, they are uniformly random samples. It turns out that Search-LWE is also not much harder than Decision-LWE, i.e. there exists a search-to-decision reduction. However, we will not look into this in this course.
+
+\section{Basic Cryptographic Applications}
+
+We study some basic applications of the SIS and LWE assumptions.
+As mentioned in the background section, the SIS assumption is typically used to build minicrypt~\cite{Imp95} primitives (more efficiently than generically from one-way functions), while the LWE assumption can be used to build a large variety of public-key primitives.
+As examples, we will look at Ajtai's construction~\cite{STOC:Ajtai96,EPRINT:GolGolHal96a} of collision-resistant hash functions from the SIS assumption, Regev's construction~\cite{STOC:Regev05} of public-key encryption from the LWE assumption, and the dual-Regev public-key encryption scheme from the LWE assumption by Gentry, Peikert, and Vaikuntanathan~\cite{STOC:GenPeiVai08}.
+
+
+\subsection{Ajtai's Collision-Resistant Hash Functions}
+
+From the SIS assumption, Ajtai~\cite{STOC:Ajtai96} constructed the following one-way functions family.
+The family is parametrised by $n,m, \log q,\log \beta \in \poly$ and a matrix $\mat{A} \in \ZZ_q^{n \times m}$, which defines the function
+\begin{align*}
+    f_{\mat{A}}: \ZZ_\beta^m &\to \ZZ_q^n \\
+    \vec{x} &\mapsto \mat{A} \cdot \vec{x} \bmod q.
+\end{align*}
+The (family) of function(s) $f_{\mat{A}}$ is sometimes called the ``SIS function''.
+Later, it was realised~\cite{EPRINT:GolGolHal96a} that Ajtai's functions family is actually collision-resistant.
+
+\begin{theorem}
+    If the $\SIS_{n,m,q,\beta}$ assumption holds, then $\set{f_{\mat{A}} \mid \mat{A} \in \ZZ_q^{n \times m}}$ is a family of collision-resistant hash functions, i.e. for any PPT adversary $\adv$ it holds that
+    \[
+        \condprob{\set{\vec{x}, \vec{y}} \subseteq \ZZ_\beta^m \land f_{\mat{A}}(\vec{x}) = f_{\mat{A}}(\vec{y}) \land \vec{x} \neq \vec{y}}{
+            \begin{aligned}
+                &\mat{A} \sample \ZZ_q^{n \times m} \\
+                &(\vec{x}, \vec{y}) \gets \adv(\mat{A})
+            \end{aligned}
+        }
+        \leq \negl.
+    \]
+\end{theorem}
+
+\begin{proof}
+    If there exists a PPT adversary $\adv$ which breaks the collision-resistance of the hash functions, we construct a PPT reduction which solves the $\SIS_{n,m,q,\beta}$ problem.
+    Our reduction gets a uniformly random instance $\mat{A}$ of $\SIS_{n,m,q,\beta}$ and passes it to $\adv$, who returns $(\vec{x}, \vec{y})$.
+    The reduction then returns $\vec{u} \coloneqq \vec{x} - \vec{y}$.
+    By assumption, we have $\set{\vec{x}, \vec{y}} \subseteq \ZZ_\beta^m$, $f_{\mat{A}}(\vec{x}) = f_{\mat{A}}(\vec{y})$, and $\vec{x} \neq \vec{y}$ with non-negligible probability.
+    This means that, with non-negligible probability, the solution $\vec{u}$ satisfies $\norm{\vec{u}} \leq \beta$, $\mat{A} \cdot \vec{u} = \vec{0} \bmod q$, and $\vec{u} \neq \vec{0}$, i.e. $\vec{u}$ is a valid solution to the $\SIS_{n,m,q,\beta}$ problem instance $\mat{A}$.
+\end{proof}
+
+\paragraph*{Regularity.}
+
+Another useful property of Ajtai's functions is that they exhibit good regularity properties:
+If there are sufficiently many columns, i.e. $m$ is large enough, applying the function on uniformly random inputs give outputs which are close to uniform.
+Formally, the following is a special case of the leftover hash lemma~\cite{STOC:ImpLevLub89} which we state without proof.
+
+\begin{lemma}[Regularity/Leftover Hash Lemma~\cite{STOC:ImpLevLub89,STOC:GenPeiVai08}]\label{lem:lhl}
+    For $m > n \cdot \log_\beta q + \omega(\log n)$, the distributions
+    \begin{align*}
+        \set{(\mat{A}, \vec{y}) ~\middle|~
+        \begin{aligned}
+            &\mat{A} \sample \ZZ_q^{n \times m} \\
+            &\vec{x} \sample \ZZ_\beta^m \\
+            &\vec{y} \coloneqq \mat{A} \cdot \vec{x} \bmod q
+        \end{aligned}}
+        && \text{and} &&
+        \set{(\mat{A}, \vec{y}) ~\middle|~
+        \begin{aligned}
+            &\mat{A} \sample \ZZ_q^{n \times m} \\
+            &\vec{y} \sample \ZZ_q^n
+        \end{aligned}}
+    \end{align*}
+    are statistically-close in $n$.
+\end{lemma}
+
+Note that for the SIS function to be compressing, which we want or collision-resistance is not too meaningful, we require $m > n \cdot \log_\beta q$, which almost coincides with the requirement in the leftover hash lemma (\cref{lem:lhl}).
+
+\paragraph*{Normal Form of SIS.}
+
+In the above construction, it takes $n \cdot m \cdot \log q$ bits to specify a hash function $f_{\mat{A}}$.
+It turns out that there is a way to slightly reduce the description size of the hash function to just $n \cdot (m - n) \cdot \log q$ bits without relying on stronger assumptions.
+Concretely, for a matrix $\bar{\mat{A}} \in \ZZ_q^{n \times (m-n)}$, define the function
+\begin{align*}
+    \bar{f}_{\bar{\mat{A}}}: \ZZ_\beta^m &\to \ZZ_q^n \\
+    \vec{x} &\mapsto \left( \bar{\mat{A}} \| \mat{I}_n \right) \cdot \vec{x} \bmod q.
+\end{align*}
+The SIS problem where $\mat{A}$ is restricted to $\mat{A} = \left( \bar{\mat{A}} \| \mat{I}_n \right)$ is known as the (Hermite) normal form of SIS.
+
+\begin{theorem}
+    If the $\SIS_{n,m,q,\beta}$ assumption holds, then $\set{\bar{f}_{\bar{\mat{A}}} \mid \bar{\mat{A}} \in \ZZ_q^{n \times (m-n)}}$ is a family of collision-resistant hash functions, i.e. for any PPT adversary $\adv$ it holds that
+    \[
+        \condprob{\set{\vec{x}, \vec{y}} \subseteq \ZZ_\beta^m \land \bar{f}_{\bar{\mat{A}}}(\vec{x}) = \bar{f}_{\bar{\mat{A}}}(\vec{y}) \land \vec{x} \neq \vec{y}}{
+            \begin{aligned}
+                &\bar{\mat{A}} \sample \ZZ_q^{n \times (m-n)} \\
+                &(\vec{x}, \vec{y}) \gets \adv(\bar{\mat{A}})
+            \end{aligned}
+        }
+        \leq \negl.
+    \]
+\end{theorem}
+
+\begin{proof}
+    Instead of proving collision-resistance from scratch, we show a reduction from $\SIS_{n,m,q,\beta}$ to the normal form of $\SIS_{n,m,q,\beta}$.
+    Let $\adv$ be a PPT algorithm which solves the normal form of $\SIS_{n,m,q,\beta}$ with non-negligible probability.
+    Our reduction gets a uniformly random instance $\mat{A}$ of $\SIS_{n,m,q,\beta}$ and does the following.
+    \begin{itemize}
+        \item Check that $\mat{A}$ is full-rank and abort if otherwise.
+        \item Write $\mat{A} = \left( \mat{A}_0 \| \mat{A}_1 \right)$ where $\mat{A}_0 \in \ZZ_q^{n \times (m-n)}$ and $\mat{A}_1 \in \ZZ_q^{n \times n}$. We can assume that $\mat{A}_1$ is invertible over $\ZZ_q$ without loss of generality.\footnote{If not, just permute the columns of $\mat{A}$.}
+        \item Define $\bar{\mat{A}} \coloneqq \mat{A}_1^{-1} \cdot \mat{A}_0$.
+        \item Pass $\bar{\mat{A}}$ to $\adv$ and in return receive $\vec{u}$.
+        \item Return $\vec{u}$.
+    \end{itemize}
+    We argue that $\vec{u}$ is a valid solution to the $\SIS_{n,m,q,\beta}$ problem instance $\mat{A}$ except with negligible probability.
+
+    First, from~\cref{lem:full-rank} which we will state and prove later, the probability that $\mat{A}$ is not full-rank is at most $\frac{n}{q^{m-n+1}}$, which is negligible in $n$. In what follows, assume that $\mat{A}$ is full-rank.
+
+    Next, we note that that $\bar{\mat{A}} \coloneqq \mat{A}_1^{-1} \cdot \mat{A}_0$ is a well-distributed normal-form $\SIS_{n,m,q,\beta}$ instance, because $\mat{A}_1^{-1}$ is invertible over $\ZZ_q$ and $\mat{A}_0$ is uniformly random over $\ZZ_q^{n \times (m-n)}$.
+
+    Finally, by assumption, we have $\left( \bar{\mat{A}} \| \mat{I}_n \right) \cdot \vec{u} = \vec{0} \bmod q$ and $\norm{\vec{u}} \leq \beta$ with non-negligible probability. The former implies that $\mat{A} \cdot \vec{u} = \vec{0} \bmod q$.
+\end{proof}
+
+\begin{lemma}\label{lem:full-rank}
+    Let $n,m,q \in \NN$ with $m > n$.
+    It holds that
+    $\condprob{\mat{A}~\text{is full-rank}}{\mat{A} \gets \ZZ_q^{n \times m}} \geq 1 - \frac{n}{q^{m-n+1}}$.
+\end{lemma}
+
+\begin{proof}
+    We show by counting the number of full-rank matrices in $\ZZ_q^{n \times m}$.
+    There is only one choice of the first row of $\mat{A}$ which makes $\mat{A}$ not full-rank -- the all-zero vector.
+    Therefore, there are $q^m - 1$ choices for the first row.
+    Fix any choice $\vec{a}_1$ of the first row.
+    The second row cannot be a multiple of $\vec{a}_1$, else the matrix $\mat{A}$ is not full-rank.
+    Therefore, there are $q^m - q$ choices for the second row.
+    Continue in this way, we conclude that there are $q^m - q^{i-1}$ choices for the $i$-th row.
+    Therefore, the number of full-rank matrices in $\ZZ_q^{n \times m}$ is
+    \[\prod_{i=1}^n (q^m - q^{i-1}) = q^{nm} \cdot \prod_{i=1}^n \left( 1 - \frac{1}{q^{m-i+1}} \right) \geq q^{nm} \cdot \left( 1 - \frac{1}{q^{m-n+1}} \right)^n \geq q^{nm} \cdot \left( 1 - \frac{n}{q^{m-n+1}} \right).\]
+    A random matrix in $\ZZ_q^{n \times m}$ is therefore full-rank except with probability at most $\frac{n}{q^{m-n+1}}$.
+\end{proof}
+
+\subsection{Regev's Public-Key Encryption}
+
+Next, we study Regev's construction~\cite{STOC:Regev05} of public-key encryption (PKE) from the LWE assumption.
+Before that, let us formally define PKE.
+As one would expect, a PKE is similar to a symmetric-key encryption except that the key generation algorithm additionally outputs a public key and the encryption algorithm inputs the public key instead of the secret key.
+
+\begin{definition}[PKE]
+    A public-key encryption (PKE) scheme for the message space $\cX$ is a tuple of PPT algorithms $(\kgen,\enc,\dec)$ with the following syntax:
+    \begin{itemize}
+        \item $(\pk, \sk) \gets \kgen(\secparam)$: The key generation algorithm generates a pair of public and secret keys $(\pk, \sk)$.
+        \item $\ctxt \gets \enc(\pk, x)$: The encryption algorithm takes a public key $\pk$ and a message $x \in \cX$ and outputs a ciphertext $\ctxt$.
+        \item $x \gets \dec(\sk, \ctxt)$: The decryption algorithm takes a secret key $\sk$ and a ciphertext $\ctxt$ and outputs a message $x$.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}[Correctness]
+    A PKE scheme $(\kgen,\enc,\dec)$ is correct if for any $\secpar \in \NN$, any $(\pk, \sk) \in \kgen(\secparam)$, and any $x \in \cX$, it holds that
+    \[\dec(\sk, \enc(\pk, x)) = x.\]
+\end{definition}
+
+Similar to symmetric-key encryption, the basic notion of security of PKE is IND-CPA-security.
+The definition of IND-CPA-security of PKE is actually simpler than that of symmetric-key encryption because the encryption algorithm is now public-key, which means that the security experiment does not need to provide an encryption oracle to the adversary.
+
+\begin{definition}[IND-CPA]
+    A PKE scheme $\Pi = (\kgen,\enc,\dec)$ has ciphertext indistinguishability under chosen-plaintext attacks (IND-CPA-secure) if for any (two-stage) PPT adversary $\adv$ it holds that
+    \[
+        \abs{\prob{\indcpa_{\Pi,\adv}^0(\secparam) = 1} - \prob{\indcpa_{\Pi,\adv}^1(\secparam) = 1}} \leq \negl
+    \]
+    where the experiment $\indcpa_{\Pi,\adv}^b$ for $b \in \bits$ is defined as follows:
+    \begin{pchstack}[boxed,center]
+        \procedure{$\indcpa_{\Pi,\adv}^b(\secparam)$}
+        {
+            (\pk, \sk) \gets \kgen(\secparam) \\
+            (x_0, x_1) \gets \adv(\pk) \\
+            \ctxt^* \gets \enc(\pk, x_b) \\
+            b' \gets \adv(\ctxt^*) \\
+            \pcreturn b'
+        }
+    \end{pchstack}
+\end{definition}
+
+\paragraph{Scheme Description.}
+
+We are now ready to describe Regev's construction of public-key encryption.
+In short, the public key consists of $m$ LWE samples, and the secret key is an LWE secret.
+To encrypt, perform a random linear combination of the LWE samples to produce a new one, and use it to one-time-pad (an encoding of) the message.
+To decrypt, use the LWE secret to recover the LWE sample used for the one-time-pad.
+Formally, let $n,m,\log q, \log \beta \in \poly$ and let $\chi$ be the uniform distribution over $\ZZ_\beta$. Regev's construction is as follows.
+
+\noindent\underline{Key Generation $\kgen(\secparam)$}:
+\begin{itemize}
+    \item Sample a uniformly random matrix $\mat{A} \sample \ZZ_q^{n \times m}$,
+    an LWE secret vector $\vec{s} \sample \ZZ_q^n$,
+    and a short noise vector $\vec{e} \sample \chi^{m}$.
+    \item Compute $\vec{b}^\transpose = \vec{s}^\transpose \cdot \mat{A} + \vec{e}^\transpose \bmod q$.
+    \item Output $\pk \coloneqq (\mat{A}, \vec{b})$ and $\sk \coloneqq \vec{s}$.
+\end{itemize}
+
+\noindent\underline{Encryption $\enc(\pk, x \in \bits)$}:
+\begin{itemize}
+    \item Sample short vector $\vec{r} \sample \chi^{m}$.
+    \item Set $\vec{c}_0 \coloneqq \mat{A} \cdot \vec{r} \bmod q$.
+    \item Set $c_1 \coloneqq \vec{b}^\transpose \cdot \vec{r} + \floor{q/2} \cdot x \bmod q$.
+    \item Output $\ctxt \coloneqq (\vec{c}_0, c_1)$.
+\end{itemize}
+
+\noindent\underline{Decryption $\dec(\sk, \ctxt)$}:
+\begin{itemize}
+    \item Compute $\bar{x} \coloneqq c_1 -\vec{s}^\transpose \cdot \vec{c}_0 \bmod q$.
+\item If $|\bar{x}| < q/4$, output $0$. Else, output $1$.
+\end{itemize}
+
+\paragraph*{Analysis.}
+
+Next, let us analyse the correctness and IND-CPA-security of Regev's scheme.
+
+\begin{theorem}[Correctness]
+    If $q > m \cdot \beta^2 + 1$, Regev's public-key encryption scheme is correct.
+\end{theorem}
+
+\begin{proof}
+    Notice that for any encryption $\ctxt \coloneqq (\vec{c}_0, c_1)$ of $x \in \bits$, we have
+    \begin{align*}
+        \bar{x}
+        &= c_1 - \vec{s}^\transpose \cdot \vec{c}_0 \\
+        &= \vec{b}^\transpose \cdot \vec{r} + \floor{q/2} \cdot x - \vec{s}^\transpose \cdot \mat{A} \cdot \vec{r} \bmod q \\
+        &= \vec{e}^\transpose \cdot \vec{r} + \floor{q/2} \cdot x \bmod q.
+    \end{align*}
+    If $x = 0$, we have \[\norm{\bar{x}} = \norm{\vec{e}^\transpose \cdot \vec{r} \bmod q} \leq m \cdot \beta^2 / 4 < q/4.\]
+    If $x = 1$, we have \[\norm{\bar{x}} = \norm{\vec{e}^\transpose \cdot \vec{r} + \floor{q/2} \bmod q} \geq (q-1)/2 - m \cdot \beta^2 / 4 > q/4.\]
+\end{proof}
+
+\begin{theorem}[IND-CPA-Security]
+    If $m = \Omega(n \log_\beta q)$ and the Decision-$\LWE_{n,m,q,\chi}$ assumption holds, then Regev's public-key encryption scheme is IND-CPA-secure.
+\end{theorem}
+
+\begin{proof}
+    Let $\Pi$ denote Regev's public-key encryption scheme and let $\adv$ be any PPT adversary.
+    We prove by a standard ``hybrid argument''.
+    That means, we define a sequence of hybrid security experiments where the first is identical to $\indcpa_{\Pi,\adv}^0$ and the last is identical to $\indcpa_{\Pi,\adv}^1$, and show that any two consecutive experiments are computationally or statistically indistinguishable from each other.
+    Consequently, we have that $\indcpa_{\Pi,\adv}^0$ and $\indcpa_{\Pi,\adv}^1$ are computationally indistinguishable from each other, as desired.
+
+    The sequence of hybrids are as follows.
+    \begin{itemize}
+        \item $\Hyb_0$: This experiment is identical to $\indcpa_{\Pi,\adv}^0$.
+        \item $\Hyb_1$: This experiment is almost identical to $\Hyb_0$, except that the public key $\pk = (\mat{A},\vec{b})$ is replaced by a uniformly sampled one.
+        \item $\Hyb_2$: This experiment is almost identical to $\Hyb_1$, except that the terms $\mat{A} \cdot \vec{r} \bmod q$ and $\vec{b}^\transpose \cdot \vec{r} \bmod q$ in the challenge ciphertext are replaced by uniformly sampled ones.
+        \item $\Hyb_3$: This experiment is almost identical to $\Hyb_2$, except that the message being encrypted is changed from $x_0$ to $x_1$.
+        \item $\Hyb_4$: This experiment is almost identical to $\Hyb_3$, except that the challenge ciphertext is computed as in $\enc(\pk,x_1)$.
+        \item $\Hyb_5$: This experiment is almost identical to $\Hyb_4$, except that the public key $\pk = (\mat{A},\vec{b})$ is sampled as in $\kgen(\secparam)$. This experiment is identical to $\indcpa_{\Pi,\adv}^1$.
+    \end{itemize}
+
+    The explicit definition of the hybrids, with the procedures of the construction inline, are given below.
+    \begin{pcvstack}[center,boxed]
+
+        \begin{pchstack}
+
+            \procedure[]{$\Hyb_0(\secparam)$}
+            {
+                \mat{A} \sample \ZZ_q^{n \times m} \\
+                \vec{s} \sample \ZZ_q^n \\
+                \vec{e} \sample \chi^{m} \\
+                \vec{b}^\transpose = \vec{s}^\transpose \cdot \mat{A} + \vec{e}^\transpose \bmod q \\
+                (x_0, x_1) \gets \adv(\mat{A}, \vec{b}) \\
+                \vec{r} \sample \chi^{m} \\
+                \vec{c}_0 \coloneqq \mat{A} \cdot \vec{r} \bmod q \\
+                c_1 \coloneqq \vec{b}^\transpose \cdot \vec{r} + \floor{q/2} \cdot x_0 \bmod q \\
+                \pcreturn b \gets \adv(\vec{c}_0, c_1)
+            }
+
+            \pchspace
+
+            \procedure[]{$\Hyb_1(\secparam)$}
+            {
+                \mat{A} \sample \ZZ_q^{n \times m} \\
+                \\
+                \\
+                \vec{b} \sample \ZZ_q^m \\
+                (x_0, x_1) \gets \adv(\mat{A}, \vec{b}) \\
+                \vec{r} \sample \chi^{m} \\
+                \vec{c}_0 \coloneqq \mat{A} \cdot \vec{r} \bmod q \\
+                c_1 \coloneqq \vec{b}^\transpose \cdot \vec{r} + \floor{q/2} \cdot x_0 \bmod q \\
+                \pcreturn b \gets \adv(\vec{c}_0, c_1)
+            }
+
+            \pchspace
+
+            \procedure[]{$\Hyb_2(\secparam)$}
+            {
+                \mat{A} \sample \ZZ_q^{n \times m} \\
+                \\
+                \\
+                \vec{b} \sample \ZZ_q^m \\
+                (x_0, x_1) \gets \adv(\mat{A}, \vec{b}) \\
+                \vec{d}_0 \sample \ZZ_q^n,~d_1 \sample \ZZ_q \\
+                \vec{c}_0 \coloneqq \vec{d}_0 \bmod q \\
+                c_1 \coloneqq d_1 + \floor{q/2} \cdot x_0 \bmod q \\
+                \pcreturn b \gets \adv(\vec{c}_0, c_1)
+            }
+
+        \end{pchstack}
+
+        \pcvspace
+
+        \begin{pchstack}
+
+            \procedure[]{$\Hyb_5(\secparam)$}
+            {
+                \mat{A} \sample \ZZ_q^{n \times m} \\
+                \vec{s} \sample \ZZ_q^n \\
+                \vec{e} \sample \chi^{m} \\
+                \vec{b}^\transpose = \vec{s}^\transpose \cdot \mat{A} + \vec{e}^\transpose \bmod q \\
+                (x_0, x_1) \gets \adv(\mat{A}, \vec{b}) \\
+                \vec{r} \sample \chi^{m} \\
+                \vec{c}_0 \coloneqq \mat{A} \cdot \vec{r} \bmod q \\
+                c_1 \coloneqq \vec{b}^\transpose \cdot \vec{r} + \floor{q/2} \cdot x_1 \bmod q \\
+                \pcreturn b \gets \adv(\vec{c}_0, c_1)
+            }
+
+            \pchspace
+
+            \procedure[]{$\Hyb_4(\secparam)$}
+            {
+                \mat{A} \sample \ZZ_q^{n \times m} \\
+                \\
+                \\
+                \vec{b} \sample \ZZ_q^m \\
+                (x_0, x_1) \gets \adv(\mat{A}, \vec{b}) \\
+                \vec{r} \sample \chi^{m} \\
+                \vec{c}_0 \coloneqq \mat{A} \cdot \vec{r} \bmod q \\
+                c_1 \coloneqq \vec{b}^\transpose \cdot \vec{r} + \floor{q/2} \cdot x_1 \bmod q \\
+                \pcreturn b \gets \adv(\vec{c}_0, c_1)
+            }
+
+            \pchspace
+
+            \procedure[]{$\Hyb_3(\secparam)$}
+            {
+                \mat{A} \sample \ZZ_q^{n \times m} \\
+                \\
+                \\
+                \vec{b} \sample \ZZ_q^m \\
+                (x_0, x_1) \gets \adv(\mat{A}, \vec{b}) \\
+                \vec{d}_0 \sample \ZZ_q^n,~d_1 \sample \ZZ_q \\
+                \vec{c}_0 \coloneqq \vec{d}_0 \bmod q \\
+                c_1 \coloneqq d_1 + \floor{q/2} \cdot x_1 \bmod q \\
+                \pcreturn b \gets \adv(\vec{c}_0, c_1)
+            }
+
+        \end{pchstack}
+
+    \end{pcvstack}
+    By the Decision-$\LWE_{n,m,q,\chi}$ assumption, we have
+    \[\abs{\prob{\Hyb_0(\secparam) = 1} - \prob{\Hyb_1(\secparam) = 1}} \leq \negl\]
+    and
+    \[\abs{\prob{\Hyb_4(\secparam) = 1} - \prob{\Hyb_5(\secparam) = 1}} \leq \negl.\]
+    By the leftover hash lemma (\cref{lem:lhl}), we have
+    \[\abs{\prob{\Hyb_1(\secparam) = 1} - \prob{\Hyb_2(\secparam) = 1}} \leq \negl\]
+    and
+    \[\abs{\prob{\Hyb_3(\secparam) = 1} - \prob{\Hyb_4(\secparam) = 1}} \leq \negl.\]
+    Finally, we realise that $\prob{\Hyb_2(\secparam) = 1} = \prob{\Hyb_3(\secparam) = 1}$ because $d_1$ is uniformly random over $\ZZ_q$, which is an additive group, and adding anything to a random group element gives a random element.
+\end{proof}
+
+\subsection{The Dual-Regev Public-Key Encryption}
+
+In Regev's construction, the public key consists of LWE samples and the secret key is the LWE secret, which is likely unique.
+A ciphertext is simply a short linear combination of the LWE samples.
+Correspondingly, in the security proof, the LWE assumption is first used to switch the public key to a fake one, and the leftover hash lemma is then used to argue the statistical uniformity of (fake) ciphertexts.
+
+Gentry, Peikert, and Vaikuntanathan~\cite{STOC:GenPeiVai08} discovered an alternative way to construct a PKE which is in a sense ``dual'' to Regev's construction.
+In this dual-Regev construction, the public key is instead a SIS instance $(\mat{A}, \vec{v})$ and the secret key is a solution of the SIS instance.
+To encrypt, an LWE sample is produced using the matrix $(\mat{A} \| \vec{v})$ which is then used to one-time-pad the message.
+Formally, let $n,m,\log q, \log \beta \in \poly$ and let $\chi$ be the uniform distribution over $\ZZ_\beta$.  The dual-Regev construction is as follows.
+
+\noindent\underline{Key Generation $\kgen(\secparam)$}:
+\begin{itemize}
+    \item Sample a uniformly random matrix $\mat{A} \sample \ZZ_q^{n \times m}$ and a short vector $\vec{u} \sample \chi^{m}$.
+    \item Compute $\vec{v} \coloneqq \mat{A} \cdot \vec{u} \bmod q$.
+    \item Output $\pk \coloneqq (\mat{A}, \vec{v})$ and $\sk \coloneqq \vec{u}$.
+\end{itemize}
+
+\noindent\underline{Encryption $\enc(\pk, x \in \bits)$}:
+\begin{itemize}
+    \item Sample an LWE secret vector $\vec{s} \sample \ZZ_q^n$, a short noise vector $\vec{e}_0 \sample \chi^{m}$, and another short noise $e_1 \sample \chi$.
+    \item Set $\vec{c}_0^\transpose \coloneqq \vec{s}^\transpose \cdot \mat{A} + \vec{e}_0^\transpose \bmod q$.
+    \item Set $c_1 \coloneqq \vec{s}^\transpose \cdot \vec{v} + e_1 + \floor{q/2} \cdot x \bmod q$.
+    \item Output $\ctxt \coloneqq (\vec{c}_0, c_1)$.
+\end{itemize}
+
+\noindent\underline{Decryption $\dec(\sk, \ctxt)$}:
+\begin{itemize}
+    \item Compute $\bar{x} \coloneqq c_1 - \vec{c}_0^\transpose \cdot \vec{u} \bmod q$.
+\item If $|\bar{x}| < q/4$, output $0$. Else, output $1$.
+\end{itemize}
+
+For a sufficiently large $m$, the dual-Regev PKE has an interesting property that a public key could correspond to (possibly exponentially) many secret keys.
+This property turns out to be beneficial for the construction of more advanced encryption schemes.
+
+We leave the correctness and security statements and their proofs as exercises.
+
+
+
+
+
+
+
+\printbibliography
+
+\end{document}

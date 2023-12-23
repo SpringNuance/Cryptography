@@ -1,0 +1,363 @@
+\newif\iffull\fullfalse% do not change flags here
+\newif\ifdraft\draftfalse% do not change flags here
+
+\documentclass[envcountsame,runningheads,notitlepage]{../llncs}
+\pagestyle{plain}
+
+\usepackage[letterpaper,hmargin=3.5cm,vmargin=3cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xifthen}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{lscape}
+%\usepackage{amsthm}
+\usepackage{xspace}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{color,soul}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows, calc}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{subcaption}
+\usepackage[probability,adversary,sets,notions,operators,complexity,keys,primitives,asymptotics,advantage]{cryptocode}
+\usepackage{savesym}
+\usepackage{relsize}
+\savesymbol{cb}
+\usepackage{combelow}
+\usepackage[normalem]{ulem}
+\usepackage{wrapfig}
+\newtheorem{crossed}{Esitehtävä}
+\usepackage{enumitem}
+
+\let\proof\relax
+\let\endproof\relax
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{graded}[crossed]{Exercise}
+\newtheorem{challenge}[crossed]{Challenge exercise}
+
+% Colors
+\newcommand\maybecolor[1]{\color{#1}}
+\definecolor{lightblue}{rgb}{0.2,0.2,1.0}
+\definecolor{dkred}{rgb}{0.5, 0.0,0.0}
+\definecolor{lightgrey}{rgb}{0.8,0.8,0.8}
+\definecolor{dkblue}{rgb}{0,0.1,0.5}
+\definecolor{dkgreen}{rgb}{0,0.4,0}
+\definecolor{dkred}{rgb}{0.6,0,0}
+\definecolor{linkColor}{rgb}{0,0,0.5}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\ifdraft
+\newcommand{\fullcolor}{\color{blue}}
+\else
+\newcommand{\fullcolor}{\color{black}}
+\fi
+\newcommand{\blk}{\color{black}}
+\newcommand{\dkg}{\color{dkgreen}}
+
+% Variable and procedures names
+\renewcommand{\O}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\V}[1]{\ensuremath{\mathit{#1}}}
+\newcommand{\M}[1]{\ensuremath{\text{\tt#1}}}
+\def \G {\mathcal{G}}
+\newcommand{\hLen}{n}
+
+
+
+
+%\newcommand{\markulf}[1]{{\color{orange}{MK: #1}}}
+\newcommand{\mk}[1]{{\color{orange}{mk: #1}}}
+
+
+% WIDEBAR
+
+\makeatletter
+\let\save@mathaccent\mathaccent
+\newcommand*\if@single[3]{%
+  \setbox0\hbox{${\mathaccent"0362{#1}}^H$}%
+  \setbox2\hbox{${\mathaccent"0362{\kern0pt#1}}^H$}%
+  \ifdim\ht0=\ht2 #3\else #2\fi
+  }
+%The bar will be moved to the right by a half of \macc@kerna, which is computed by amsmath:
+\newcommand*\rel@kern[1]{\kern#1\dimexpr\macc@kerna}
+%If there's a superscript following the bar, then no negative kern may follow the bar;
+%an additional {} makes sure that the superscript is high enough in this case:
+\newcommand*\widebar[1]{\@ifnextchar^{{\wide@bar{#1}{0}}}{\wide@bar{#1}{1}}}
+%Use a separate algorithm for single symbols:
+\newcommand*\wide@bar[2]{\if@single{#1}{\wide@bar@{#1}{#2}{1}}{\wide@bar@{#1}{#2}{2}}}
+\newcommand*\wide@bar@[3]{%
+  \begingroup
+  \def\mathaccent##1##2{%
+%Enable nesting of accents:
+    \let\mathaccent\save@mathaccent
+%If there's more than a single symbol, use the first character instead (see below):
+    \if#32 \let\macc@nucleus\first@char \fi
+%Determine the italic correction:
+    \setbox\z@\hbox{$\macc@style{\macc@nucleus}_{}$}%
+    \setbox\tw@\hbox{$\macc@style{\macc@nucleus}{}_{}$}%
+    \dimen@\wd\tw@
+    \advance\dimen@-\wd\z@
+%Now \dimen@ is the italic correction of the symbol.
+    \divide\dimen@ 3
+    \@tempdima\wd\tw@
+    \advance\@tempdima-\scriptspace
+%Now \@tempdima is the width of the symbol.
+    \divide\@tempdima 10
+    \advance\dimen@-\@tempdima
+%Now \dimen@ = (italic correction / 3) - (Breite / 10)
+    \ifdim\dimen@>\z@ \dimen@0pt\fi
+%The bar will be shortened in the case \dimen@<0 !
+    \rel@kern{0.6}\kern-\dimen@
+    \if#31
+      \overline{\rel@kern{-0.6}\kern\dimen@\macc@nucleus\rel@kern{0.4}\kern\dimen@}%
+      \advance\dimen@0.4\dimexpr\macc@kerna
+%Place the combined final kern (-\dimen@) if it is >0 or if a superscript follows:
+      \let\final@kern#2%
+      \ifdim\dimen@<\z@ \let\final@kern1\fi
+      \if\final@kern1 \kern-\dimen@\fi
+    \else
+      \overline{\rel@kern{-0.6}\kern\dimen@#1}%
+    \fi
+  }%
+  \macc@depth\@ne
+  \let\math@bgroup\@empty \let\math@egroup\macc@set@skewchar
+  \mathsurround\z@ \frozen@everymath{\mathgroup\macc@group\relax}%
+  \macc@set@skewchar\relax
+  \let\mathaccentV\macc@nested@a
+%The following initialises \macc@kerna and calls \mathaccent:
+  \if#31
+    \macc@nested@a\relax111{#1}%
+  \else
+%If the argument consists of more than one symbol, and if the first token is
+%a letter, use that letter for the computations:
+    \def\gobble@till@marker##1\endmarker{}%
+    \futurelet\first@char\gobble@till@marker#1\endmarker
+    \ifcat\noexpand\first@char A\else
+      \def\first@char{}%
+    \fi
+    \macc@nested@a\relax111{\first@char}%
+  \fi
+  \endgroup
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     FONTS AND EDITING
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\highlight}[1]{\colorbox{red!20}{$\displaystyle#1$}}
+\definecolor{purple}{RGB}{139,0,139}
+\newcommand{\ben}[1]{{\color{purple}{BD: #1}}}
+\definecolor{darkgreen}{RGB}{0,128,0}
+\newcommand{\chris}[1]{{\color{darkgreen}{CB: #1}}}
+\definecolor{orange}{RGB}{210,105,30}
+\newcommand{\geoffroy}[1]{{\color{orange}{GC: #1}}}
+\newcommand{\todo}[1]{{\color{red}{TODO: #1}}}
+
+\definecolor{darkblue}{RGB}{0,0,128}
+\definecolor{midnightblue}{RGB}{0,0,210}
+\definecolor{darkred}{RGB}{128,0,0}
+\definecolor{figred}{RGB}{230,0,26}
+\definecolor{figgreen}{RGB}{153,192,0}
+\definecolor{figorange}{RGB}{245,163,0}
+\definecolor{figblue}{RGB}{0,104,157}
+\definecolor{figpurple}{RGB}{149,17,105}
+
+
+
+
+%\theoremstyle{plain}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{proposition}{Proposition}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem*{corollary}{Corollary}
+
+%\newtheorem{definition}{Definition}
+%\newtheorem{conjecture}{Conjecture}
+%\newtheorem{algorithm}{Algorithm}
+\newtheorem{construction}{Construction}
+%\newtheorem{claim}{Claim}
+
+%\theoremstyle{remark}
+%\newtheorem*{remark}{Remark}
+%\newtheorem*{note}{Note}
+%\newtheorem{case}{Case}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%         STYLES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\R}{\mathbb{R}} \newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}} \newcommand{\Q}{\mathbb{Q}}
+\newcommand{\card}[1]{\abs{#1}}
+%\theoremstyle{definition} \newtheorem*{definition}{Definition}
+%\newtheorem*{remark}{Remark} \newtheorem*{lemma}{Lemma}
+%\newtheorem*{conjecture}{Conjecture} \newtheorem*{hint}{Hint}
+%\newtheorem{claim}{Claim}
+\newcommand{\cnt}{\textsf{ctr}}
+\renewcommand{\H}{\textsf{H}}
+\newcommand{\RO}{\textsf{RO}}
+\newcommand{\RPO}{\textsf{RPO}}
+\renewcommand{\O}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\E}{\textsf{E}}
+\newcommand{\ininterface}[1]{{\mathsf{in}(#1)}} %{I^{in}_{#1}}
+\newcommand{\outinterface}[1]{{\mathsf{out}(#1)}} %{I^{out}_{#1}}
+\newcommand{\StyleModel}[1]{\V{{#1}}}
+\newtheorem*{hint}{Hint}
+
+\newcommand{\kgen}{\StyleModel{kgen}}
+\newcommand{\m}{\StyleModel{m}}
+\newcommand{\se}{\StyleModel{se}}
+\renewcommand{\enc}{\StyleModel{enc}}
+\renewcommand{\dec}{\StyleModel{dec}}
+%\newcommand{\prp}{\StyleModel{prp}}
+\newcommand{\nonce}{\StyleModel{nonce}}
+\newcommand{\ac}{\StyleModel{ac}}
+\newcommand{\ch}{\StyleModel{ch}}
+\renewcommand{\mac}{\StyleModel{mac}}
+\newcommand{\ver}{\StyleModel{ver}}
+\renewcommand{\verify}{\StyleModel{ver}}
+\newcommand{\receive}{\StyleModel{receive}}
+\newcommand{\send}{\StyleModel{send}}
+\newcommand{\unfcma}{\M{UNF-CMA}}
+\newcommand{\unfcmaac}{\M{UNF-CMA-AC}}
+\newcommand{\flunfcma}{\M{FL-UNF-CMA}}
+%\newcommand{\pcassert}{\mathbf{assert}\;} Please update cryptocode package if you get an error saying that pcassert is not defined.
+%\specialcomment{solution}{\textbf{Solution:}\;}{}
+\newboolean{ifsolution}
+\setboolean{ifsolution}{true}
+
+\usepackage[breakable]{tcolorbox}
+
+% if exercises only:
+\newcommand{\sol}[1]{}
+
+% if solution included:
+%\newcommand{\sol}[1]{\begin{tcolorbox}[breakable]\solution{#1}\end{tcolorbox}}
+
+\title{CS-E4340 Cryptography: Exercise Sheet 3}
+\author{}\institute{}
+%\author{Osama Abuzaid, Christopher Brzuska, Pihla Karanko, Miikka Tiainen}
+%\institute{
+%			 Aalto University, Finland
+%}
+%\date{\today}
+
+\begin{document}
+%\maketitle
+
+
+\maketitle
+
+\noindent
+\textbf{Submission Deadline: September 26, 11:30 via MyCourses}
+
+\medskip
+\noindent
+Each exercise can give up to two participation points, 2 for a mostly correct solution and 1 point for a good attempt. Overall, the exercise sheet gives at most 4 participation points.
+
+\medskip
+\noindent
+Exercise Sheet 3 is intended to help...
+\begin{itemize}
+\item[(a)] ...understand the definition of pseudorandom functions (PRFs).
+\item[(b)] ...understand the difference between a PRF and a pseudorandom generator (PRG), which we considered before.
+\item[(c)] ...familiarize yourself with the notion of a reduction (continued).
+\item[(d)] ...familiarize yourself with the notion of a negligible function.
+\end{itemize}
+
+
+
+
+
+\begin{description}
+\item[Exercise 1] shows PRFs \textit{do} hide their input unlike some other primitives we saw thus far.
+\item[Ex. 2 \& Ex. 3] concern properties of PRFs and PRGs.
+\item[Exercise 2] shows that the existence of PRFs implies the existence of PRGs.
+\item[Exercise 3] shows how a quadratic key PRF and PRG can be used to obtain a standard PRF.
+\item[Exercise 4] is intended to help with the notions of negligible functions and why they are a convenient notion of a ``small'' function.
+%\item[Exercise 5] shows that the existence of PRGs implies the existence of PRFs. (It is possible to construct a PRF using PRGs!)
+% omitted since there is no model solution.
+\end{description}
+
+\clearpage
+
+
+%TODO negligibility exercise + additional exercises (GGM or packages? )
+%TODO fix/check abstract
+%TODO fix/check notation in proofs and exercises
+
+
+
+\begin{graded}[\textbf{PRFs hide their input}]
+Let $f$ be a $(\lambda,\lambda)$-PRF, and consider the following transformations:
+\begin{description}
+\item[(a)] $h_1(k,x):=f(k,0||x_{2..\abs{x}})$.
+\item[(b)] $h_2(k,x):=x_1||f(k,x)_{2..\abs{x}}$.
+\end{description}
+\textbf{Task:} Show that $h_1$ and $h_2$ are not PRFs (even though $f$ is a PRF).\\
+\textbf{Hint:} Find an efficient adversary $\adv$ such that $\mathbf{Adv}^{\mathsf{PRF}}_{h,\adv}(1^\lambda)$ is non-negligible. (In fact, we can even give an adversary which has advantage almost $1$, but this is not required to solve this exercise.)
+\end{graded}
+
+\begin{graded}[\textbf{PRFs imply PRGs}]
+  Let $f$ be a PRF. Define
+	\[G(z):=f(z,0^{\abs{z}})||f(z,1^{\abs{z}}).\]
+
+	\noindent
+	\textbf{Task:}
+	Prove via reduction, that $G$ is a
+  PRG with output length $\abs{G(z)}=2\abs{z}$.
+\end{graded}
+
+\begin{graded}\textbf{(Key Expansion)}
+A \emph{quadratic-key} $(\lambda,\lambda)$-PRF $f_q$ is a PRF which maps a key $k$ of length $\lambda^2$,
+and an input $x$ of length $\lambda$ to an output $y$ of length $\lambda$. Let $f_q$ be a quadratic-key PRF.
+Let $G$ be a PRG with $\abs{G(z)}=\abs{z}^2$. Define
+\[f(k,x):=f_q(G(k),x)\]
+\textbf{Task:} Show that $f$ is a (standard) PRF.\\
+\textbf{Hint:} Given a successful distinguisher for the PRF $f$, show that one of the following is true: (i) There exists a successful distinguisher for the PRG $G$ or (ii) there exists a successful distinguisher for the quadradic-key PRF $f_q$.
+\end{graded}
+
+%\newpage
+\begin{graded}[\textbf{Negligible Functions}]
+Recall the definition of negligible functions.
+\\
+\\
+\textbf{Definition 1} A function \(\nu: \NN \to \RR^+_0\) is \textit{negligible} if for all constants \(c\) there exists a natural number \(N \in \NN\) such that for all \(n > N\) it holds that \(\nu(n) < \frac{1}{n^c}.\)\\
+\\
+Closer to the verbal description of negligible function given in the lecture notes for lecture 3, we may like to define negligible functions as follows:\\
+\\
+\textbf{Definition 1'} A function \(\nu: \NN \to \RR^+_0\) is \textit{negligible} if for all positive polynomials \(p\) there exists a natural number \(N \in \NN\) such that for all \(n > N\) it holds that \(\nu(n) < \frac{1}{p(n)}.\)\\
+\\
+Prove at least two out of (a), (b) and (c):
+\begin{description}
+\item[(a)] Definitions 1 and 1' of negligible functions are equivalent.
+\item[(b)] The following are true:
+	\begin{itemize}
+	\item[(i)] The sum of two negligible functions is negligible.
+	\item[(ii)] Multiplying a negligible function by an (arbitrary) positive polynomial yields a negligible function.
+\end{itemize}
+\textbf{Hint:} You may use either of the two definitions in your proof.
+\item[(c)] (Challenging) There exists a sequence of negligible functions $\nu_\lambda:\NN\rightarrow[0,1]$ such that the function $\mu(\lambda):=\sum_{i=1}^\lambda \nu_i(\lambda)$ is the constant $1$ function, i.e., for all $\lambda\in\NN$, it holds that $\mu(\lambda)=1$.
+
+\textbf{Hint:} Use diagonalization.
+\end{description}
+\end{graded}
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

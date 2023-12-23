@@ -1,0 +1,625 @@
+\newif\iffull\fullfalse% do not change flags here
+\newif\ifdraft\draftfalse% do not change flags here
+
+\documentclass[envcountsame,runningheads,notitlepage]{../llncs}
+\pagestyle{plain}
+
+\usepackage[letterpaper,hmargin=3.5cm,vmargin=3cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xifthen}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{lscape}
+%\usepackage{amsthm}
+\usepackage{xspace}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{color,soul}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows, calc,fit}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{subcaption}
+\usepackage[probability,adversary,sets,notions,operators,complexity,keys,primitives,asymptotics,advantage]{cryptocode}
+\usepackage{cleveref}
+
+\usepackage{savesym}
+\usepackage{relsize}
+\savesymbol{cb}
+\usepackage{combelow}
+\usepackage[normalem]{ulem}
+\usepackage{wrapfig}
+\newtheorem{crossed}{Esitehtävä}
+\usepackage{enumitem}
+
+\let\proof\relax
+\let\endproof\relax
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{graded}[crossed]{Exercise}
+\newtheorem{challenge}[crossed]{Challenge exercise}
+
+\tikzstyle{package} = [draw,rounded corners=2mm,minimum height=.7cm,minimum width=2cm]
+
+% Colors
+\newcommand\maybecolor[1]{\color{#1}}
+\definecolor{lightblue}{rgb}{0.2,0.2,1.0}
+\definecolor{dkred}{rgb}{0.5, 0.0,0.0}
+\definecolor{lightgrey}{rgb}{0.8,0.8,0.8}
+\definecolor{dkblue}{rgb}{0,0.1,0.5}
+\definecolor{dkgreen}{rgb}{0,0.4,0}
+\definecolor{dkred}{rgb}{0.6,0,0}
+\definecolor{linkColor}{rgb}{0,0,0.5}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\ifdraft
+\newcommand{\fullcolor}{\color{blue}}
+\else
+\newcommand{\fullcolor}{\color{black}}
+\fi
+\newcommand{\blk}{\color{black}}
+\newcommand{\dkg}{\color{dkgreen}}
+
+% Variable and procedures names
+\renewcommand{\O}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\V}[1]{\ensuremath{\mathit{#1}}}
+\newcommand{\M}[1]{\ensuremath{\text{\tt#1}}}
+\def \G {\mathcal{G}}
+\newcommand{\hLen}{n}
+
+
+
+
+%\newcommand{\markulf}[1]{{\color{orange}{MK: #1}}}
+\newcommand{\mk}[1]{{\color{orange}{mk: #1}}}
+
+
+% WIDEBAR
+
+\makeatletter
+\let\save@mathaccent\mathaccent
+\newcommand*\if@single[3]{%
+  \setbox0\hbox{${\mathaccent"0362{#1}}^H$}%
+  \setbox2\hbox{${\mathaccent"0362{\kern0pt#1}}^H$}%
+  \ifdim\ht0=\ht2 #3\else #2\fi
+  }
+%The bar will be moved to the right by a half of \macc@kerna, which is computed by amsmath:
+\newcommand*\rel@kern[1]{\kern#1\dimexpr\macc@kerna}
+%If there's a superscript following the bar, then no negative kern may follow the bar;
+%an additional {} makes sure that the superscript is high enough in this case:
+\newcommand*\widebar[1]{\@ifnextchar^{{\wide@bar{#1}{0}}}{\wide@bar{#1}{1}}}
+%Use a separate algorithm for single symbols:
+\newcommand*\wide@bar[2]{\if@single{#1}{\wide@bar@{#1}{#2}{1}}{\wide@bar@{#1}{#2}{2}}}
+\newcommand*\wide@bar@[3]{%
+  \begingroup
+  \def\mathaccent##1##2{%
+%Enable nesting of accents:
+    \let\mathaccent\save@mathaccent
+%If there's more than a single symbol, use the first character instead (see below):
+    \if#32 \let\macc@nucleus\first@char \fi
+%Determine the italic correction:
+    \setbox\z@\hbox{$\macc@style{\macc@nucleus}_{}$}%
+    \setbox\tw@\hbox{$\macc@style{\macc@nucleus}{}_{}$}%
+    \dimen@\wd\tw@
+    \advance\dimen@-\wd\z@
+%Now \dimen@ is the italic correction of the symbol.
+    \divide\dimen@ 3
+    \@tempdima\wd\tw@
+    \advance\@tempdima-\scriptspace
+%Now \@tempdima is the width of the symbol.
+    \divide\@tempdima 10
+    \advance\dimen@-\@tempdima
+%Now \dimen@ = (italic correction / 3) - (Breite / 10)
+    \ifdim\dimen@>\z@ \dimen@0pt\fi
+%The bar will be shortened in the case \dimen@<0 !
+    \rel@kern{0.6}\kern-\dimen@
+    \if#31
+      \overline{\rel@kern{-0.6}\kern\dimen@\macc@nucleus\rel@kern{0.4}\kern\dimen@}%
+      \advance\dimen@0.4\dimexpr\macc@kerna
+%Place the combined final kern (-\dimen@) if it is >0 or if a superscript follows:
+      \let\final@kern#2%
+      \ifdim\dimen@<\z@ \let\final@kern1\fi
+      \if\final@kern1 \kern-\dimen@\fi
+    \else
+      \overline{\rel@kern{-0.6}\kern\dimen@#1}%
+    \fi
+  }%
+  \macc@depth\@ne
+  \let\math@bgroup\@empty \let\math@egroup\macc@set@skewchar
+  \mathsurround\z@ \frozen@everymath{\mathgroup\macc@group\relax}%
+  \macc@set@skewchar\relax
+  \let\mathaccentV\macc@nested@a
+%The following initialises \macc@kerna and calls \mathaccent:
+  \if#31
+    \macc@nested@a\relax111{#1}%
+  \else
+%If the argument consists of more than one symbol, and if the first token is
+%a letter, use that letter for the computations:
+    \def\gobble@till@marker##1\endmarker{}%
+    \futurelet\first@char\gobble@till@marker#1\endmarker
+    \ifcat\noexpand\first@char A\else
+      \def\first@char{}%
+    \fi
+    \macc@nested@a\relax111{\first@char}%
+  \fi
+  \endgroup
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     FONTS AND EDITING
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\highlight}[1]{\colorbox{red!20}{$\displaystyle#1$}}
+\definecolor{purple}{RGB}{139,0,139}
+\newcommand{\ben}[1]{{\color{purple}{BD: #1}}}
+\definecolor{darkgreen}{RGB}{0,128,0}
+\newcommand{\chris}[1]{{\color{darkgreen}{CB: #1}}}
+\definecolor{orange}{RGB}{210,105,30}
+\newcommand{\geoffroy}[1]{{\color{orange}{GC: #1}}}
+\newcommand{\todo}[1]{{\color{red}{TODO: #1}}}
+
+\definecolor{darkblue}{RGB}{0,0,128}
+\definecolor{midnightblue}{RGB}{0,0,210}
+\definecolor{darkred}{RGB}{128,0,0}
+\definecolor{figred}{RGB}{230,0,26}
+\definecolor{figgreen}{RGB}{153,192,0}
+\definecolor{figorange}{RGB}{245,163,0}
+\definecolor{figblue}{RGB}{0,104,157}
+\definecolor{figpurple}{RGB}{149,17,105}
+
+
+
+
+%\theoremstyle{plain}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{proposition}{Proposition}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem*{corollary}{Corollary}
+
+%\newtheorem{definition}{Definition}
+%\newtheorem{conjecture}{Conjecture}
+%\newtheorem{algorithm}{Algorithm}
+\newtheorem{construction}{Construction}
+%\newtheorem{claim}{Claim}
+
+%\theoremstyle{remark}
+%\newtheorem*{remark}{Remark}
+%\newtheorem*{note}{Note}
+%\newtheorem{case}{Case}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%         STYLES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\R}{\mathbb{R}} \newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}} \newcommand{\Q}{\mathbb{Q}}
+\newcommand{\card}[1]{\abs{#1}}
+%\theoremstyle{definition} \newtheorem*{definition}{Definition}
+%\newtheorem*{remark}{Remark} \newtheorem*{lemma}{Lemma}
+%\newtheorem*{conjecture}{Conjecture} \newtheorem*{hint}{Hint}
+%\newtheorem{claim}{Claim}
+\newcommand{\cnt}{\textsf{ctr}}
+\renewcommand{\H}{\textsf{H}}
+\newcommand{\RO}{\textsf{RO}}
+\newcommand{\mactag}{t}
+\newcommand{\macinput}{x}
+\newcommand{\RPO}{\textsf{RPO}}
+\renewcommand{\O}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\E}{\textsf{E}}
+\newcommand{\ininterface}[1]{{\mathsf{in}(#1)}} %{I^{in}_{#1}}
+\newcommand{\outinterface}[1]{{\mathsf{out}(#1)}} %{I^{out}_{#1}}
+\newcommand{\StyleModel}[1]{\V{{#1}}}
+
+\newcommand{\kgen}{\StyleModel{kgen}}
+\newcommand{\m}{\StyleModel{m}}
+\newcommand{\se}{\StyleModel{se}}
+\renewcommand{\enc}{\StyleModel{enc}}
+\renewcommand{\dec}{\StyleModel{dec}}
+\renewcommand{\prp}{\StyleModel{prp}}
+\newcommand{\nonce}{\StyleModel{nonce}}
+\newcommand{\ac}{\StyleModel{ac}}
+\newcommand{\ch}{\StyleModel{ch}}
+\renewcommand{\mac}{\StyleModel{mac}}
+\newcommand{\ver}{\StyleModel{ver}}
+\renewcommand{\verify}{\StyleModel{ver}}
+\newcommand{\receive}{\StyleModel{receive}}
+\newcommand{\send}{\StyleModel{send}}
+\newcommand{\unfcma}{\M{UNF-CMA}}
+\newcommand{\unfcmaac}{\M{UNF-CMA-AC}}
+\newcommand{\flunfcma}{\M{FL-UNF-CMA}}
+%\newcommand{\pcassert}{\mathbf{assert}\;} %update the cryptocode package if LaTeX complains that pcassert is not defined.
+%\specialcomment{solution}{\textbf{Solution:}\;}{}
+\newboolean{ifsolution}
+\setboolean{ifsolution}{true}
+
+\usepackage[breakable]{tcolorbox}
+
+% if exercises only:
+\newcommand{\sol}[1]{}
+
+% if solution included:
+%\newcommand{\sol}[1]{\begin{tcolorbox}[breakable]\solution{#1}\end{tcolorbox}}
+
+
+\title{CS-E4340 Cryptography: Exercise Sheet 5\\[0.5\baselineskip]
+\large ---Symmetric Encryption Schemes (SE)---}
+\author{}\institute{}
+
+\begin{document}
+\maketitle
+
+\noindent
+\textbf{Submission Deadline: October 10, 11:30 via MyCourses}
+
+\medskip
+\noindent
+Each exercise can give up to two participation points, 2 for a mostly correct solution and 1 point for a good attempt. Overall, the exercise sheet gives at most 4 participation points.
+
+%Exercise Sheet 4  focuses on message authentication codes (MACs) and their security properties. We also study and practice how to define the security for a cryptographic primitive via security notions. Additionally, we revisit the notions of PRFs and PRPs.
+
+
+\medskip
+\noindent
+Exercise Sheet 5 is intended to help...
+\begin{itemize}
+\item[(a)] ...understanding the security games indistinguishability under chosen plaintext attacks (IND-CPA) and the authenticated encryption security (AE) for a symmetric encryption scheme (SE).
+\item[(b)] ...familiarizing yourself further with the notion of a reduction and learning to carry out reductions yourself. In particular, you will be able to practice inlining and spotting errors in an inlining proof.
+%\item[(c)] ...understand the use of  the \emph{relation} between PRFs, PRPs and MACs.
+%\item[(d)] ...understand and practice how to define the security for a cryptographic primitive via security notions.
+\end{itemize}
+
+\begin{description}
+\item[Exercise 1] then follows the tradition and shows that some schemes that look somewhat unnatural can still be secure.
+\item[Exercise 2] returns to the question of what is a good definition.
+\item[Exercise 3] considers a whole class of encryption schemes at the same time and shows that they can never be secure according to our definition.
+\item[Exercise 4] takes up the challenge from lecture 5 on how to combine MACs and IND-CPA-secure encryption schemes into an authenticated encryption scheme.
+\item[Exercise 5] considers a quite canonical encryption scheme.
+\item[Ex. 2, 3 \& 4] ask for adversary constructions.
+\item[Ex. 1, 4 \& 5] cover security proofs via reduction.
+\end{description}
+
+
+\begin{graded}\textbf{(Candidate Encryption Schemes)}
+  Let $\se$ be an IND-CPA secure encryption scheme.
+  \begin{enumerate}
+  \item Do you think these encryption schemes are IND-CPA secure? Justify your intuition for each scheme.
+  \item Choose one of the secure schemes and prove security by giving
+    a reduction (in pseudocode). In this exercise, it suffices to
+		give an intuitive explanation for why the
+    adversary works.
+  \end{enumerate}
+
+  \begin{center}
+    \begin{pchstack}
+      \begin{pcvstack}
+        \procedure{$\se_1.\enc(k,m)$}{
+          c'\sample\se.\enc(k,m)\\
+          c \gets c'||1 \\
+          \pcreturn c
+        }
+        \pcvspace
+        \procedure{$\se_1.\dec(k,c)$}{
+          c'\gets c[1..\abs{c}-1]\\
+          m\gets\se.\dec(k,c')\\
+          \pcreturn m
+        }
+      \end{pcvstack}
+      \pchspace
+      \begin{pcvstack}
+        \procedure{$\se_2.\enc(k,m)$}{
+          m' \gets m || 0 \\
+          c\sample\se.\enc(k,m')\\
+          \pcreturn c
+        }
+        \pcvspace
+        \procedure{$\se_2.\dec(k,c)$}{
+          m'\gets\se.\dec(k,c)\\
+          m \gets m'[1..\abs{m}-1] \\
+          \pcreturn m
+        }
+      \end{pcvstack}
+      \pchspace
+      \begin{pcvstack}
+        \procedure{$\se_3.\enc(k,m)$}{
+          c_0\sample\se.\enc(k,m)\\
+          c_1\sample\se.\enc(k,m)\\
+          c \gets (c_0,c_1) \\
+          \pcreturn c
+        }
+        \pcvspace
+        \procedure[syntaxhighlight=auto, addkeywords={parse, and, assert}]{$\se_3.\dec(k,c)$}{
+          parse\ (c_0,c_1)\gets c\\
+          m\gets\se.\dec(k,c_0)\\
+          m'\gets\se.\dec(k,c_1)\\
+          \pcif m=m'\ \pcreturn m\\
+          \pcelse\pcreturn \bot
+        }
+      \end{pcvstack}
+    \end{pchstack}
+  \end{center}
+\end{graded}
+
+\begin{graded}\textbf{(Different Definitions)}
+  The goal of $\M{AE}$ security is to make sure an adversary is
+  unable to ``come up'' with a decrypting ciphertext on its
+  own. Consider the following approach to capture this property.
+  Let the games $\M{Gae'}^0_\se$ and $\M{Gae'}^1_\se$ be defined as
+  \begin{center}
+    \begin{pchstack}
+      \begin{pcvstack}
+        \underline{\underline{$\M{Gae'}^0_\se$}}\\
+        \procedure{Parameters}{
+          \lambda\text{:} \< \quad \text{sec. parameter}\\
+          % b\text{:} \< \quad \text{ideal. bit}\; b=0\\
+          % in\text{:} \< \quad \text{input length}\;\lambda\;\text{or}\;*\\
+          % out\text{:} \< \quad \text{output length}\,\lambda\,\text{or}\,*\\
+          \se\text{:} \< \quad \text{sym. enc. sch.}
+        }
+        \pcvspace
+        \procedure{Package State}{
+          k\text{:} \< \quad \text{key} \\
+        }
+        \pcvspace
+        \procedure{$\O{ENC}(x)$}{
+          \pcif k=\bot:\\
+          \pcind k\sample\bin^\lambda\\
+          \\
+          c\sample \se.\enc(k,x)\\
+          \\
+          \pcreturn c}
+        \pcvspace
+        \procedure{$\O{DEC}(c)$}{
+          \pcif k=\bot:\\
+          \pcind k\sample\bin^\lambda\\
+          x\gets\se.\dec(k,c)\\
+          \pcreturn x}
+      \end{pcvstack}
+      \pchspace
+      \begin{pcvstack}
+        \underline{\underline{$\M{Gae'}^1_\se$}}\\
+        \procedure{Parameters}{
+          \lambda\text{:} \< \quad \text{sec. parameter}\\
+          % b\text{:} \< \quad \text{ideal. bit}\; b=1\\
+          % in\text{:} \< \quad \text{input length}\;\lambda\;\text{or}\;*\\
+          % out\text{:} \< \quad \text{output length}\,\lambda\,\text{or}\,*\\
+          \se\text{:} \< \quad \text{sym. enc. sch.}
+        }
+        \pcvspace
+        \procedure{Package State}{
+          k\text{:} \< \quad \text{key} \\
+          \mathcal{L}\text{:} \< \quad \text{set}
+        }
+        \pcvspace
+        \procedure{$\O{ENC}(x)$}{
+          \pcif k=\bot:\\
+          \pcind k\sample\bin^\lambda\\
+          x'\gets 0^{\abs{x}}\\
+          c\sample \se.\enc(k,x')\\
+          \mathcal{L} \gets \mathcal{L} \cup \set{c}\\
+          \pcreturn c}
+        \pcvspace
+        \procedure{$\O{DEC}(c)$}{
+          \pcif c \in\mathcal{L}\\
+          \pcind x\gets\se.\dec(k,c)\\
+          \pcind \pcreturn x\\
+          \pcelse\\
+          \pcind \pcreturn \bot}
+      \end{pcvstack}
+    \end{pchstack}
+  \end{center}
+
+  Show that no correct encryption scheme is secure according to this
+  definition by giving a successful attacker against the $\M{AE'}$
+  security (in pseudocode) and analyze its success probability.
+\end{graded}
+
+\begin{graded}\textbf{(Deterministic Encryption Schemes\footnote{
+      In the literature, you might also encounter nonce-based encryption. Note that in the syntax of nonce-based encryption, the nonce takes the place of the randomness, and the syntax is then described as a deterministic function which maps the key, the message and the nonce to a ciphertext. As long as nonces don't repeat, nonce-based encryption is also a reasonable alternative way of formalizing syntax of an encryption scheme. Note that in this case, the IND-CPA definition needs to be adapted. We omit the discussion here. See \url{https://web.cs.ucdavis.edu/~rogaway/papers/nonce.pdf} if you are curious.
+})}
+  Consider a different encryption scheme $\se'=(\se'.\kgen,\se'.\enc,\se'.\dec)$ such that $\se'.\enc$ is \emph{deterministic}. Show that $\se'$ is not IND-CPA-secure by giving a successful attacker against the IND-CPA security of $\se'$ (in pseudocode) and analyze its success probability.
+\end{graded}
+
+\begin{graded}\textbf{(Authenticated Encryption Schemes)}
+\normalfont
+Let $\se=(\se.\enc,\se.\dec)$ be a symmetric encryption scheme, and let $\m=(\m.\mac,\m.\verify)$ be a message authentication code. We construct three encryption schemes $\se_a^{\se,\m}$ with $a\in\{\text{m+e},\text{mte},\text{etm}\}$ where $\text{m+e}$ (mac-and-encrypt), $\text{mte}$ (mac-then-encrypt), and $\text{etm}$ (encrypt-then-mac):
+
+\begin{center}
+\begin{pchstack}
+    \begin{pcvstack}
+    \procedure{$\se_{\text{m+e}}.\enc(k,x)$}{
+			\pcparse (k_\m,k_\se)\gets k\\
+			c'\sample\se.\enc(k_\se,x)\\
+			\tau\gets\m.\mac(k_\m,x)\\
+     c \gets (c',\tau) \\
+      \pcreturn c
+    }
+    \pcvspace
+    \procedure{$\se_{\text{m+e}}.\dec(k,c)$}{
+			\pcparse (k_\m,k_\se)\gets k\\
+			\pcparse (c',\tau)\gets c\\
+			x\gets\se.\dec(k_\se,c')\\
+			\pcif 1\gets\m.\verify(k_\m,x,\tau)\\
+			\pcind\pcreturn x\\
+      \pcelse \pcreturn \bot
+    }
+  \end{pcvstack}
+\pchspace
+	\begin{pcvstack}
+    \procedure{$\se_{\text{mte}}.\enc(k,x)$}{
+			\pcparse (k_\m,k_\se)\gets k\\
+			\tau\gets\m.\mac(k_\m,x)\\
+			x'\gets(x,\tau)\\
+			c\sample\se.\enc(k_\se,x')\\
+       \pcreturn c
+    }
+    \pcvspace
+    \procedure{$\se_{\text{mte}}.\dec(k,c)$}{
+			\pcparse (k_\m,k_\se)\gets k\\
+			x'\gets\se.\dec(k_\se,c)\\
+			\pcparse (x,\tau)\gets x'\\
+  		\pcif 1\gets\m.\verify(k_\m,x,\tau):\\
+			\pcind \pcreturn x\\
+      \pcelse \pcreturn \bot
+    }
+\end{pcvstack}
+\pchspace
+  \begin{pcvstack}
+    \procedure{$\se_{\text{etm}}.\enc(k,x)$}{
+			\pcparse (k_\m,k_\se)\gets k\\
+			c'\sample\se.\enc(k_\se,x)\\
+			\tau\gets\m.\mac(k_\m,c')\\
+     c \gets (c',\tau) \\
+      \pcreturn c
+    }
+    \pcvspace
+    \procedure{$\se_{\text{etm}}.\dec(k,c)$}{
+			\pcparse (k_\m,k_\se)\gets k\\
+			\pcparse (c',\tau)\gets c\\
+			x\gets\se.\dec(k_\se,c')\\
+			\pcif 1\gets\m.\verify(k_\m,c',\tau):\\
+			\pcind \pcreturn x\\
+      \pcelse \pcreturn \bot
+    }
+		\end{pcvstack}
+
+      \end{pchstack}
+\end{center}
+
+
+Say for each for the following 6 statements whether you think that
+it is true or false. Justify your opinion: For all $\M{UNF-CMA}$ MAC schemes $\m$ and for all $\M{IND-CPA}$ secure symmetric encryption schemes $\se$, it holds that...
+\begin{itemize}
+\item[(1)] ...the encryption scheme $\se^{\se,\m}_{\text{m+e}}$ is $\M{AE}$-secure.
+\item[(2)] ...the encryption scheme $\se^{\se,\m}_{\text{m+e}}$ is $\M{IND-CPA}$-secure.
+\item[(3)] ...the encryption scheme $\se^{\se,\m}_{\text{mte}}$ is $\M{AE}$-secure.
+\item[(4)] ...the encryption scheme $\se^{\se,\m}_{\text{mte}}$ is $\M{IND-CPA}$-secure.
+\item[(5)] ...the encryption scheme $\se^{\se,\m}_{\text{etm}}$ is $\M{AE}$-secure.
+\item[(6)] ...the encryption scheme $\se^{\se,\m}_{\text{etm}}$ is $\M{IND-CPA}$-secure.
+\end{itemize}
+
+\end{graded}
+
+\begin{graded}\textbf{(Constructing secure encryption from PRF) (Advanced)}
+  Let $f$ be a secure $(\lambda, \ast)$-PRF. Consider the candidate encryption scheme $\se$.
+
+\begin{center}
+  \begin{pcvstack}
+    \begin{pchstack}
+      \procedure{$\se.\enc(k, m)$}{
+        r \sample \bin^{\lambda}\\
+        r' \gets f(k, r, \abs{m})\\
+        c \gets ((r' \oplus m) , r)\\
+        \pcreturn c
+      }
+      \pcvspace
+      \procedure{$\se.\dec(k, c)$}{
+        \pcparse (c', r) \gets c\\
+        r' \gets f(k, r, \abs{c'})\\
+        m \gets c' \oplus r'\\
+        \pcreturn m
+      }
+    \end{pchstack}
+  \end{pcvstack}
+\end{center}
+
+Show (via reduction) that $\se$ is an IND-CPA-secure encryption scheme. Provide pseudocode for your reduction and show that the probability of winning the $\M{IND-CPA}$ game is negligible. See Security Definition 7 in the DAF (p. 37) for the definition of $\M{Lprf}^0$ and $\M{Glprf}^1_f$.
+
+\medskip
+\noindent
+\textbf{Hint:} The following graphs show the intermediate steps that proof that the real game is indistinguishable from the ideal game. Feel free to skip some of the steps if you are stuck.
+
+%\medskip
+%\noindent
+%\textbf{Optional question:} Can you show that $\se$ is not AE-secure?
+
+
+\begin{center}
+  \begin{tikzpicture}
+    \node[draw,circle] at (12.5cm,1.0cm) {G0};
+    \node[package] (A0) at (0,1.0cm) {$\adv$};
+    \node[package,minimum width=5.5cm] (CPA0) at (5.25cm,1.0cm) {$\M{Ind-cpa}^0$};
+    \node[package] (KEY0) at (10.5cm,1.0cm) {$\M{Key}$};
+
+    \draw[-latex] (A0)   -- node[above] {ENC}  (CPA0);
+    \draw[-latex] (CPA0) -- node[above] {GET} (KEY0);
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Real
+    \node[draw,circle] at (12.5cm,-0.5cm) {G1};
+    \node[package] (A1) at (0,-0.5cm) {$\adv$};
+    \node[package] (CPA1) at (3.5cm,-0.5cm) {$\rdv^0$};
+    \node[package] (PRF1) at (7cm,-0.5cm) {$\M{Lprf}^0$};
+    \node[package] (KEY1) at (10.5cm,-0.5cm) {$\M{Key}$};
+
+    \draw[-latex] (A1)   -- node[above] {ENC}  (CPA1);
+    \draw[-latex] (CPA1) -- node[above] {EVAL} (PRF1);
+    \draw[-latex] (PRF1) -- node[above] {GET}  (KEY1);
+    
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Idealize PRF
+    \node[draw,circle] at (12.5cm,-2cm) {G2};
+    \node[package] (A2)   at (0,     -2cm) {$\adv$};
+    \node[package] (CPA2) at (3.5cm ,-2cm) {$\rdv^0$};
+    \node[package] (PRF2) at (7cm   ,-2cm) {$\M{Glprf}^1$};
+
+    \draw[-latex] (A2)   -- node[above] {ENC}  (CPA2);
+    \draw[-latex] (CPA2) -- node[above] {EVAL} (PRF2);
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Idealize CPA
+    \node[draw,circle] at (12.5cm,-3.5cm) {G3};
+    \node[package] (A3)   at (0,     -3.5cm) {$\adv$};
+    \node[package] (CPA3) at (3.5cm ,-3.5cm) {$\rdv^1$};
+    \node[package] (PRF3) at (7cm   ,-3.5cm) {$\M{Glprf}^1$};
+
+    \draw[-latex] (A3)   -- node[above] {ENC}  (CPA3);
+    \draw[-latex] (CPA3) -- node[above] {EVAL} (PRF3);
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % De-Idealize PRF
+    \node[draw,circle] at (12.5cm,-5.0cm) {G4};
+    \node[package] (A4)   at (0,     -5.0cm) {$\adv$};
+    \node[package] (CPA4) at (3.5cm ,-5.0cm) {$\rdv^1$};
+    \node[package] (PRF4) at (7cm   ,-5.0cm) {$\M{Lprf}^0$};
+    \node[package] (KEY4) at (10.5cm,-5.0cm) {$\M{Key}$};
+
+    \draw[-latex] (A4)   -- node[above] {ENC}  (CPA4);
+    \draw[-latex] (CPA4) -- node[above] {EVAL} (PRF4);
+    \draw[-latex] (PRF4) -- node[above] {GET}  (KEY4);
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \node[draw,circle] at (12.5cm,-6.5cm) {G5};
+    \node[package] (A5) at (0,-6.5cm) {$\adv$};
+    \node[package,minimum width=5.5cm] (CPA5) at (5.25cm,-6.5cm) {$\M{Ind-cpa}^1$};
+    \node[package] (KEY5) at (10.5cm,-6.5cm) {$\M{Key}$};
+
+    \draw[-latex] (A5)   -- node[above] {ENC}  (CPA5);
+    \draw[-latex] (CPA5) -- node[above] {GET} (KEY5);
+
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Proof strategy
+    \node[fit=(PRF2)(KEY1)] {$\approx_{PRF}$};
+    \node[fit=(CPA2)(PRF3)] {$\approx_{stat}$};
+    \node[fit=(PRF3)(KEY4)] {$\approx_{PRF}$};
+    \node[fit=(CPA0)(PRF1),yshift=-.1cm] {$\overset{\mathsf{code}}\equiv$};
+    \node[fit=(CPA5)(PRF4),yshift=-.1cm] {$\overset{\mathsf{code}}\equiv$};
+
+  \end{tikzpicture}
+\end{center}
+
+% \includegraphics{sheet5ex6}
+
+\end{graded}
+\end{document}

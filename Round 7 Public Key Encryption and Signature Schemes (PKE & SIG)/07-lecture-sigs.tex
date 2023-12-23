@@ -1,0 +1,296 @@
+\documentclass[a4paper,table,dvipsnames]{article}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{latexsym}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{mathpartir}
+\usepackage{amsthm}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage[probability,adversary,sets,operators,primitives]{cryptocode}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{wrapfig}
+%\usepackage[table]{xcolor}
+%\usepackage[margin=2.8in]{geometry}
+
+\pagestyle{fancy}
+\usetikzlibrary{shapes,arrows,positioning}
+\tikzstyle{vertex} = [draw, circle]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{claim}{Claim}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{construction}{Construction}
+\newtheorem{theorem}{Theorem}
+\newtheorem{example}{Example}
+\newtheorem{hint}{Hint}
+\setlength{\parindent}{0ex}
+
+\rhead[Lecture Notes 8]{Lecture Notes 8}
+\lhead[CS-E4340 Cryptography, Chris Brzuska]{CS-E4340 Cryptography, Chris Brzuska}
+
+\newcommand{\M}[1]{\ensuremath{\text{\texttt{#1}}}}
+\renewcommand{\O}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\pcvar}[1]{\ensuremath{\mathit{#1}}}
+%\newcommand{\pcassert}{\ensuremath{\mathbf{assert}\;}}
+\newcommand{\pckw}[1]{\highlightkeyword{#1}}
+\newcommand{\pctype}[1]{\mathsf{#1}}
+\newcommand{\ininterface}[1]{[#1\rightarrow]} %{I^{in}_{#1}}
+\newcommand{\outinterface}[1]{[\rightarrow#1]} %{I^{out}_{#1}}
+\newcommand{\m}{\pcvar{m}} %{I^{out}_{#1}}
+\newcommand{\ver}{\O{ver}} %{I^{out}_{#1}}
+\newcommand{\kgen}{\O{kgen}}
+\newcommand{\se}{\O{se}} %{I^{out}_{#1}}
+\newcommand{\s}{\O{s}}
+\newcommand{\pk}{\pcvar{pk}}
+\newcommand{\sk}{\pcvar{sk}}
+
+
+
+\renewcommand{\enc}{\O{enc}} %{I^{out}_{#1}}
+\renewcommand{\dec}{\O{dec}} %{I^{out}_{#1}}
+
+\renewcommand{\mac}{\O{mac}}
+\renewcommand{\sig}{\O{sig}}
+\renewcommand{\circ}{\rightarrow}
+
+\newcommand\defeq{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily
+def}}}{=}}}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) --
+(.25,.15) -- cycle;}
+
+\title{Lecture 7: Signatures}
+\author{Chris Brzuska}
+\date{\today}
+
+\begin{document}
+\maketitle
+The current lecture notes contain
+\begin{itemize}
+\item a discussion of applications of signature schemes
+\item the syntax of signature schemes
+\item security of signature schemes
+\item Lamport's theorem mentioned in the lecture which establishes that one-way functions
+imply one-time-secure signature scheme.
+\end{itemize}
+
+\section{Applications}
+Signatures protect the authenticity and integrity of a message, i.e., if a message is signed,
+then I know that this message is authorized by the owner of the signing key. For example, trusted
+developers sign the code of the applications that they develop, and the operating system then
+verifies that an application is trusted (i.e., the signature verifies under the key of a 
+trusted developer) before allowing the application to be installed. In this case, the use
+of a signature scheme is quite similar to an ordinary signature scheme, i.e., a person
+explicitly authorizes a piece of text as their own---except that a digital signature is
+verifiable by a machine, which is, of course, convenient. Due to this convenience, digital signatures
+are used, e.g., also in e-commerce, e-governance and other trusted applications. E.g., some universities
+digitally sign the diplomas which they issue.\footnote{Note that in practice, this might not necessarily
+be extremely convenient, since it is not clear that the receiving university has the required
+technological know-how to verify the signature.}
+
+Moreover, signatures are an essential tool to prevent \emph{person-in-the-middle} (PITM) attacks
+on key exchange protocols. Namely, a PITM attack on a key exchange protocol intends to trick to
+parties to use a key which the PITM attacker knows. To be able to mount such an attack, the PITM
+attacker needs to modify the messages which the two parties transmit, whence the usefulness of
+using signatures which prevent such changes. Strictly speaking, signatures, of course, do not
+\emph{prevent} such changes, but rather, they only make such changes detectable.
+
+An important issue w.r.t. to signing keys is the question how to link a signing key to a person
+or to a URL, since it is easy to verify that a signature is valid under a certain public-key,
+but how can I be sure that it is indeed the verification key of the intended URL and not an
+attacker's verification key? The way in which this is usually achieved is via \emph{certificates}.
+A \emph{certificate}, interestingly, again consists of a signature! Namely, it is a signature
+of a \emph{name} and a \emph{public-key} and it links these two together. However, this certificate
+could, potentially, also be adversary-generated. Thus, we might also want to see a certificate for
+the certificate issuer (and indeed, this is done in practice) which links the name of the issuer
+to the signing key. In this way, we can create so-called \emph{certificate chains}. In the end,
+however, we need a root certificate. And such root certificates are typically pre-installed in
+a system. The security of the entire system hinges on the trustworthiness of the pre-installed
+root certificates.
+
+After discussing these applications of signatures, let us now turn to the definition of their
+syntax and security.
+
+
+
+\section{Syntax and Security}
+Signature schemes are used for protect the authenticity and integrity of messages and are the \emph{public-key} analogue of message authentication codes (MACs). Namely, while MACs can only be verified when knowing the secret MAC key, signatures can be verified when knowing the \emph{public} verification key. I.e., a signature scheme relies on a \emph{key pair}.
+
+\begin{definition}[Signature scheme]
+    A \emph{signature} scheme $\s$ consists of three probabilistic polynomial-time (PPT) algorithms
+    \begin{align*} 
+      (\pk,\sk)\sample&\s.\kgen(1^\lambda) \\
+      \sigma\sample&\s.\sig(\sk,x) \\
+      \bin \sample &\s.\ver(\pk,x,\sigma)
+    \end{align*}
+    Correctness criterion: $\forall x\in\bin^*:$
+      \[\probsub{(\pk,\sk)\sample\s.\kgen(1^\lambda),\sigma\sample\s.sig(\sk,x)}{\s.\ver(\pk,x,\sigma)=1}=1.\]
+    i.e. when generating a key pair $(\pk,\sk)\sample\s.\kgen(1^\lambda)$ and signing $\sigma\sample\sig(\sk,x)$ for some message $x$, then $\ver(\pk,x,\sigma)=1$.
+\end{definition}
+
+\newpage
+\begin{definition}[UNF-CMA for Signatures]\label{def:UNF-CMA-sig}
+Let the  games $\M{Gunf\text{-}cma}^0_\s$ and $\M{Gunf\text{-}cma}^1_\s$ be defined as
+\begin{center}
+  \begin{pchstack}
+      \pchspace
+        \begin{pcvstack}
+          \underline{\underline{$\M{Gunf\text{-}cma}_\s^0$}}\\
+                          \\
+              \procedure{Package Parameters}{
+				\lambda\text{:} \< \quad \text{security parameter}\\
+				%b\text{:} \< \quad \text{idealization bit}\; b=0\\
+				%in\text{:} \< \quad \text{input length}\;\lambda\;\text{or}\;*\\
+				%				out\text{:} \< \quad \text{output length}\,\lambda\,\text{or}\,*\\
+			  \s\text{:} \< \quad \text{signature scheme} 
+			              }
+										\pcvspace
+										              \procedure{Package State}{
+																	\pk\text{:} \<\quad \text{public key}\\
+																	\sk\text{:} \<\quad \text{secret key}\\
+			              }
+          \pcvspace
+    \procedure{$\O{GETPK}()$}{
+		    \pcif \pk=\bot:\\
+				\pcind  (\pk,\sk)\sample\s.\kgen(1^\lambda)\\
+      \pcreturn \pk}
+										\pcvspace
+    \procedure{$\O{SIG}(x)$}{
+		  \pcif \pk=\bot:\\
+			\pcind (\pk,\sk)\sample\s.\kgen(1^\lambda)\\
+      \sigma\sample \s.\sig(\sk,x)\\
+      \\
+      \pcreturn \sigma}
+   \pcvspace
+		\procedure{$\O{VERIFY}(x,\sigma)$}{
+		    \pcif \pk=\bot:\\
+				\pcind  (\pk,\sk)\sample\s.\kgen(1^\lambda)\\
+      d\gets \s.\ver(\pk,x,\sigma)\\
+      \pcreturn d}
+  \end{pcvstack}
+              \pchspace
+  \begin{pcvstack}
+          \underline{\underline{$\M{Gunf\text{-}cma}_\s^1$}}\\
+                                \\
+              \procedure{Package Parameters}{
+				\lambda\text{:} \< \quad \text{security parameter}\\
+				%b\text{:} \< \quad \text{idealization bit}\; b=1\\
+				%in\text{:} \< \quad \text{input length}\;\lambda\;\text{or}\;*\\
+				%				out\text{:} \< \quad \text{output length}\,\lambda\,\text{or}\,*\\
+			  \s\text{:} \< \quad \text{signature scheme} 
+			              }
+										\pcvspace
+										              \procedure{Package State}{
+																	\pk\text{:} \<\quad \text{public key}\\
+																	\sk\text{:} \<\quad \text{secret key}\\
+ 				                  \mathcal{L}\text{:} \<\quad \text{list} 
+			              }
+          \pcvspace
+    \procedure{$\O{GETPK}()$}{
+		    \pcif \pk=\bot:\\
+				\pcind  (\pk,\sk)\sample\s.\kgen(1^\lambda)\\
+      \pcreturn \pk}
+          \pcvspace
+    \procedure{$\O{SIG}(x)$}{
+		    \pcif \pk=\bot:\\
+				\pcind  (\pk,\sk)\sample\s.\kgen(1^\lambda)\\
+      \sigma\sample \s.\sig(\sk,x)\\
+      \mathcal{L}\gets\mathcal{L}\cup\{(x,\sigma)\}\\
+      \pcreturn \sigma}
+          \pcvspace
+    \procedure{$\O{VERIFY}(x,\sigma)$}{
+          \pcif (x,\sigma)\in\mathcal{L}:\\
+          \pcind \pcreturn 1\\
+          \\
+          \pcreturn 0}
+  \end{pcvstack}
+  \end{pchstack}
+  \end{center}
+
+A signature scheme $\s$ is UNF-CMA-secure if the real game $\M{Gunf\text{-}cma}^0_\s$ and the ideal game $\M{Gunf\text{-}cma}^1_\s$ are computationally indistinguishable, that is, for all PPT adversaries $\adv$, the advantage
+\begin{align*}
+&\mathbf{Adv}_{\adv}^{
+  \M{Gunf\text{-}cma}^0_\s,
+  \M{Gunf\text{-}cma}^1_\s}
+	(\lambda) \\
+:=&\abs{\prob{1=\adv\circ \M{Gunf\text{-}cma}^0_\s}-\prob{1=\adv\circ \M{Gunf\text{-}cma}^1_\s}}
+\end{align*}
+is negligible in $\lambda$.
+\end{definition}
+\paragraph{Remark.} Note that we denote $\M{Gunf\text{-}cma}^b_\s$ the unforgeability game for signatures
+when $\s$ is a \emph{signature} scheme and $\M{Gunf\text{-}cma}^b_m$ the unforgeability game for MACs
+when $m$ is a MAC scheme.
+
+\section{Constructions}
+In the lecture, we constructed the above signature scheme $s_{f}$ based on an injective one-way function $f$,
+which signs messages of exactly length $\lambda$.
+		\begin{figure}
+		\centering
+			\begin{pchstack}
+			\begin{pcvstack}
+					\procedure{$s_\text{f}.\kgen(1^\lambda)$}
+				{
+				\pcfor i=1..\lambda\\
+				\pcind x_0^i\sample\bin^\lambda\\
+				\pcind x_1^i\sample\bin^\lambda\\
+				\pcind y_0^i\gets f(x_0^i)\\
+				\pcind y_0^i\gets f(x_1^i)\\
+				\sk\gets\begin{minipage}{0.05\linewidth}$\left(\begin{minipage}{10\linewidth}
+					$x_0^1,..,x_0^\lambda$\\
+					$x_1^1,..,x_1^\lambda$\end{minipage}\right)$\end{minipage}\\
+				\pk\gets \begin{minipage}{0.05\linewidth}$\left(\begin{minipage}{10\linewidth} $y_0^1,..,y_0^\lambda$\\$y_1^1,..,y_1^\lambda$\end{minipage}\right)$\end{minipage}
+				}\\
+				\pcreturn (\sk,\pk)
+			\end{pcvstack}
+\pchspace
+			\begin{pcvstack}
+				\procedure{$s_f.\sig(\sk,m)$}
+				{
+					\mathsf{parse}\,\sk\text{ as}\\
+				\begin{minipage}{0.041\linewidth}$\left(\begin{minipage}{10\linewidth}
+					$x_0^1,..,x_0^\lambda$\\
+					$x_1^1,..,x_1^\lambda$\end{minipage}\right)$\end{minipage}\\
+				\pcfor i=1..\lambda\\
+				\pcind z^i\gets x^i_{m[i]}\\
+				\pccomment{m[i]\text{ is }i\text{th bit of }m}\\
+				\sigma\gets (z^1,..,z^\lambda)\\
+				\pcreturn \sigma
+				}
+			\end{pcvstack}
+\pchspace
+			\begin{pcvstack}
+				\procedure{$s_{f}.\ver(\pk,m,\sigma)$}
+				{					\mathsf{parse}\,\pk\text{ as}\\
+				\begin{minipage}{0.041\linewidth}$\left(\begin{minipage}{10\linewidth}
+					$y_0^1,..,y_0^\lambda$\\
+					$y_1^1,..,y_1^\lambda$\end{minipage}\right)$\end{minipage}\\
+					(z^1,..,z^\lambda)\gets \sigma\\
+			\pcfor i=1..\lambda\\
+				\pcind \pcif f(z^i)\neq y^i_{m[i]}:\\
+				\pcind\pcind\pcreturn 0\\
+				\pcreturn 1
+				}
+			\end{pcvstack}
+			\end{pchstack}
+\caption{Lamport's one-time signature scheme $s_{f}$ for messages of length $\lambda$.\label{fig:lamport}}
+\end{figure}
+
+We then stated the following theorem (The proof is one of the exercises on Exercise Sheet 6):
+
+\begin{theorem}[Signature scheme from OWF]
+If $f$ is a one-way function, then the signature scheme $s_{f}$ is a one-time secure
+signature scheme for messages of length $\lambda$, i.e., for all PPT adversaries $\adv$ that make only a single $\O{SIG}$
+query of length $\ell$, the advantage $\mathbf{Adv}_{\adv}^{
+  \M{Gpunf\text{-}cma}^0_\s,
+  \M{Gpunf\text{-}cma}^1_\s}
+	(\lambda)$ is negligible.
+\end{theorem}
+
+
+\end{document}

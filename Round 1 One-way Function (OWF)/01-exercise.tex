@@ -1,0 +1,372 @@
+\newif\iffull\fullfalse% do not change flags here
+\newif\ifdraft\draftfalse% do not change flags here
+
+\documentclass[envcountsame,runningheads,notitlepage]{../llncs}
+\pagestyle{plain}
+
+\usepackage[letterpaper,hmargin=3.5cm,vmargin=3cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xifthen}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{lscape}
+%\usepackage{amsthm}
+\usepackage{xspace}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{color,soul}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows, calc}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{subcaption}
+\usepackage[probability,adversary,sets,notions,operators,complexity,keys,primitives,asymptotics,advantage]{cryptocode}
+\usepackage{savesym}
+\usepackage{relsize}
+\savesymbol{cb}
+\usepackage{combelow}
+\usepackage[normalem]{ulem}
+\usepackage{wrapfig}
+\newtheorem{crossed}{Esitehtävä}
+\usepackage{enumitem}
+
+\let\proof\relax
+\let\endproof\relax
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{graded}[crossed]{Exercise}
+\newtheorem{challenge}[crossed]{Challenge exercise}
+
+% Colors
+\newcommand\maybecolor[1]{\color{#1}}
+\definecolor{lightblue}{rgb}{0.2,0.2,1.0}
+\definecolor{dkred}{rgb}{0.5, 0.0,0.0}
+\definecolor{lightgrey}{rgb}{0.8,0.8,0.8}
+\definecolor{dkblue}{rgb}{0,0.1,0.5}
+\definecolor{dkgreen}{rgb}{0,0.4,0}
+\definecolor{dkred}{rgb}{0.6,0,0}
+\definecolor{linkColor}{rgb}{0,0,0.5}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+\ifdraft
+\newcommand{\fullcolor}{\color{blue}}
+\else
+\newcommand{\fullcolor}{\color{black}}
+\fi
+\newcommand{\blk}{\color{black}}
+\newcommand{\dkg}{\color{dkgreen}}
+
+% Variable and procedures names
+\renewcommand{\O}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\V}[1]{\ensuremath{\mathit{#1}}}
+\newcommand{\M}[1]{\ensuremath{\text{\tt#1}}}
+\def \G {\mathcal{G}}
+\newcommand{\hLen}{n}
+
+
+
+
+%\newcommand{\markulf}[1]{{\color{orange}{MK: #1}}}
+\newcommand{\mk}[1]{{\color{orange}{mk: #1}}}
+
+
+% WIDEBAR
+
+\makeatletter
+\let\save@mathaccent\mathaccent
+\newcommand*\if@single[3]{%
+  \setbox0\hbox{${\mathaccent"0362{#1}}^H$}%
+  \setbox2\hbox{${\mathaccent"0362{\kern0pt#1}}^H$}%
+  \ifdim\ht0=\ht2 #3\else #2\fi
+  }
+%The bar will be moved to the right by a half of \macc@kerna, which is computed by amsmath:
+\newcommand*\rel@kern[1]{\kern#1\dimexpr\macc@kerna}
+%If there's a superscript following the bar, then no negative kern may follow the bar;
+%an additional {} makes sure that the superscript is high enough in this case:
+\newcommand*\widebar[1]{\@ifnextchar^{{\wide@bar{#1}{0}}}{\wide@bar{#1}{1}}}
+%Use a separate algorithm for single symbols:
+\newcommand*\wide@bar[2]{\if@single{#1}{\wide@bar@{#1}{#2}{1}}{\wide@bar@{#1}{#2}{2}}}
+\newcommand*\wide@bar@[3]{%
+  \begingroup
+  \def\mathaccent##1##2{%
+%Enable nesting of accents:
+    \let\mathaccent\save@mathaccent
+%If there's more than a single symbol, use the first character instead (see below):
+    \if#32 \let\macc@nucleus\first@char \fi
+%Determine the italic correction:
+    \setbox\z@\hbox{$\macc@style{\macc@nucleus}_{}$}%
+    \setbox\tw@\hbox{$\macc@style{\macc@nucleus}{}_{}$}%
+    \dimen@\wd\tw@
+    \advance\dimen@-\wd\z@
+%Now \dimen@ is the italic correction of the symbol.
+    \divide\dimen@ 3
+    \@tempdima\wd\tw@
+    \advance\@tempdima-\scriptspace
+%Now \@tempdima is the width of the symbol.
+    \divide\@tempdima 10
+    \advance\dimen@-\@tempdima
+%Now \dimen@ = (italic correction / 3) - (Breite / 10)
+    \ifdim\dimen@>\z@ \dimen@0pt\fi
+%The bar will be shortened in the case \dimen@<0 !
+    \rel@kern{0.6}\kern-\dimen@
+    \if#31
+      \overline{\rel@kern{-0.6}\kern\dimen@\macc@nucleus\rel@kern{0.4}\kern\dimen@}%
+      \advance\dimen@0.4\dimexpr\macc@kerna
+%Place the combined final kern (-\dimen@) if it is >0 or if a superscript follows:
+      \let\final@kern#2%
+      \ifdim\dimen@<\z@ \let\final@kern1\fi
+      \if\final@kern1 \kern-\dimen@\fi
+    \else
+      \overline{\rel@kern{-0.6}\kern\dimen@#1}%
+    \fi
+  }%
+  \macc@depth\@ne
+  \let\math@bgroup\@empty \let\math@egroup\macc@set@skewchar
+  \mathsurround\z@ \frozen@everymath{\mathgroup\macc@group\relax}%
+  \macc@set@skewchar\relax
+  \let\mathaccentV\macc@nested@a
+%The following initialises \macc@kerna and calls \mathaccent:
+  \if#31
+    \macc@nested@a\relax111{#1}%
+  \else
+%If the argument consists of more than one symbol, and if the first token is
+%a letter, use that letter for the computations:
+    \def\gobble@till@marker##1\endmarker{}%
+    \futurelet\first@char\gobble@till@marker#1\endmarker
+    \ifcat\noexpand\first@char A\else
+      \def\first@char{}%
+    \fi
+    \macc@nested@a\relax111{\first@char}%
+  \fi
+  \endgroup
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     FONTS AND EDITING
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\highlight}[1]{\colorbox{red!20}{$\displaystyle#1$}}
+\definecolor{purple}{RGB}{139,0,139}
+\newcommand{\ben}[1]{{\color{purple}{BD: #1}}}
+\definecolor{darkgreen}{RGB}{0,128,0}
+\newcommand{\chris}[1]{{\color{darkgreen}{CB: #1}}}
+\definecolor{orange}{RGB}{210,105,30}
+\newcommand{\geoffroy}[1]{{\color{orange}{GC: #1}}}
+\newcommand{\todo}[1]{{\color{red}{TODO: #1}}}
+
+\definecolor{darkblue}{RGB}{0,0,128}
+\definecolor{midnightblue}{RGB}{0,0,210}
+\definecolor{darkred}{RGB}{128,0,0}
+\definecolor{figred}{RGB}{230,0,26}
+\definecolor{figgreen}{RGB}{153,192,0}
+\definecolor{figorange}{RGB}{245,163,0}
+\definecolor{figblue}{RGB}{0,104,157}
+\definecolor{figpurple}{RGB}{149,17,105}
+
+
+
+
+%\theoremstyle{plain}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{proposition}{Proposition}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem*{corollary}{Corollary}
+
+%\newtheorem{definition}{Definition}
+%\newtheorem{conjecture}{Conjecture}
+%\newtheorem{algorithm}{Algorithm}
+\newtheorem{construction}{Construction}
+%\newtheorem{claim}{Claim}
+
+%\theoremstyle{remark}
+%\newtheorem*{remark}{Remark}
+%\newtheorem*{note}{Note}
+%\newtheorem{case}{Case}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%         STYLES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\R}{\mathbb{R}} \newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}} \newcommand{\Q}{\mathbb{Q}}
+\newcommand{\card}[1]{\abs{#1}}
+%\theoremstyle{definition} \newtheorem*{definition}{Definition}
+%\newtheorem*{remark}{Remark} \newtheorem*{lemma}{Lemma}
+%\newtheorem*{conjecture}{Conjecture} \newtheorem*{hint}{Hint}
+%\newtheorem{claim}{Claim}
+\newcommand{\cnt}{\textsf{ctr}}
+\renewcommand{\H}{\textsf{H}}
+\newcommand{\RO}{\textsf{RO}}
+\newcommand{\RPO}{\textsf{RPO}}
+\renewcommand{\O}[1]{\ensuremath{\mathsf{#1}}}
+\newcommand{\E}{\textsf{E}}
+\newcommand{\ininterface}[1]{{\mathsf{in}(#1)}} %{I^{in}_{#1}}
+\newcommand{\outinterface}[1]{{\mathsf{out}(#1)}} %{I^{out}_{#1}}
+\newcommand{\StyleModel}[1]{\V{{#1}}}
+
+\newcommand{\kgen}{\StyleModel{kgen}}
+\newcommand{\m}{\StyleModel{m}}
+\newcommand{\se}{\StyleModel{se}}
+\renewcommand{\enc}{\StyleModel{enc}}
+\renewcommand{\dec}{\StyleModel{dec}}
+%\newcommand{\prp}{\StyleModel{prp}}
+\newcommand{\nonce}{\StyleModel{nonce}}
+\newcommand{\ac}{\StyleModel{ac}}
+\newcommand{\ch}{\StyleModel{ch}}
+\renewcommand{\mac}{\StyleModel{mac}}
+\newcommand{\ver}{\StyleModel{ver}}
+\renewcommand{\verify}{\StyleModel{ver}}
+\newcommand{\receive}{\StyleModel{receive}}
+\newcommand{\send}{\StyleModel{send}}
+\newcommand{\unfcma}{\M{UNF-CMA}}
+\newcommand{\unfcmaac}{\M{UNF-CMA-AC}}
+\newcommand{\flunfcma}{\M{FL-UNF-CMA}}
+%\newcommand{\pcassert}{\mathbf{assert}\;} If you get an error saying that pcassert is not defined yet, please update the cryptocode package.
+%\specialcomment{solution}{\textbf{Solution:}\;}{}
+\newboolean{ifsolution}
+\setboolean{ifsolution}{true}
+
+\usepackage[breakable]{tcolorbox}
+
+% if exercises only:
+\newcommand{\sol}[1]{}
+
+% if solution included:
+%\newcommand{\sol}[1]{\begin{tcolorbox}[breakable]\solution{#1}\end{tcolorbox}}
+
+\title{CS-E4340 Cryptography: Exercise Sheet 1\\[0.5\baselineskip]
+\large ---One-Way Functions, Algorithms \& Probabilities---}
+\author{}\institute{}%Submission deadline: September 12, 2022, 11:30, via MyCourses}\institute{}
+%\author{Christopher Brzuska, Pihla Karanko}
+%\institute{
+%			 Aalto University, Finland
+%}
+%\date{\today}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\noindent
+\textbf{Submission deadline: September 12, 2022, 11:30, via MyCourses}
+
+\medskip
+\noindent
+Each exercise can give up to two participation points, 2 for a mostly correct solution and 1 point for a good attempt. Overall, the exercise sheet gives at most 4 participation points. We encourage to \textbf{choose} exercises which seem \textbf{interesting} and/or adequately challenging to you. %In particular, you can skip some exercises, if you like. Your teaching assistant will carefully study your ideas and provide helpful suggestions. 
+
+
+\medskip
+\noindent
+Exercise Sheet 1 is intended to help...
+\begin{itemize}
+\item[(a)] ...understand the \emph{definition} of One-Way Functions (OWFs) and gain \emph{intuition} for OWFs.
+\item[(b)] ...familiarize yourself with the idea of generic counterexamples.
+\item[(c)] ...familiarize yourself with security experiments.
+\item[(d)] ...practice thinking about probabilities.
+\item[(e)] ...practice the use of pseudocode.
+\end{itemize}
+
+\begin{description}
+\item[Exercise 1] aims to help understand probabilities. 
+\item[Exercise 2] helps understand the notion of one-wayness and is the \underline{\textbf{most important}} exercise on this sheet. We warmly encourage it.
+\item[Exercise 3] gives an opportunity to practice writing \emph{inverters}\footnote{For OWFs, the term \emph{adversary} and \emph{inverter} are synonymous, because an adversary against a OWF tries to invert.} for some easy-to-invert functions, i.e. bad one-way function candidates.
+\item[Ex. 4 \& Ex. 5] are advanced exercises, where you are asked to provide an attack on a generic one-way function counterexample and analyze the probability of the attack.
+\end{description}
+
+
+
+\begin{graded}[Probability and Pseudocode] \emph{2 points}
+\begin{itemize}
+\item[(a)] You roll three (six-sided) dice $D_1$, $D_2$ and $D_3$. There are $6\cdot 6\cdot 6=216$ possible combinations of the results $(D_1,D_2,D_3)$. For how many of the results is it true that $D_1+D_2+D_3=17$ ? Divide this number by $216$ and determine: What is $\probsub{D_1,D_2,D_3}{D_1+D_2+D_3=17}$, i.e., the probability that the sum $D_1+D_2+D_3$ is equal to $17$?
+
+\item[(b)] Define the function $f$ and attacker $\adv$ as
+
+\begin{center}
+\begin{pchstack}
+\procedure{$f(x)$}{
+y \leftarrow x\oplus 1^{\abs{x}} \\
+\pcreturn y
+}
+\pchspace
+\procedure{$\adv(y,1^{\lambda})$}{
+z \leftarrow y \oplus 1^{\lambda} \\
+\pcreturn z
+}
+\end{pchstack}
+\end{center}
+and show that it holds that $\prob{\mathsf{Exp}_{f,\adv}^{\mathsf{OW}}(1^\lambda) = 1}=1$. The above $\oplus$ means bitwise XOR operation. For more notation, we refer to the crypto companion~\url{https://github.com/cryptocompanion/cryptocompanion}. Recall that the experiment $\mathsf{Exp}_{f,\adv}^{\mathsf{OW}}(1^\lambda)$ is defined as:
+\begin{center}
+	  \procedure{$\mathsf{Exp}_{f,\adv}^{\mathsf{OW}}(1^\lambda)$}{
+		x\sample\bin^\lambda\\
+		y\gets f(x)\\
+		x'\sample\adv(y, 1^\lambda)\\
+				\pcif \abs{x'}\neq\lambda \pcthen\\
+		\pcind \pcreturn 0\\
+		\pcif f(x')=y \pcthen\\
+		\pcind \pcreturn 1\\
+		\pcreturn 0}
+\end{center}
+
+\end{itemize}
+\end{graded} % A bad scheme
+
+\begin{graded}[One-Way Functions] \emph{2 points}
+Assume the existence of a length-preserving one-way function\footnote{A function $f:\bin^*\rightarrow\bin^*$ is \emph{length-preserving} if for all $x\in\bin^*$, it holds that $\abs{f(x)}=\abs{x}$.}.
+Say for each of the following statements whether you believe they are true or false and provide your intuition. You are not expected to \emph{know} the answer to these questions, i.e., reasoning suffices (for 2 points) even if not all answers are correct. $||$ denotes concatenation of strings.
+
+\medskip
+\noindent
+\textbf{Hint.} recall from the lecture that if $f$ is one-way function, then $g^f_{leak-r}(x_l||x_r) := f(x_l)||x_r$ and $g^f_{app-zer}(x) := f(x)||0^\lambda$ are also one-way functions, where $|x_l|=|x_r|$. You can use the examples from the lecture and Section 4 of the crypto companion without justifying them.
+\begin{enumerate}[label=(\alph*)]
+\item \label{itm:f||g} For all length-preserving one-way functions $f$ and $g$, the following function $h$ is a one-way function: $h(x):=f(x)||g(x)$.
+\item \label{itm:f||b} For all one-way functions $f$ and all polynomially computable functions $b$ with one bit output, the following function $h$ is a one-way function: $h(x):=f(x)||b(x)$.
+\item \label{itm:g(f)} For all length-preserving one-way functions $f$ and $g$, the following function $h$ is a one-way function: $h(x):=g(f(x))$.
+\item \label{itm:f no last half} For all length-preserving one-way functions $f$, the following function $h$ is a one-way function: $h(x):=f(x)_{1...\ceil{|x|/2}}$. I.e., $h$ returns all bits that $f$ returns, except for half of the bits (rounded up).
+\item \label{itm:f no last bit} (\emph{Advanced}) For all length-preserving one-way functions $g$, the following function $h$ is a one-way function: $h(x):=g(x)_{1...|x|-1}$. I.e., $h$ returns all bits that $g$ returns, except for the last bit.
+\item \label{itm:f xor g} For all length-preserving one-way functions $f, g$, the following function $h$ is a one-way function: $h(x):=f(x) \oplus g(x)$. I.e., $h$ is the bitwise XOR of two OWFs.
+\item \label{itm:1 bit} There exists a one-way function $h$ with 1 bit output, i.e., for all $x\in\bin^*$, $|h(x)|=1$.
+\item \label{itm:f||x xor g(f)} For all length-preserving one-way functions $f, g$, the following function $h$ is a one-way function: $h(x) := f(x) || (x \oplus g(f(x)))$. I.e., $h$ first applies $f$ to $x$ and then $g$ to $x$, then xors the result with $x$, this is the second half of the function $h$, and the first half of the function $h$ is just $f(x)$.
+\item \label{itm:f(1)} For all length-preserving one-way functions $f$, the following function $h$ is a one-way function: $h(x) := f(1^{\abs{x}})$
+\item \label{itm:f if first bit} For all length-preserving one-way functions $f$, the following function $h$ is a one-way function:
+\begin{align*}
+h(d||x) &:= \begin{cases}
+    0 || f(x) &  \text{if } d=0\\
+    1 || x &               \text{if } d=1.
+\end{cases}
+\end{align*}
+where $d$ is of length 1 (first bit of the input).
+\end{enumerate}
+\end{graded}
+
+
+\begin{graded}[Constructing Inverter] \emph{2 points}
+Choose \emph{one} out of (h), (i) from Exercise 2, give an efficient inverter and argue that
+the inversion probability is $1$. Alternatively, you can also choose \emph{one} out of $(j)$ or $(g)$ and give an inverter which
+inverts with probability $\tfrac{1}{2}$.
+\end{graded}
+
+\begin{graded}[Attack a OWF-Candidate] \emph{2 points}
+Choose one of the constructions $h$ in Exercise 2 (a)-(e) that is not one-way. Argue why it is not OWF, that is, provide an inverter and argue why the inverter is efficient (intuitive argument is enough).
+\end{graded}
+
+\begin{graded}[Analyze the Attacker] \emph{2 points}
+What is the inversion probability of your inverter from the previous exercise? Justify your answer. Is the probability non-negligible?
+\textbf{Hint:} Since we haven't discussed the definition of \emph{non-negligible}\footnote{A negligible function is a function tends to zero faster than any inverse polynomial as $\lambda$ tends to infinity. A non-negligible function is a function which is not negligible. See Definition 2.2 in the \emph{crypto companion}~\url{https://github.com/cryptocompanion/cryptocompanion}.} in the lecture, you can either look it up in the crypto companion, or simply argue that your inverter inverts with constant probability, e.g., $\tfrac{1}{10}$.
+\end{graded}
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
